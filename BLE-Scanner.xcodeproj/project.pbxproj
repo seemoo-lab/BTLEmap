@@ -3,18 +3,24 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		78232032240E7A1B00D4FDE3 /* BLEScanner_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78232031240E7A1B00D4FDE3 /* BLEScanner_SwiftUI.swift */; };
+		78232034240E7D7B00D4FDE3 /* DeviceDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78232033240E7D7B00D4FDE3 /* DeviceDetailView.swift */; };
 		788D9885240D435C005FC745 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788D9884240D435C005FC745 /* AppDelegate.swift */; };
 		788D9887240D435C005FC745 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788D9886240D435C005FC745 /* SceneDelegate.swift */; };
-		788D9889240D435C005FC745 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788D9888240D435C005FC745 /* ContentView.swift */; };
+		788D9889240D435C005FC745 /* MainScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788D9888240D435C005FC745 /* MainScannerView.swift */; };
 		788D988B240D435E005FC745 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 788D988A240D435E005FC745 /* Assets.xcassets */; };
 		788D988E240D435E005FC745 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 788D988D240D435E005FC745 /* Preview Assets.xcassets */; };
 		788D9891240D435E005FC745 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 788D988F240D435E005FC745 /* LaunchScreen.storyboard */; };
 		788D989C240D435E005FC745 /* BLE_ScannerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788D989B240D435E005FC745 /* BLE_ScannerTests.swift */; };
 		788D98A7240D435E005FC745 /* BLE_ScannerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788D98A6240D435E005FC745 /* BLE_ScannerUITests.swift */; };
+		788D98BA240D4605005FC745 /* BLETools in Frameworks */ = {isa = PBXBuildFile; productRef = 788D98B9240D4605005FC745 /* BLETools */; };
+		788D98E3240D561E005FC745 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 788D98E5240D561E005FC745 /* Localizable.strings */; };
+		788D98E7240D5BD1005FC745 /* PermissionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788D98E6240D5BD1005FC745 /* PermissionManager.swift */; };
+		78D86E46240D81D400E718BF /* CoreBluetoothTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D86E45240D81D400E718BF /* CoreBluetoothTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,10 +41,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7823202E240E771200D4FDE3 /* BLE-Scanner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "BLE-Scanner.entitlements"; sourceTree = "<group>"; };
+		78232031240E7A1B00D4FDE3 /* BLEScanner_SwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEScanner_SwiftUI.swift; sourceTree = "<group>"; };
+		78232033240E7D7B00D4FDE3 /* DeviceDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceDetailView.swift; sourceTree = "<group>"; };
 		788D9881240D435C005FC745 /* BLE-Scanner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "BLE-Scanner.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		788D9884240D435C005FC745 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		788D9886240D435C005FC745 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		788D9888240D435C005FC745 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		788D9888240D435C005FC745 /* MainScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScannerView.swift; sourceTree = "<group>"; };
 		788D988A240D435E005FC745 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		788D988D240D435E005FC745 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		788D9890240D435E005FC745 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -49,6 +58,9 @@
 		788D98A2240D435E005FC745 /* BLE-ScannerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "BLE-ScannerUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		788D98A6240D435E005FC745 /* BLE_ScannerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLE_ScannerUITests.swift; sourceTree = "<group>"; };
 		788D98A8240D435E005FC745 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		788D98E4240D561E005FC745 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		788D98E6240D5BD1005FC745 /* PermissionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionManager.swift; sourceTree = "<group>"; };
+		78D86E45240D81D400E718BF /* CoreBluetoothTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreBluetoothTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +68,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				788D98BA240D4605005FC745 /* BLETools in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -99,13 +112,18 @@
 		788D9883240D435C005FC745 /* BLE-Scanner */ = {
 			isa = PBXGroup;
 			children = (
+				7823202E240E771200D4FDE3 /* BLE-Scanner.entitlements */,
 				788D9884240D435C005FC745 /* AppDelegate.swift */,
 				788D9886240D435C005FC745 /* SceneDelegate.swift */,
-				788D9888240D435C005FC745 /* ContentView.swift */,
+				788D9888240D435C005FC745 /* MainScannerView.swift */,
+				78232033240E7D7B00D4FDE3 /* DeviceDetailView.swift */,
+				788D98E6240D5BD1005FC745 /* PermissionManager.swift */,
+				78232031240E7A1B00D4FDE3 /* BLEScanner_SwiftUI.swift */,
 				788D988A240D435E005FC745 /* Assets.xcassets */,
 				788D988F240D435E005FC745 /* LaunchScreen.storyboard */,
 				788D9892240D435E005FC745 /* Info.plist */,
 				788D988C240D435E005FC745 /* Preview Content */,
+				788D98E5240D561E005FC745 /* Localizable.strings */,
 			);
 			path = "BLE-Scanner";
 			sourceTree = "<group>";
@@ -122,6 +140,7 @@
 			isa = PBXGroup;
 			children = (
 				788D989B240D435E005FC745 /* BLE_ScannerTests.swift */,
+				78D86E45240D81D400E718BF /* CoreBluetoothTests.swift */,
 				788D989D240D435E005FC745 /* Info.plist */,
 			);
 			path = "BLE-ScannerTests";
@@ -152,6 +171,9 @@
 			dependencies = (
 			);
 			name = "BLE-Scanner";
+			packageProductDependencies = (
+				788D98B9240D4605005FC745 /* BLETools */,
+			);
 			productName = "BLE-Scanner";
 			productReference = 788D9881240D435C005FC745 /* BLE-Scanner.app */;
 			productType = "com.apple.product-type.application";
@@ -224,6 +246,9 @@
 				Base,
 			);
 			mainGroup = 788D9878240D435C005FC745;
+			packageReferences = (
+				788D98B8240D4605005FC745 /* XCRemoteSwiftPackageReference "BLETools" */,
+			);
 			productRefGroup = 788D9882240D435C005FC745 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -241,6 +266,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				788D9891240D435E005FC745 /* LaunchScreen.storyboard in Resources */,
+				788D98E3240D561E005FC745 /* Localizable.strings in Resources */,
 				788D988E240D435E005FC745 /* Preview Assets.xcassets in Resources */,
 				788D988B240D435E005FC745 /* Assets.xcassets in Resources */,
 			);
@@ -268,8 +294,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				788D9885240D435C005FC745 /* AppDelegate.swift in Sources */,
+				78232032240E7A1B00D4FDE3 /* BLEScanner_SwiftUI.swift in Sources */,
 				788D9887240D435C005FC745 /* SceneDelegate.swift in Sources */,
-				788D9889240D435C005FC745 /* ContentView.swift in Sources */,
+				78232034240E7D7B00D4FDE3 /* DeviceDetailView.swift in Sources */,
+				788D98E7240D5BD1005FC745 /* PermissionManager.swift in Sources */,
+				788D9889240D435C005FC745 /* MainScannerView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -278,6 +307,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				788D989C240D435E005FC745 /* BLE_ScannerTests.swift in Sources */,
+				78D86E46240D81D400E718BF /* CoreBluetoothTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -311,6 +341,14 @@
 				788D9890240D435E005FC745 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		788D98E5240D561E005FC745 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				788D98E4240D561E005FC745 /* en */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -434,6 +472,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "BLE-Scanner/BLE-Scanner.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"BLE-Scanner/Preview Content\"";
 				DEVELOPMENT_TEAM = A5U65N39SD;
@@ -445,6 +484,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "de.tu-darmstadt.seemoo.BLE-Scanner";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -454,6 +494,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "BLE-Scanner/BLE-Scanner.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"BLE-Scanner/Preview Content\"";
 				DEVELOPMENT_TEAM = A5U65N39SD;
@@ -465,6 +506,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "de.tu-darmstadt.seemoo.BLE-Scanner";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -594,6 +636,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		788D98B8240D4605005FC745 /* XCRemoteSwiftPackageReference "BLETools" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "file:///Users/seemoo/Work/Research/BLEScanner/Projects/BLETools";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		788D98B9240D4605005FC745 /* BLETools */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 788D98B8240D4605005FC745 /* XCRemoteSwiftPackageReference "BLETools" */;
+			productName = BLETools;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 788D9879240D435C005FC745 /* Project object */;
 }

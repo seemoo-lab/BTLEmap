@@ -7,6 +7,7 @@
 //
 
 import UIKit
+@_exported import BLETools
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
