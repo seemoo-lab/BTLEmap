@@ -42,12 +42,12 @@ class BLE_ScannerTests: XCTestCase, BLEScannerDelegate {
         wait(for: [expect], timeout: 60.0)
     }
     
-    func scanner(_ scanner: BLEScanner, didReceiveNewAdvertisement advertisement: AppleBLEAdvertisment, forDevice device: AppleBLEDevice) {
+    func scanner(_ scanner: BLEScanner, didReceiveNewAdvertisement advertisement: BLEAdvertisment, forDevice device: BLEDevice) {
         print("Received advertisement")
         print(advertisement)
     }
     
-    func scanner(_ scanner: BLEScanner, didDiscoverNewDevice device: AppleBLEDevice) {
+    func scanner(_ scanner: BLEScanner, didDiscoverNewDevice device: BLEDevice) {
         print("Discovered device")
         print(device)
     }

@@ -1,3 +1,5 @@
 "Nav_Bar_Scanner_title" = "Devices";
 "Btn_stop_scanning" = "Stop scanning";
 "Btn_start_scanning" = "Start scanning";
+"Menu_Show_devices" = "Show devices";
+"Menu_show_radius_scanner" = "Live analysis"; 

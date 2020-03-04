@@ -11,8 +11,7 @@ import BLETools
 import CoreBluetooth
 
 struct DeviceListView: View {
-    @ObservedObject var scanner = BLEScanner_SwiftUI()
-    
+    @EnvironmentObject var scanner: BLEScanner_SwiftUI
     
     var body: some View {
         NavigationView {

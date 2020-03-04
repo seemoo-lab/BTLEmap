@@ -10,8 +10,8 @@ import Foundation
 import BLETools
 
 class BLEScanner_SwiftUI: ObservableObject {
-    @Published var devices: [AppleBLEDevice] = []
-    @Published var advertisements: [AppleBLEAdvertisment] = []
+    @Published var devices: [BLEDevice] = []
+    @Published var advertisements: [BLEAdvertisment] = []
     @Published var scanning = false {
         didSet {
             self.bleScanner.scanning = self.scanning
@@ -27,12 +27,13 @@ class BLEScanner_SwiftUI: ObservableObject {
 }
 
 extension BLEScanner_SwiftUI: BLEScannerDelegate {
-    func scanner(_ scanner: BLEScanner, didDiscoverNewDevice device: AppleBLEDevice) {
+    func scanner(_ scanner: BLEScanner, didDiscoverNewDevice device: BLEDevice) {
         self.devices = Array(scanner.devices.values)
     }
     
-    func scanner(_ scanner: BLEScanner, didReceiveNewAdvertisement advertisement: AppleBLEAdvertisment, forDevice device: AppleBLEDevice) {
+    func scanner(_ scanner: BLEScanner, didReceiveNewAdvertisement advertisement: BLEAdvertisment, forDevice device: BLEDevice) {
         self.advertisements.append(advertisement)
+//        self.devices = Array(scanner.devices.values)
     }
 }
 
