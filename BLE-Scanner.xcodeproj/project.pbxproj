@@ -22,6 +22,7 @@
 		788D98BA240D4605005FC745 /* BLETools in Frameworks */ = {isa = PBXBuildFile; productRef = 788D98B9240D4605005FC745 /* BLETools */; };
 		788D98E3240D561E005FC745 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 788D98E5240D561E005FC745 /* Localizable.strings */; };
 		788D98E7240D5BD1005FC745 /* PermissionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788D98E6240D5BD1005FC745 /* PermissionManager.swift */; };
+		78B8661C240FE43F003761D0 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 78B8661B240FE43F003761D0 /* README.md */; };
 		78D86E46240D81D400E718BF /* CoreBluetoothTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D86E45240D81D400E718BF /* CoreBluetoothTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -64,6 +65,7 @@
 		788D98A8240D435E005FC745 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		788D98E4240D561E005FC745 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		788D98E6240D5BD1005FC745 /* PermissionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionManager.swift; sourceTree = "<group>"; };
+		78B8661B240FE43F003761D0 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		78D86E45240D81D400E718BF /* CoreBluetoothTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreBluetoothTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -96,6 +98,7 @@
 		788D9878240D435C005FC745 = {
 			isa = PBXGroup;
 			children = (
+				78B8661B240FE43F003761D0 /* README.md */,
 				788D9883240D435C005FC745 /* BLE-Scanner */,
 				788D989A240D435E005FC745 /* BLE-ScannerTests */,
 				788D98A5240D435E005FC745 /* BLE-ScannerUITests */,
@@ -273,6 +276,7 @@
 			files = (
 				788D9891240D435E005FC745 /* LaunchScreen.storyboard in Resources */,
 				788D98E3240D561E005FC745 /* Localizable.strings in Resources */,
+				78B8661C240FE43F003761D0 /* README.md in Resources */,
 				788D988E240D435E005FC745 /* Preview Assets.xcassets in Resources */,
 				788D988B240D435E005FC745 /* Assets.xcassets in Resources */,
 			);

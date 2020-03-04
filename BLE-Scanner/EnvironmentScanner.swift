@@ -8,43 +8,63 @@
 
 import SwiftUI
 
+class EnvironmentViewModel: ObservableObject {
+    var angles = [BLEDevice : CGFloat]()
+    var lastAngle: CGFloat = 0
+    
+    @Published var maxRSSI: Int = 1
+    
+    func updateViewModel(for devices: [BLEDevice]) {
+        var angle: CGFloat = 0
+        let angleStep = 2 * CGFloat.pi / CGFloat(devices.count)
+        
+        maxRSSI = 1
+        
+        devices.forEach { (d) in
+            angles[d] = angle
+            angle += angleStep
+            
+            if maxRSSI < abs(d.lastRSSI.intValue) {
+                maxRSSI = abs(d.lastRSSI.intValue)
+            }
+        }
+    }
+}
+
 struct EnvironmentScanner: View {
     @EnvironmentObject var bleScanner: BLEScanner_SwiftUI
     
-    static var angles = [BLEDevice : CGFloat]()
-    
+    var viewModel = EnvironmentViewModel()
 
     var body: some View {
         GeometryReader { geometry in
             ZStack {
-                BackgroundView()
+                BackgroundView(viewModel: self.viewModel)
                 
                 //Draw devices
                 GeometryReader { geometry  in
                     ZStack {
                         ForEach(self.bleScanner.devices) { device in
-                            DeviceOnCircleView()
+                            DeviceOnCircleView(device: device)
                                 .position(self.position(for: device.lastRSSI, size: geometry.size, angle: self.angle(for: device)))
                         }
                     }
+                    .animation(.linear)
                 }
             }
+            .frame(width: geometry.size.width * 0.9, height: geometry.size.height * 0.9, alignment: .center)
         }
         .onReceive(self.bleScanner.objectWillChange) { (bleScanner) in
-            self.bleScanner.devices.forEach { (d) in
-                if EnvironmentScanner.angles[d] == nil {
-                    EnvironmentScanner.angles[d] = (CGFloat(arc4random()) / CGFloat(RAND_MAX)) * CGFloat(2) * CGFloat.pi
-                }
-            }
+            self.viewModel.updateViewModel(for: self.bleScanner.devices)
         }
     }
     
     func angle(for device: BLEDevice) -> CGFloat{
-        if EnvironmentScanner.angles[device] == nil {
-            EnvironmentScanner.angles[device] = (CGFloat(arc4random()) / CGFloat(RAND_MAX)) * CGFloat(2) * CGFloat.pi
+        if self.viewModel.angles[device] == nil {
+            self.viewModel.updateViewModel(for: self.bleScanner.devices)
         }
         
-        return EnvironmentScanner.angles[device]!
+        return self.viewModel.angles[device]!
     }
     
     func position(for rssi: NSNumber, size: CGSize, angle: CGFloat) -> CGPoint {
@@ -55,13 +75,13 @@ struct EnvironmentScanner: View {
             return size.width
         }()
         
-        let rssiMax = -100
+        let rssiMax = CGFloat(self.viewModel.maxRSSI)
         let distance: CGFloat = {
-            if rssi.intValue < rssiMax {
-                return circleSize/2 * 0.75
+            if CGFloat(rssi.floatValue) < -rssiMax {
+                return circleSize/2
             }
             
-            return circleSize/2 * CGFloat(abs(rssi.floatValue)/100) * 0.75
+            return circleSize/2 * CGFloat(abs(rssi.floatValue))/rssiMax
         }()
        
         let distX = distance * cos(angle)
@@ -83,6 +103,8 @@ struct EnvironmentScanner_Previews: PreviewProvider {
 struct BackgroundView: View {
     let strokeStyle = StrokeStyle(lineWidth: 2.0)
     let circleColor = Color.gray
+    @ObservedObject var viewModel: EnvironmentViewModel
+    
     var body: some View {
         GeometryReader { geometry in
             ZStack(alignment: .center) {
@@ -90,18 +112,35 @@ struct BackgroundView: View {
                 Circle()
                     .fill(self.circleColor)
                     .frame(width: geometry.size.width * 0.1, height: geometry.size.height * 0.1, alignment: .center)
-                
+                Text("\(String(format: "-%.2f", Float(self.viewModel.maxRSSI) *  0.1)) dBm")
+                    .position(x: geometry.size.width/2, y: geometry.size.height * 0.05 + geometry.size.height/2 + 10.0)
                 
                 Circle()
                     .stroke(self.circleColor, style: self.strokeStyle)
                     .frame(width: geometry.size.width/4, height: geometry.size.height/4, alignment: .center)
+                Text("\(String(format: "-%.2f", Float(self.viewModel.maxRSSI) * 0.25)) dBm")
+                    .position(x: geometry.size.width/2, y: geometry.size.height * 0.125 + geometry.size.height/2 + 10.0)
                 
                 Circle()
                     .stroke(self.circleColor, style: self.strokeStyle)
                     .frame(width: geometry.size.width/2, height: geometry.size.height/2, alignment: .center)
+                
+                Text("\(String(format: "-%.2f", Float(self.viewModel.maxRSSI) * 0.5)) dBm")
+                    .position(x: geometry.size.width/2, y: geometry.size.height * 0.25 + geometry.size.height/2 + 10.0)
+                
                 Circle()
                     .stroke(self.circleColor, style: self.strokeStyle)
                     .frame(width: geometry.size.width * 0.75, height: geometry.size.height * 0.75, alignment: .center)
+                
+                Text("\(String(format: "-%.2f", Float(self.viewModel.maxRSSI) * 0.75)) dBm")
+                    .position(x: geometry.size.width/2, y: geometry.size.height * 0.375 + geometry.size.height/2 + 10.0)
+                
+                Circle()
+                    .stroke(self.circleColor, style: self.strokeStyle)
+                    .frame(width: geometry.size.width, height: geometry.size.height, alignment: .center)
+                
+                Text("\(String(format: "-%.2f", Float(self.viewModel.maxRSSI) )) dBm")
+                    .position(x: geometry.size.width/2, y: geometry.size.height * 0.5 + geometry.size.height/2 + 10.0)
             }
             .frame(width: geometry.size.width, height: geometry.size.height, alignment: .center)
         }
@@ -109,14 +148,52 @@ struct BackgroundView: View {
 }
 
 struct DeviceOnCircleView: View {
+    @State var device: BLEDevice
     var angle = (CGFloat(arc4random()) / CGFloat(RAND_MAX)) * CGFloat(2) * CGFloat.pi
+    
+    var deviceName: String {
+        switch self.device.deviceType {
+        case .AirPods:
+            return "AirPods"
+        case .appleEmbedded:
+            return "Embedded"
+        case .iMac:
+            return "iMac"
+        case .AppleWatch:
+            return "Apple Watch"
+        case .iPad: return "iPad"
+        case .iPod: return "iPod"
+        case .iPhone: return "iPhone"
+        case .macBook: return "MacBook"
+        case .other: return "Other"
+        case .Pencil: return "Pencil"
+        case .none: return "Other"
+        }
+    }
     
     var body: some View {
         VStack {
-            Rectangle()
-            .frame(width: 20.0, height: 20.0, alignment: .center)
+            Image(self.deviceName)
+                .background(
+                    RoundedRectangle(cornerRadius: 5.0)
+                        .fill(Color.white)
+                )
+                .frame(maxHeight: 35.0)
+                .aspectRatio(contentMode: .fit)
+                
             
-            Text("Device type")
+            Text(self.deviceName)
+                .frame(width: 100)
+                .background(Color.white)
+                
+            
+            Text("RSSI: \(device.lastRSSI.intValue) dBm")
+                .frame(width: 100.0)
+                .font(.footnote)
+                .background(Color.white)
         }
+        
     }
+    
+    
 }
