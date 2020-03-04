@@ -112,7 +112,7 @@ struct BackgroundView: View {
                 Circle()
                     .fill(self.circleColor)
                     .frame(width: geometry.size.width * 0.1, height: geometry.size.height * 0.1, alignment: .center)
-                Text("\(String(format: "-%.2f", Float(self.viewModel.maxRSSI) *  0.1)) dBm")
+                Text("\(String(format: "-%.2f", Float(self.viewModel.maxRSSI) * 0.1)) dBm")
                     .position(x: geometry.size.width/2, y: geometry.size.height * 0.05 + geometry.size.height/2 + 10.0)
                 
                 Circle()
@@ -174,12 +174,14 @@ struct DeviceOnCircleView: View {
     var body: some View {
         VStack {
             Image(self.deviceName)
+                .resizable()
                 .background(
                     RoundedRectangle(cornerRadius: 5.0)
                         .fill(Color.white)
                 )
-                .frame(maxHeight: 35.0)
                 .aspectRatio(contentMode: .fit)
+                .frame(height: 45.0)
+                
                 
             
             Text(self.deviceName)
