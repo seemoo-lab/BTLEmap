@@ -23,6 +23,8 @@
 		788D98E3240D561E005FC745 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 788D98E5240D561E005FC745 /* Localizable.strings */; };
 		788D98E7240D5BD1005FC745 /* PermissionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788D98E6240D5BD1005FC745 /* PermissionManager.swift */; };
 		78B8661C240FE43F003761D0 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 78B8661B240FE43F003761D0 /* README.md */; };
+		78B8662024123C80003761D0 /* ManfucaturerSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B8661F24123C80003761D0 /* ManfucaturerSelection.swift */; };
+		78B86623241295D3003761D0 /* Apple-BLE-Decoder in Frameworks */ = {isa = PBXBuildFile; productRef = 78B86622241295D3003761D0 /* Apple-BLE-Decoder */; };
 		78D86E46240D81D400E718BF /* CoreBluetoothTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D86E45240D81D400E718BF /* CoreBluetoothTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -66,6 +68,7 @@
 		788D98E4240D561E005FC745 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		788D98E6240D5BD1005FC745 /* PermissionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionManager.swift; sourceTree = "<group>"; };
 		78B8661B240FE43F003761D0 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		78B8661F24123C80003761D0 /* ManfucaturerSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManfucaturerSelection.swift; sourceTree = "<group>"; };
 		78D86E45240D81D400E718BF /* CoreBluetoothTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreBluetoothTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -74,6 +77,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				78B86623241295D3003761D0 /* Apple-BLE-Decoder in Frameworks */,
 				788D98BA240D4605005FC745 /* BLETools in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -128,6 +132,7 @@
 				78232033240E7D7B00D4FDE3 /* DeviceDetailView.swift */,
 				788D98E6240D5BD1005FC745 /* PermissionManager.swift */,
 				78232031240E7A1B00D4FDE3 /* BLEScanner_SwiftUI.swift */,
+				78B8661F24123C80003761D0 /* ManfucaturerSelection.swift */,
 				788D988A240D435E005FC745 /* Assets.xcassets */,
 				788D988F240D435E005FC745 /* LaunchScreen.storyboard */,
 				788D9892240D435E005FC745 /* Info.plist */,
@@ -182,6 +187,7 @@
 			name = "BLE-Scanner";
 			packageProductDependencies = (
 				788D98B9240D4605005FC745 /* BLETools */,
+				78B86622241295D3003761D0 /* Apple-BLE-Decoder */,
 			);
 			productName = "BLE-Scanner";
 			productReference = 788D9881240D435C005FC745 /* BLE-Scanner.app */;
@@ -257,6 +263,7 @@
 			mainGroup = 788D9878240D435C005FC745;
 			packageReferences = (
 				788D98B8240D4605005FC745 /* XCRemoteSwiftPackageReference "BLETools" */,
+				78B86621241295D3003761D0 /* XCRemoteSwiftPackageReference "Apple-BLE-Decoder" */,
 			);
 			productRefGroup = 788D9882240D435C005FC745 /* Products */;
 			projectDirPath = "";
@@ -310,6 +317,7 @@
 				788D9887240D435C005FC745 /* SceneDelegate.swift in Sources */,
 				78232034240E7D7B00D4FDE3 /* DeviceDetailView.swift in Sources */,
 				788D98E7240D5BD1005FC745 /* PermissionManager.swift in Sources */,
+				78B8662024123C80003761D0 /* ManfucaturerSelection.swift in Sources */,
 				788D9889240D435C005FC745 /* DeviceListView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -658,6 +666,14 @@
 				kind = branch;
 			};
 		};
+		78B86621241295D3003761D0 /* XCRemoteSwiftPackageReference "Apple-BLE-Decoder" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "file:///Users/seemoo/Work/Research/BLEScanner/Apple-BLE-Decoder";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -665,6 +681,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 788D98B8240D4605005FC745 /* XCRemoteSwiftPackageReference "BLETools" */;
 			productName = BLETools;
+		};
+		78B86622241295D3003761D0 /* Apple-BLE-Decoder */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 78B86621241295D3003761D0 /* XCRemoteSwiftPackageReference "Apple-BLE-Decoder" */;
+			productName = "Apple-BLE-Decoder";
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

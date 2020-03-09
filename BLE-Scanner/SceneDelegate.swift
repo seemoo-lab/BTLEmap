@@ -8,11 +8,13 @@
 
 import UIKit
 import SwiftUI
+import BLETools
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     var window: UIWindow?
-    let bleScanner = BLEScanner_SwiftUI()
+    let bleScanner = BLEScanner()
+    let viewModel = EnvironmentViewModel()
     
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
@@ -36,7 +38,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             return
         }
         
-        let contentView = MainView().environmentObject(bleScanner)
+        let contentView = MainView().environmentObject(bleScanner).environmentObject(viewModel)
         
         
         

@@ -3,3 +3,11 @@
 "Btn_start_scanning" = "Start scanning";
 "Menu_Show_devices" = "Show devices";
 "Menu_show_radius_scanner" = "Live analysis"; 
+"Btn_filter_manufacturers" = "Filter manufacturers";
+"Btn_Dismiss" = "Dismiss";
+"Title_advertised_services" = "Advertised services";
+"Title_advertisements_received" = "Advertisements received";
+"Title_manufacturer_selection" = "Displayed manufacturers";
+"Btn_deselect_all" = "Deselect all";
+"Btn_select_all" = "Select all"; 
+

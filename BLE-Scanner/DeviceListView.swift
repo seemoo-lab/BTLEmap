@@ -11,11 +11,11 @@ import BLETools
 import CoreBluetooth
 
 struct DeviceListView: View {
-    @EnvironmentObject var scanner: BLEScanner_SwiftUI
+    @EnvironmentObject var scanner: BLEScanner
     
     var body: some View {
         NavigationView {
-            List(self.scanner.devices) { device in
+            List(self.scanner.deviceList) { device in
                 NavigationLink(destination: DeviceDetailView(device: device)) {
                     BLEDeviceRow(bleDevice: device)
                 }
