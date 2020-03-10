@@ -68,15 +68,6 @@ struct EnvironmentScanner: View {
         GeometryReader { geometry in
             VStack {
                 
-//                //Filter settings
-//                if self.sizeClass == .compact {
-//                    VStack {
-//                        FilterSettings(selectedManufacturers: self.$selectedManufacturers, minimumRSSI: self.$minimumRSSI)
-//                        .padding()
-//                    }
-//                }else {
-//
-//                }
                 HStack {
                     FilterSettings(selectedManufacturers: self.$selectedManufacturers, minimumRSSI: self.$minimumRSSI)
                     .padding()
@@ -158,10 +149,25 @@ struct EnvironmentScanner: View {
         @Binding var selectedManufacturers: [String]
         @Binding var minimumRSSI:Float
         @State var showManufacturerSelection = false
+        @EnvironmentObject var bleScanner: BLEScanner
+        @State var devicesCanTimeout = true
+        
         
         var body: some View {
             Group {
 //                Spacer()
+                
+                Button(action: {
+                    self.bleScanner.devicesCanTimeout.toggle()
+                    self.devicesCanTimeout = self.bleScanner.devicesCanTimeout
+                }) {
+                    if self.devicesCanTimeout {
+                        HStack{Image(systemName:"checkmark.circle"); Text("Timeout devices")}
+                    }else {
+                        HStack{Image(systemName:"circle"); Text("Timeout devices")}
+                    }
+                }
+                .buttonStyle(PlainButtonStyle())
                 
                 Button(action: {
                     self.showManufacturerSelection.toggle()

@@ -15,9 +15,16 @@ struct DeviceDetailView: View {
     @ObservedObject var device: BLEDevice
     var showInModal = false
     @Binding var isShown: Bool
-    @State var scrollAutomatically = true
+    @State var displayedAdvertisementTypes = BLEAdvertisment.AppleAdvertisementType.allCases
+    @State var showAdvertisementFilter = false
     
-
+    var advertisements: [BLEAdvertisment] {
+        guard self.displayedAdvertisementTypes.count != BLEAdvertisment.AppleAdvertisementType.allCases.count else {return device.advertisements}
+        
+        return device.advertisements.filter { (advertisment) -> Bool in
+            advertisment.advertisementTypes.contains(where: {self.displayedAdvertisementTypes.contains($0)})
+        }
+    }
     
     init(device: BLEDevice, showInModal: Bool=false, isShown: Binding<Bool>?=nil) {
         if isShown != nil {
@@ -34,20 +41,41 @@ struct DeviceDetailView: View {
         Group {
             if showInModal {
                 NavigationView {
-                    DetailViewContent(device: device, isShown: $isShown)
-                    .navigationBarTitle(Text(device.name ?? device.id), displayMode: .inline)
-                    .navigationBarItems(trailing: Button(action: {
-                        self.isShown = false
-                    }) {
-                        Text("Btn_Dismiss")
-                            .padding()
-                    } )
+                    DetailViewContent(device: device, isShown: $isShown, filteredAdvertisements: self.advertisements)
+                        .navigationBarTitle(Text(device.name ?? device.id), displayMode: .inline)
+                        .navigationBarItems(leading:
+                            Button(action: {
+                                self.showAdvertisementFilter.toggle()
+                            }, label: {
+                                Text("Btn_filter_advertisements")
+                            })
+                                .popover(isPresented: $showAdvertisementFilter, content: {
+                                    AdvertisementTypeFilterView(selectedAdvertisementTypes: self.$displayedAdvertisementTypes, isShown: self.$showAdvertisementFilter)
+                                })
+                            
+                            ,trailing: Button(action: {
+                                self.isShown = false
+                            }) {
+                                Text("Btn_Dismiss")
+                                    .padding()
+                        } )
                 }
                 .navigationViewStyle(StackNavigationViewStyle())
                 
             }else {
-                DetailViewContent(device: device, isShown: $isShown)
-                .navigationBarTitle(Text(device.name ?? device.id))
+                DetailViewContent(device: device, isShown: $isShown, filteredAdvertisements: self.advertisements)
+                    .navigationBarTitle(Text(device.name ?? device.id))
+                    .navigationBarItems(leading:
+                        Button(action: {
+                            self.showAdvertisementFilter.toggle()
+                        }, label: {
+                            Text("Btn_filter_advertisements")
+                        })
+                            .popover(isPresented: $showAdvertisementFilter, content: {
+                                AdvertisementTypeFilterView(selectedAdvertisementTypes: self.$displayedAdvertisementTypes, isShown: self.$showAdvertisementFilter)
+                            })
+                )
+                   
             }
             
         }
@@ -59,6 +87,7 @@ struct DeviceDetailView: View {
         @Binding var isShown: Bool
         @Environment(\.horizontalSizeClass) var sizeClass
         
+        var filteredAdvertisements: [BLEAdvertisment]
         
         var services: [String] {
             if let services = device.peripheral.services {
@@ -68,7 +97,7 @@ struct DeviceDetailView: View {
         }
         
         var advertisements: [BLEAdvertisment] {
-            let advertisements = device.advertisements
+            let advertisements = self.filteredAdvertisements
             
             return advertisements.reversed()
         }
@@ -118,7 +147,7 @@ struct AdvertismentRow: View {
     }
     
     var body: some View {
-       VStack(alignment: .leading) {
+        VStack(alignment: .leading) {
             AdvertisementRawManufacturerData(advertisement: advertisement)
             Text(self.decodedAdvertisement)
             HStack {
@@ -140,6 +169,7 @@ struct AdvertismentRow: View {
 
 struct AdvertisementRawManufacturerData: View {
     @ObservedObject var advertisement: BLEAdvertisment
+    @State var copied: Bool = false
     
     var manufacturerDataString: String {
         if let attributedString = self.advertisement.dataAttributedString {
@@ -153,8 +183,44 @@ struct AdvertisementRawManufacturerData: View {
     }
     
     var body: some View {
-        Text(self.manufacturerDataString)
-            .font(.system(.body, design: .monospaced))
+        HStack {
+            Text(self.manufacturerDataString)
+                .font(.system(.body, design: .monospaced))
+            Spacer()
+            
+            //Copy Button
+            ZStack {
+                Button(action: {
+                    UIPasteboard.general.string = self.manufacturerDataString
+                    self.copied = true
+                    Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { (_) in
+                        self.copied = false
+                    }
+                }, label: {
+                    ZStack {
+                        Circle().fill(Color("ButtonBackground"))
+                            .frame(width: 50.0, height: 50.0, alignment: .center)
+                        Image(systemName: "doc.on.clipboard")
+                    }
+                    
+                })
+                    .accentColor(Color.white)
+                    .opacity(self.copied ? 0.0 : 1.0 )
+                    .animation(.linear)
+                
+                ZStack {
+                    RoundedRectangle(cornerRadius: 5.0)
+                        .fill(Color("ButtonBackground"))
+                        .frame(width: 100.0, height: 50.0)
+                    Text("Info_copied")
+                }
+                .opacity(self.copied ? 1.0: 0.0)
+                .animation(.linear)
+                
+            }
+            
+        }
+        
     }
 }
 
@@ -166,7 +232,7 @@ struct AttributedText: UIViewRepresentable {
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
         label.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-//        label.attributedText = self.attributedString
+        //        label.attributedText = self.attributedString
         return label
     }
     

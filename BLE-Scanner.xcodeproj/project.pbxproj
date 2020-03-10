@@ -11,6 +11,8 @@
 		78232034240E7D7B00D4FDE3 /* DeviceDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78232033240E7D7B00D4FDE3 /* DeviceDetailView.swift */; };
 		78232038240EA8BA00D4FDE3 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78232037240EA8B900D4FDE3 /* MainView.swift */; };
 		7823203A240EBB4500D4FDE3 /* EnvironmentScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78232039240EBB4500D4FDE3 /* EnvironmentScanner.swift */; };
+		783926812417B89700919DE9 /* Apple-BLE-Decoder in Frameworks */ = {isa = PBXBuildFile; productRef = 783926802417B89700919DE9 /* Apple-BLE-Decoder */; };
+		7879E3BB2417EB23003AA8DF /* AdvertisementTypeFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7879E3BA2417EB23003AA8DF /* AdvertisementTypeFilterView.swift */; };
 		788D9885240D435C005FC745 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788D9884240D435C005FC745 /* AppDelegate.swift */; };
 		788D9887240D435C005FC745 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788D9886240D435C005FC745 /* SceneDelegate.swift */; };
 		788D9889240D435C005FC745 /* DeviceListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788D9888240D435C005FC745 /* DeviceListView.swift */; };
@@ -24,7 +26,6 @@
 		788D98E7240D5BD1005FC745 /* PermissionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788D98E6240D5BD1005FC745 /* PermissionManager.swift */; };
 		78B8661C240FE43F003761D0 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 78B8661B240FE43F003761D0 /* README.md */; };
 		78B8662024123C80003761D0 /* ManfucaturerSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B8661F24123C80003761D0 /* ManfucaturerSelection.swift */; };
-		78B86623241295D3003761D0 /* Apple-BLE-Decoder in Frameworks */ = {isa = PBXBuildFile; productRef = 78B86622241295D3003761D0 /* Apple-BLE-Decoder */; };
 		78D86E46240D81D400E718BF /* CoreBluetoothTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D86E45240D81D400E718BF /* CoreBluetoothTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -51,6 +52,7 @@
 		78232033240E7D7B00D4FDE3 /* DeviceDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceDetailView.swift; sourceTree = "<group>"; };
 		78232037240EA8B900D4FDE3 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		78232039240EBB4500D4FDE3 /* EnvironmentScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentScanner.swift; sourceTree = "<group>"; };
+		7879E3BA2417EB23003AA8DF /* AdvertisementTypeFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvertisementTypeFilterView.swift; sourceTree = "<group>"; };
 		788D9881240D435C005FC745 /* BLE-Scanner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "BLE-Scanner.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		788D9884240D435C005FC745 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		788D9886240D435C005FC745 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -77,7 +79,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				78B86623241295D3003761D0 /* Apple-BLE-Decoder in Frameworks */,
+				783926812417B89700919DE9 /* Apple-BLE-Decoder in Frameworks */,
 				788D98BA240D4605005FC745 /* BLETools in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -133,6 +135,7 @@
 				788D98E6240D5BD1005FC745 /* PermissionManager.swift */,
 				78232031240E7A1B00D4FDE3 /* BLEScanner_SwiftUI.swift */,
 				78B8661F24123C80003761D0 /* ManfucaturerSelection.swift */,
+				7879E3BA2417EB23003AA8DF /* AdvertisementTypeFilterView.swift */,
 				788D988A240D435E005FC745 /* Assets.xcassets */,
 				788D988F240D435E005FC745 /* LaunchScreen.storyboard */,
 				788D9892240D435E005FC745 /* Info.plist */,
@@ -187,7 +190,7 @@
 			name = "BLE-Scanner";
 			packageProductDependencies = (
 				788D98B9240D4605005FC745 /* BLETools */,
-				78B86622241295D3003761D0 /* Apple-BLE-Decoder */,
+				783926802417B89700919DE9 /* Apple-BLE-Decoder */,
 			);
 			productName = "BLE-Scanner";
 			productReference = 788D9881240D435C005FC745 /* BLE-Scanner.app */;
@@ -263,7 +266,7 @@
 			mainGroup = 788D9878240D435C005FC745;
 			packageReferences = (
 				788D98B8240D4605005FC745 /* XCRemoteSwiftPackageReference "BLETools" */,
-				78B86621241295D3003761D0 /* XCRemoteSwiftPackageReference "Apple-BLE-Decoder" */,
+				7839267F2417B89700919DE9 /* XCRemoteSwiftPackageReference "apple-ble-decoder" */,
 			);
 			productRefGroup = 788D9882240D435C005FC745 /* Products */;
 			projectDirPath = "";
@@ -310,6 +313,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7879E3BB2417EB23003AA8DF /* AdvertisementTypeFilterView.swift in Sources */,
 				788D9885240D435C005FC745 /* AppDelegate.swift in Sources */,
 				78232038240EA8BA00D4FDE3 /* MainView.swift in Sources */,
 				7823203A240EBB4500D4FDE3 /* EnvironmentScanner.swift in Sources */,
@@ -658,6 +662,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		7839267F2417B89700919DE9 /* XCRemoteSwiftPackageReference "apple-ble-decoder" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://dev.seemoo.tu-darmstadt.de/aheinrich/apple-ble-decoder.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		788D98B8240D4605005FC745 /* XCRemoteSwiftPackageReference "BLETools" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "file:///Users/seemoo/Work/Research/BLEScanner/Projects/BLETools";
@@ -666,26 +678,18 @@
 				kind = branch;
 			};
 		};
-		78B86621241295D3003761D0 /* XCRemoteSwiftPackageReference "Apple-BLE-Decoder" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "file:///Users/seemoo/Work/Research/BLEScanner/Apple-BLE-Decoder";
-			requirement = {
-				branch = master;
-				kind = branch;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		783926802417B89700919DE9 /* Apple-BLE-Decoder */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7839267F2417B89700919DE9 /* XCRemoteSwiftPackageReference "apple-ble-decoder" */;
+			productName = "Apple-BLE-Decoder";
+		};
 		788D98B9240D4605005FC745 /* BLETools */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 788D98B8240D4605005FC745 /* XCRemoteSwiftPackageReference "BLETools" */;
 			productName = BLETools;
-		};
-		78B86622241295D3003761D0 /* Apple-BLE-Decoder */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 78B86621241295D3003761D0 /* XCRemoteSwiftPackageReference "Apple-BLE-Decoder" */;
-			productName = "Apple-BLE-Decoder";
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
