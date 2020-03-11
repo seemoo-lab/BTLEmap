@@ -45,31 +45,85 @@ struct DeviceListView: View {
 }
 
 struct BLEDeviceRow: View {
-    @State var bleDevice: BLEDevice
+    @ObservedObject var bleDevice: BLEDevice
+    
+    var deviceTypeString: String {
+        switch self.bleDevice.deviceType {
+        case .AirPods:
+            return "AirPods"
+        case .appleEmbedded:
+            return "Embedded"
+        case .iMac:
+            return "iMac"
+        case .AppleWatch:
+            return "Apple Watch"
+        case .iPad: return "iPad"
+        case .iPod: return "iPod"
+        case .iPhone: return "iPhone"
+        case .macBook: return "MacBook"
+        case .other:
+            if self.bleDevice.manufacturer == .apple {
+                return "Apple"
+            }
+            return "Other"
+        case .Pencil: return "Pencil"
+        case .none: return "Other"
+        }
+    }
+    
+    var iconColor: Color {
+        if self.bleDevice.lastUpdate.timeIntervalSinceNow > -1.1 {
+            return Color("isSendingColor")
+        }else {
+            return Color("notSendingColor")
+        }
+    }
+    
+    var deviceImage: some View {
+        Group {
+            Image(self.deviceTypeString)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(height: 35.0)
+                .foregroundColor(self.iconColor)
+                .padding(.trailing)
+        }
+    }
     
     var body: some View {
-        VStack(alignment: .leading) {
-            //Device UUID
-            Text(bleDevice.id)
-            // Manufacturer
+        HStack {
+            self.deviceImage
             
-            Spacer()
-            
-            if bleDevice.name != nil {
+            VStack(alignment: .leading) {
+                //Device UUID
+                Text(bleDevice.id)
+                    .font(.callout)
+                // Manufacturer
+                
+                Spacer()
+                
                 HStack {
-                    Text(bleDevice.name!)
-                        .font(.callout)
+                    bleDevice.name.map {
+                        Text($0)
+                            .font(.callout)
+                    }
+                    
                     Text(bleDevice.manufacturer.name)
                         .font(.callout)
                 }
-            }else {
-                Text(bleDevice.manufacturer.name)
-                    .font(.callout)
+                
+                HStack {
+                    bleDevice.osVersion.map {
+                        Text($0)
+                            .font(.callout)
+                    }
+                    
+                    bleDevice.wiFiOn.map {
+                        Text($0 ? "WiFi: On" : "WiFi Off")
+                    }
+                }
             }
-            
-            
         }
-        
     }
 }
 

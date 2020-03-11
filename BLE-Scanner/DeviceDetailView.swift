@@ -172,6 +172,7 @@ struct AdvertisementRawManufacturerData: View {
     @State var copied: Bool = false
     
     var manufacturerDataString: String {
+        
         if let attributedString = self.advertisement.dataAttributedString {
             return attributedString.string
         }
@@ -182,43 +183,86 @@ struct AdvertisementRawManufacturerData: View {
         return "Empty"
     }
     
-    var body: some View {
-        HStack {
-            Text(self.manufacturerDataString)
-                .font(.system(.body, design: .monospaced))
-            Spacer()
-            
-            //Copy Button
-            ZStack {
-                Button(action: {
-                    UIPasteboard.general.string = self.manufacturerDataString
-                    self.copied = true
-                    Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { (_) in
-                        self.copied = false
-                    }
-                }, label: {
-                    ZStack {
-                        Circle().fill(Color("ButtonBackground"))
-                            .frame(width: 50.0, height: 50.0, alignment: .center)
-                        Image(systemName: "doc.on.clipboard")
+    var manufacturerDataText: some View {
+        Group {
+            if self.advertisement.advertisementTLV != nil {
+                HStack {
+                    VStack(alignment: .leading) {
+                        ForEach(self.advertisement.advertisementTLV!.tlvs, id: \.type) { tlv in
+                            HStack {
+                                Text("").font(.system(.body, design: .monospaced))
+                                BLEAdvertisment.AppleAdvertisementType(rawValue: tlv.type).map({
+                                Text($0.description)
+                                    .bold()
+                                })
+                            }
+                        }
                     }
                     
-                })
-                    .accentColor(Color.white)
-                    .opacity(self.copied ? 0.0 : 1.0 )
-                    .animation(.linear)
-                
-                ZStack {
-                    RoundedRectangle(cornerRadius: 5.0)
-                        .fill(Color("ButtonBackground"))
-                        .frame(width: 100.0, height: 50.0)
-                    Text("Info_copied")
+                    VStack(alignment: .leading) {
+                        ForEach(self.advertisement.advertisementTLV!.tlvs, id: \.type) { tlv in
+                            
+                            HStack {
+                                Text (String(format: "0x%02X", UInt8(tlv.type)))
+                                    .font(Font.system(.body, design: .monospaced))
+                                    
+                                Text (String(format: " 0x%02X: ", UInt8(tlv.length)))
+                                    .font(Font.system(.body, design: .monospaced))
+                                
+                                Text ("0x" + tlv.value.hexadecimal.separate(every: 8, with: " ").uppercased())
+                                        .font(Font.system(.body, design: .monospaced))
+                                
+                            }
+                        }
+                    }
                 }
-                .opacity(self.copied ? 1.0: 0.0)
-                .animation(.linear)
-                
+
+            }else {
+                Text(self.advertisement.manufacturerData?.hexadecimal.separate(every: 8, with: " ") ?? "Empty")
             }
+        }
+    }
+    
+    var copyButton: some View {
+        //Copy Button
+        ZStack {
+            Button(action: {
+                UIPasteboard.general.string = self.advertisement.manufacturerData?.hexadecimal ?? ""
+                self.copied = true
+                Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { (_) in
+                    self.copied = false
+                }
+            }, label: {
+                ZStack {
+                    Circle().fill(Color("ButtonBackground"))
+                        .frame(width: 50.0, height: 50.0, alignment: .center)
+                    Image(systemName: "doc.on.clipboard")
+                }
+                
+            })
+                .accentColor(Color.white)
+                .opacity(self.copied ? 0.0 : 1.0 )
+                .animation(.linear)
             
+            ZStack {
+                RoundedRectangle(cornerRadius: 5.0)
+                    .fill(Color("ButtonBackground"))
+                    .frame(width: 100.0, height: 50.0)
+                Text("Info_copied")
+            }
+            .opacity(self.copied ? 1.0: 0.0)
+            .animation(.linear)
+            
+        }
+    }
+    
+    var body: some View {
+        HStack {
+            self.manufacturerDataText
+            
+            Spacer()
+            
+            self.copyButton
         }
         
     }
