@@ -9,7 +9,7 @@
 import Foundation
 import SwiftUI
 import BLETools
-import Apple_BLE_Decoder
+import AppleBLEDecoder
 
 struct DeviceDetailView: View {
     @ObservedObject var device: BLEDevice
@@ -102,15 +102,48 @@ struct DeviceDetailView: View {
             return advertisements.reversed()
         }
         
-        var body: some View {
-            VStack {
-                Spacer()
-                Text(device.id)
-                Text(device.modelNumber ?? "Unknown model")
+        var deviceInformation: some View {
+            Group {
+                VStack {
+                    Text(self.device.id)
+                    
+                    HStack {
+                        
+                        Text(self.device.modelNumber ?? "Unknown model")
+                        
+                        
+                        if self.device.osVersion != nil {
+                            Divider()
+                            
+                            Text(self.device.osVersion!)
+                            .font(.callout)
+                        }
+                        
+                        
+                        if self.device.wiFiOn != nil {
+                            Divider()
+                            
+                            Text(self.device.wiFiOn! ? "WiFi: On" : "WiFi Off")
+                            .font(.callout)
+                        }
+                    
+                        
+                    }.frame(height: 20)
+                }
                 
                 HStack {
-                    Text("RSSI \(device.lastRSSI.intValue) dBm")
+                    Text("RSSI \(self.device.lastRSSI.intValue) dBm")
+                    Divider()
+                    Text("Connectable: \(self.device.connectable ? "true" : "false")")
                 }
+                .frame(height: 20)
+                
+            }
+        }
+        
+        var body: some View {
+            VStack {
+                self.deviceInformation
                 
                 VStack {
                     List {

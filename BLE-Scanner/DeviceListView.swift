@@ -120,6 +120,7 @@ struct BLEDeviceRow: View {
                     
                     bleDevice.wiFiOn.map {
                         Text($0 ? "WiFi: On" : "WiFi Off")
+                            .font(.callout)
                     }
                 }
             }
