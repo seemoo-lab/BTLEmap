@@ -63,6 +63,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
     }
     
+    
+    
     @objc func showSceneForRadiusScanner(_ sender: AnyObject?) {
         
         let userActivity = NSUserActivity(activityType: "de.tu-darmstadt.seemoo.live-analysis")
@@ -75,7 +77,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
         // Called when a new scene session is being created.
         // Use this method to select a configuration to create the new scene with.
-        return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
+        
+        if options.userActivities.first?.activityType == "de.tu-darmstadt.seemoo.awdlService.detail" {
+            return UISceneConfiguration(name: "AWDLServiceDetail Configuration", sessionRole: .windowApplication)
+        }
+        
+        
+        return UISceneConfiguration(name: "Default Configuration", sessionRole: .windowApplication)
     }
 
     func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
@@ -87,3 +95,41 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 }
 
+@discardableResult
+func share( items: [Any],excludedActivityTypes: [UIActivity.ActivityType]? = nil,frame: CGRect?=nil) -> Bool {
+        guard let source = UIApplication.shared.windows.first?.rootViewController else {
+            return false
+        }
+        let vc = UIActivityViewController(
+            activityItems: items,
+            applicationActivities: nil
+        )
+        vc.excludedActivityTypes = excludedActivityTypes
+        if let rect = frame {
+            vc.popoverPresentationController?.sourceRect = rect
+        }else {
+            vc.popoverPresentationController?.sourceRect = CGRect(x: source.view.frame.maxX - 50.0, y: 150.0, width: 0, height: 0)
+        }
+        
+        vc.popoverPresentationController?.sourceView = source.view
+        source.present(vc, animated: true)
+        return true
+}
+
+func export(file url: URL) {
+    guard let source = UIApplication.shared.windows.first?.rootViewController else {
+        return
+    }
+
+    let controller = UIDocumentPickerViewController(url: url, in: .exportToService)
+    controller.shouldShowFileExtensions = true
+    
+    
+    if let userFolder = NSSearchPathForDirectoriesInDomains(.userDirectory, .userDomainMask, true).first {
+        controller.directoryURL = URL(fileURLWithPath: userFolder)
+    }
+    
+//    controller.popoverPresentationController?.sourceRect = frame
+    controller.popoverPresentationController?.sourceView = source.view
+    source.present(controller, animated: true)
+}

@@ -13,3 +13,6 @@
 "Info_copied" = "Copied!";
 "Title_advertisement_selection" = "Filter advertisements";
 "Btn_filter_advertisements" = "Filter advertisements";
+"Service_Name" = "Service name";
+"Service_Type" = "Service type";
+"Title_advertisementTypes" = "Advertisement types";

@@ -18,6 +18,8 @@ struct DeviceDetailView: View {
     @State var displayedAdvertisementTypes = BLEAdvertisment.AppleAdvertisementType.allCases
     @State var showAdvertisementFilter = false
     
+    @State var showShareSheet = false
+    
     var advertisements: [BLEAdvertisment] {
         guard self.displayedAdvertisementTypes.count != BLEAdvertisment.AppleAdvertisementType.allCases.count else {return device.advertisements}
         
@@ -37,50 +39,80 @@ struct DeviceDetailView: View {
         self.showInModal = showInModal
     }
     
+    var filterButton: some View {
+        Button(action: {
+            self.showAdvertisementFilter.toggle()
+        }, label: {
+            Image(systemName: "line.horizontal.3.decrease.circle")
+            .imageScale(.large)
+            .padding()
+        })
+            .popover(isPresented: $showAdvertisementFilter, content: {
+                AdvertisementTypeFilterView(selectedAdvertisementTypes: self.$displayedAdvertisementTypes, isShown: self.$showAdvertisementFilter)
+            })
+        
+    }
+    
+    var dismissButton: some View {
+        Button(action: {
+            self.isShown = false
+        }) {
+            Text("Btn_Dismiss")
+                .padding()
+        }
+        .background(Color.red)
+    }
+    
+    var csvURL: URL {
+        let csvString = self.device.advertisementCSV
+        
+        let documentPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
+        let csvURL = URL(fileURLWithPath: documentPath).appendingPathComponent("exported.csv")
+        try! csvString.write(to: csvURL, atomically: true, encoding: .utf8)
+        //                let nsURL = NSURL.fileURL(withPath: csvURL.path)
+        return csvURL
+    }
+    
+    var exportButton: some View {
+        
+        
+        Button(action: {
+            export(file: self.csvURL)
+        }) {
+            Image(systemName: "square.and.arrow.up")
+                .imageScale(.large)
+            .padding()
+        }
+        
+
+    }
+    
+    
     var body: some View {
-        Group {
+        VStack {
             if showInModal {
                 NavigationView {
                     DetailViewContent(device: device, isShown: $isShown, filteredAdvertisements: self.advertisements)
                         .navigationBarTitle(Text(device.name ?? device.id), displayMode: .inline)
-                        .navigationBarItems(leading:
-                            Button(action: {
-                                self.showAdvertisementFilter.toggle()
-                            }, label: {
-                                Text("Btn_filter_advertisements")
-                            })
-                                .popover(isPresented: $showAdvertisementFilter, content: {
-                                    AdvertisementTypeFilterView(selectedAdvertisementTypes: self.$displayedAdvertisementTypes, isShown: self.$showAdvertisementFilter)
-                                })
-                            
-                            ,trailing: Button(action: {
-                                self.isShown = false
-                            }) {
-                                Text("Btn_Dismiss")
-                                    .padding()
-                        } )
+                        .navigationBarItems(leading: self.filterButton, trailing: HStack {
+                            self.exportButton
+                            self.dismissButton
+                        })
                 }
                 .navigationViewStyle(StackNavigationViewStyle())
                 
             }else {
                 DetailViewContent(device: device, isShown: $isShown, filteredAdvertisements: self.advertisements)
                     .navigationBarTitle(Text(device.name ?? device.id))
-                    .navigationBarItems(leading:
-                        Button(action: {
-                            self.showAdvertisementFilter.toggle()
-                        }, label: {
-                            Text("Btn_filter_advertisements")
-                        })
-                            .popover(isPresented: $showAdvertisementFilter, content: {
-                                AdvertisementTypeFilterView(selectedAdvertisementTypes: self.$displayedAdvertisementTypes, isShown: self.$showAdvertisementFilter)
-                            })
-                )
+                    .navigationBarItems(leading: self.filterButton, trailing: self.exportButton)
                    
             }
             
         }
         .frame(minWidth: 0, maxWidth: .infinity)
     }
+    
+
     
     struct DetailViewContent: View {
         @ObservedObject var device: BLEDevice
@@ -100,6 +132,10 @@ struct DeviceDetailView: View {
             let advertisements = self.filteredAdvertisements
             
             return advertisements.reversed()
+        }
+        
+        var advertisementTypes: [BLEAdvertisment.AppleAdvertisementType] {
+            return Array(Set(filteredAdvertisements.flatMap{$0.advertisementTypes}.filter{$0 != .unknown})).sorted(by: {$0.description < $1.description})
         }
         
         var deviceInformation: some View {
@@ -154,6 +190,15 @@ struct DeviceDetailView: View {
                                 }
                             }
                         }
+                        
+                        if self.device.manufacturer == .apple {
+                            Section(header: Text("Title_advertisementTypes")) {
+                                ForEach(self.advertisementTypes, id: \.self) { advType  in
+                                    Text(advType.description)
+                                }
+                            }
+                        }
+                        
                         Section(header: Text("Title_advertisements_received")) {
                             ForEach(self.advertisements) { advertisement in
                                 AdvertismentRow(advertisement: advertisement)
@@ -259,32 +304,39 @@ struct AdvertisementRawManufacturerData: View {
     var copyButton: some View {
         //Copy Button
         ZStack {
+            
+            if !self.copied {
             Button(action: {
                 UIPasteboard.general.string = self.advertisement.manufacturerData?.hexadecimal ?? ""
-                self.copied = true
+                withAnimation {self.copied = true}
                 Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { (_) in
-                    self.copied = false
+                    withAnimation {self.copied = false}
                 }
             }, label: {
                 ZStack {
                     Circle().fill(Color("ButtonBackground"))
                         .frame(width: 50.0, height: 50.0, alignment: .center)
                     Image(systemName: "doc.on.clipboard")
+                        .accentColor(Color.white)
                 }
                 
             })
-                .accentColor(Color.white)
-                .opacity(self.copied ? 0.0 : 1.0 )
-                .animation(.linear)
-            
-            ZStack {
-                RoundedRectangle(cornerRadius: 5.0)
-                    .fill(Color("ButtonBackground"))
-                    .frame(width: 100.0, height: 50.0)
-                Text("Info_copied")
+                .transition(.opacity)
+//                .opacity(self.copied ? 0.0 : 1.0 )
+
             }
-            .opacity(self.copied ? 1.0: 0.0)
-            .animation(.linear)
+            
+            if self.copied {
+                ZStack {
+                    RoundedRectangle(cornerRadius: 5.0)
+                        .fill(Color("ButtonBackground"))
+                        .frame(width: 100.0, height: 50.0)
+                    Text("Info_copied")
+                }
+                .transition(.opacity)
+//                .opacity(self.copied ? 1.0: 0.0)
+
+            }
             
         }
     }

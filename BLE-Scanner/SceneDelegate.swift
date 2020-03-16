@@ -9,43 +9,36 @@
 import UIKit
 import SwiftUI
 import BLETools
+import AWDLScanner
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     var window: UIWindow?
-    let bleScanner = BLEScanner()
-    let viewModel = EnvironmentViewModel()
-    
+    let bleScanner = Model.bleScanner
+    let viewModel = Model.viewModel
+    let awdlScanner = Model.awdlScanner
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-        
-        
-        if let userActivity = connectionOptions.userActivities.first,
-            userActivity.activityType == "de.tu-darmstadt.seemoo.live-analysis" {
-            let contentView = EnvironmentScanner().environmentObject(bleScanner)
-            
-            // Use a UIHostingController as window root view controller.
-            if let windowScene = scene as? UIWindowScene {
-                let window = UIWindow(windowScene: windowScene)
-                window.rootViewController = UIHostingController(rootView: contentView)
-                window.largeContentTitle = "Environment scanner"
-                window.makeKeyAndVisible()
-            }
-            
-            return
-        }
-        
-        let contentView = MainView().environmentObject(bleScanner).environmentObject(viewModel)
-        
-        
+
+        let contentView = MainView().environmentObject(bleScanner).environmentObject(viewModel).environmentObject(awdlScanner)
         
         // Use a UIHostingController as window root view controller.
         if let windowScene = scene as? UIWindowScene {
+            #if targetEnvironment(macCatalyst)
+            if let titlebar = windowScene.titlebar {
+                titlebar.titleVisibility = .hidden
+                titlebar.toolbar = nil
+            }
+            #endif
+
+            
             let window = UIWindow(windowScene: windowScene)
-            window.rootViewController = UIHostingController(rootView: contentView)
+            let vc = UIHostingController(rootView: contentView)
+            
+            window.rootViewController = vc
             if self.window == nil {
                 self.window = window
             }
@@ -54,7 +47,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
     }
     
-    
+    func stateRestorationActivity(for scene: UIScene) -> NSUserActivity? {
+        scene.userActivity
+    }
+
     
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.

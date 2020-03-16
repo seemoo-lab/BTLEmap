@@ -7,12 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		78232032240E7A1B00D4FDE3 /* BLEScanner_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78232031240E7A1B00D4FDE3 /* BLEScanner_SwiftUI.swift */; };
 		78232034240E7D7B00D4FDE3 /* DeviceDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78232033240E7D7B00D4FDE3 /* DeviceDetailView.swift */; };
 		78232038240EA8BA00D4FDE3 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78232037240EA8B900D4FDE3 /* MainView.swift */; };
 		7823203A240EBB4500D4FDE3 /* EnvironmentScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78232039240EBB4500D4FDE3 /* EnvironmentScanner.swift */; };
+		782354EA241A534500F11D6B /* AWDLScanner in Frameworks */ = {isa = PBXBuildFile; productRef = 782354E9241A534500F11D6B /* AWDLScanner */; };
+		7823682B241F885A00406CEE /* DocumentPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7823682A241F885A00406CEE /* DocumentPickerView.swift */; };
+		7838954C241A5625008248CA /* AWDLScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7838954B241A5625008248CA /* AWDLScannerView.swift */; };
+		7852D37F241BE20D00AA1B96 /* ActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7852D37E241BE20D00AA1B96 /* ActivityView.swift */; };
 		7879E3BB2417EB23003AA8DF /* AdvertisementTypeFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7879E3BA2417EB23003AA8DF /* AdvertisementTypeFilterView.swift */; };
 		7879E3C62418EF6C003AA8DF /* SharingBLEHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 7879E3C52418EF6C003AA8DF /* SharingBLEHandler.m */; };
+		787D6F5B241BB8FD00AB7AB3 /* AWDLServiceDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787D6F5A241BB8FD00AB7AB3 /* AWDLServiceDetailView.swift */; };
+		787D6F76241BC91D00AB7AB3 /* DetailWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787D6F75241BC91D00AB7AB3 /* DetailWindowController.swift */; };
+		787D6F79241BD1D600AB7AB3 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787D6F78241BD1D600AB7AB3 /* Model.swift */; };
+		787D6F7B241BD63E00AB7AB3 /* ModelSceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787D6F7A241BD63E00AB7AB3 /* ModelSceneDelegate.swift */; };
 		788D9885240D435C005FC745 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788D9884240D435C005FC745 /* AppDelegate.swift */; };
 		788D9887240D435C005FC745 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788D9886240D435C005FC745 /* SceneDelegate.swift */; };
 		788D9889240D435C005FC745 /* DeviceListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788D9888240D435C005FC745 /* DeviceListView.swift */; };
@@ -23,7 +30,6 @@
 		788D98A7240D435E005FC745 /* BLE_ScannerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788D98A6240D435E005FC745 /* BLE_ScannerUITests.swift */; };
 		788D98BA240D4605005FC745 /* BLETools in Frameworks */ = {isa = PBXBuildFile; productRef = 788D98B9240D4605005FC745 /* BLETools */; };
 		788D98E3240D561E005FC745 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 788D98E5240D561E005FC745 /* Localizable.strings */; };
-		788D98E7240D5BD1005FC745 /* PermissionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788D98E6240D5BD1005FC745 /* PermissionManager.swift */; };
 		78B8661C240FE43F003761D0 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 78B8661B240FE43F003761D0 /* README.md */; };
 		78B8662024123C80003761D0 /* ManfucaturerSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B8661F24123C80003761D0 /* ManfucaturerSelection.swift */; };
 		78D86E46240D81D400E718BF /* CoreBluetoothTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D86E45240D81D400E718BF /* CoreBluetoothTests.swift */; };
@@ -48,10 +54,12 @@
 
 /* Begin PBXFileReference section */
 		7823202E240E771200D4FDE3 /* BLE-Scanner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "BLE-Scanner.entitlements"; sourceTree = "<group>"; };
-		78232031240E7A1B00D4FDE3 /* BLEScanner_SwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEScanner_SwiftUI.swift; sourceTree = "<group>"; };
 		78232033240E7D7B00D4FDE3 /* DeviceDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceDetailView.swift; sourceTree = "<group>"; };
 		78232037240EA8B900D4FDE3 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		78232039240EBB4500D4FDE3 /* EnvironmentScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentScanner.swift; sourceTree = "<group>"; };
+		7823682A241F885A00406CEE /* DocumentPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentPickerView.swift; sourceTree = "<group>"; };
+		7838954B241A5625008248CA /* AWDLScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AWDLScannerView.swift; sourceTree = "<group>"; };
+		7852D37E241BE20D00AA1B96 /* ActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityView.swift; sourceTree = "<group>"; };
 		7879E3BA2417EB23003AA8DF /* AdvertisementTypeFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvertisementTypeFilterView.swift; sourceTree = "<group>"; };
 		7879E3BF2418EF40003AA8DF /* SFBLEScanner.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFBLEScanner.h; sourceTree = "<group>"; };
 		7879E3C02418EF40003AA8DF /* SFBLEDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFBLEDevice.h; sourceTree = "<group>"; };
@@ -61,6 +69,10 @@
 		7879E3C42418EF6C003AA8DF /* SharingBLEHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SharingBLEHandler.h; sourceTree = "<group>"; };
 		7879E3C52418EF6C003AA8DF /* SharingBLEHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SharingBLEHandler.m; sourceTree = "<group>"; };
 		7879E3CA2418FF8B003AA8DF /* BluetoothDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BluetoothDevice.h; sourceTree = "<group>"; };
+		787D6F5A241BB8FD00AB7AB3 /* AWDLServiceDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AWDLServiceDetailView.swift; sourceTree = "<group>"; };
+		787D6F75241BC91D00AB7AB3 /* DetailWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailWindowController.swift; sourceTree = "<group>"; };
+		787D6F78241BD1D600AB7AB3 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		787D6F7A241BD63E00AB7AB3 /* ModelSceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelSceneDelegate.swift; sourceTree = "<group>"; };
 		788D9881240D435C005FC745 /* BLE-Scanner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "BLE-Scanner.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		788D9884240D435C005FC745 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		788D9886240D435C005FC745 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -76,7 +88,6 @@
 		788D98A6240D435E005FC745 /* BLE_ScannerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLE_ScannerUITests.swift; sourceTree = "<group>"; };
 		788D98A8240D435E005FC745 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		788D98E4240D561E005FC745 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		788D98E6240D5BD1005FC745 /* PermissionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionManager.swift; sourceTree = "<group>"; };
 		78B8661B240FE43F003761D0 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		78B8661F24123C80003761D0 /* ManfucaturerSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManfucaturerSelection.swift; sourceTree = "<group>"; };
 		78D86E45240D81D400E718BF /* CoreBluetoothTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreBluetoothTests.swift; sourceTree = "<group>"; };
@@ -88,6 +99,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				788D98BA240D4605005FC745 /* BLETools in Frameworks */,
+				782354EA241A534500F11D6B /* AWDLScanner in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -108,6 +120,32 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		78236829241F884100406CEE /* UIKitRepresentable */ = {
+			isa = PBXGroup;
+			children = (
+				7852D37E241BE20D00AA1B96 /* ActivityView.swift */,
+				7823682A241F885A00406CEE /* DocumentPickerView.swift */,
+			);
+			path = UIKitRepresentable;
+			sourceTree = "<group>";
+		};
+		7838954A241A55EF008248CA /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				78B8661F24123C80003761D0 /* ManfucaturerSelection.swift */,
+				7879E3BA2417EB23003AA8DF /* AdvertisementTypeFilterView.swift */,
+				788D9888240D435C005FC745 /* DeviceListView.swift */,
+				78232033240E7D7B00D4FDE3 /* DeviceDetailView.swift */,
+				78232039240EBB4500D4FDE3 /* EnvironmentScanner.swift */,
+				78232037240EA8B900D4FDE3 /* MainView.swift */,
+				7838954B241A5625008248CA /* AWDLScannerView.swift */,
+				787D6F5A241BB8FD00AB7AB3 /* AWDLServiceDetailView.swift */,
+				787D6F75241BC91D00AB7AB3 /* DetailWindowController.swift */,
+				78236829241F884100406CEE /* UIKitRepresentable */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		7879E3BD2418EE7A003AA8DF /* SFBLE */ = {
 			isa = PBXGroup;
 			children = (
@@ -157,15 +195,10 @@
 			children = (
 				7823202E240E771200D4FDE3 /* BLE-Scanner.entitlements */,
 				788D9884240D435C005FC745 /* AppDelegate.swift */,
+				787D6F78241BD1D600AB7AB3 /* Model.swift */,
 				788D9886240D435C005FC745 /* SceneDelegate.swift */,
-				78232037240EA8B900D4FDE3 /* MainView.swift */,
-				78232039240EBB4500D4FDE3 /* EnvironmentScanner.swift */,
-				788D9888240D435C005FC745 /* DeviceListView.swift */,
-				78232033240E7D7B00D4FDE3 /* DeviceDetailView.swift */,
-				788D98E6240D5BD1005FC745 /* PermissionManager.swift */,
-				78232031240E7A1B00D4FDE3 /* BLEScanner_SwiftUI.swift */,
-				78B8661F24123C80003761D0 /* ManfucaturerSelection.swift */,
-				7879E3BA2417EB23003AA8DF /* AdvertisementTypeFilterView.swift */,
+				787D6F7A241BD63E00AB7AB3 /* ModelSceneDelegate.swift */,
+				7838954A241A55EF008248CA /* Views */,
 				788D988A240D435E005FC745 /* Assets.xcassets */,
 				788D988F240D435E005FC745 /* LaunchScreen.storyboard */,
 				788D9892240D435E005FC745 /* Info.plist */,
@@ -221,6 +254,7 @@
 			name = "BLE-Scanner";
 			packageProductDependencies = (
 				788D98B9240D4605005FC745 /* BLETools */,
+				782354E9241A534500F11D6B /* AWDLScanner */,
 			);
 			productName = "BLE-Scanner";
 			productReference = 788D9881240D435C005FC745 /* BLE-Scanner.app */;
@@ -297,6 +331,7 @@
 			mainGroup = 788D9878240D435C005FC745;
 			packageReferences = (
 				788D98B8240D4605005FC745 /* XCRemoteSwiftPackageReference "BLETools" */,
+				782354E8241A534500F11D6B /* XCRemoteSwiftPackageReference "awdlscanner" */,
 			);
 			productRefGroup = 788D9882240D435C005FC745 /* Products */;
 			projectDirPath = "";
@@ -346,13 +381,18 @@
 				7879E3BB2417EB23003AA8DF /* AdvertisementTypeFilterView.swift in Sources */,
 				788D9885240D435C005FC745 /* AppDelegate.swift in Sources */,
 				78232038240EA8BA00D4FDE3 /* MainView.swift in Sources */,
+				787D6F5B241BB8FD00AB7AB3 /* AWDLServiceDetailView.swift in Sources */,
+				7838954C241A5625008248CA /* AWDLScannerView.swift in Sources */,
 				7823203A240EBB4500D4FDE3 /* EnvironmentScanner.swift in Sources */,
-				78232032240E7A1B00D4FDE3 /* BLEScanner_SwiftUI.swift in Sources */,
+				787D6F79241BD1D600AB7AB3 /* Model.swift in Sources */,
 				788D9887240D435C005FC745 /* SceneDelegate.swift in Sources */,
+				7852D37F241BE20D00AA1B96 /* ActivityView.swift in Sources */,
 				78232034240E7D7B00D4FDE3 /* DeviceDetailView.swift in Sources */,
-				788D98E7240D5BD1005FC745 /* PermissionManager.swift in Sources */,
+				787D6F7B241BD63E00AB7AB3 /* ModelSceneDelegate.swift in Sources */,
+				7823682B241F885A00406CEE /* DocumentPickerView.swift in Sources */,
 				7879E3C62418EF6C003AA8DF /* SharingBLEHandler.m in Sources */,
 				78B8662024123C80003761D0 /* ManfucaturerSelection.swift in Sources */,
+				787D6F76241BC91D00AB7AB3 /* DetailWindowController.swift in Sources */,
 				788D9889240D435C005FC745 /* DeviceListView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -700,6 +740,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		782354E8241A534500F11D6B /* XCRemoteSwiftPackageReference "awdlscanner" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://dev.seemoo.tu-darmstadt.de/aheinrich/awdlscanner.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		788D98B8240D4605005FC745 /* XCRemoteSwiftPackageReference "BLETools" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "file:///Users/seemoo/Work/Research/BLEScanner/Projects/BLETools";
@@ -711,6 +759,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		782354E9241A534500F11D6B /* AWDLScanner */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 782354E8241A534500F11D6B /* XCRemoteSwiftPackageReference "awdlscanner" */;
+			productName = AWDLScanner;
+		};
 		788D98B9240D4605005FC745 /* BLETools */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 788D98B8240D4605005FC745 /* XCRemoteSwiftPackageReference "BLETools" */;

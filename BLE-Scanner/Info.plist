@@ -38,6 +38,12 @@
 					<key>UISceneDelegateClassName</key>
 					<string>$(PRODUCT_MODULE_NAME).SceneDelegate</string>
 				</dict>
+				<dict>
+					<key>UISceneConfigurationName</key>
+					<string>AWDLServiceDetail Configuration</string>
+					<key>UISceneDelegateClassName</key>
+					<string>$(PRODUCT_MODULE_NAME).ModelSceneDelegate</string>
+				</dict>
 			</array>
 		</dict>
 	</dict>

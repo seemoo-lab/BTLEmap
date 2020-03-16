@@ -7,11 +7,15 @@
 //
 
 import SwiftUI
+import AWDLScanner
 
 struct MainView: View {
     @State var currentViewSelected: Int = 0
     @EnvironmentObject var bleScanner: BLEScanner
     @EnvironmentObject var viewModel: EnvironmentViewModel
+    @EnvironmentObject var awdlScanner: AWDLNetServiceBrowser
+    
+    @State var launched = false
     
     var body: some View {
         
@@ -23,16 +27,21 @@ struct MainView: View {
                     .frame(minWidth: 0, maxWidth: .infinity, maxHeight: 50.0)
                 
                 Picker(selection: $currentViewSelected, label: Text("Select Mode")) {
-                    Text("Devices").font(.title).tag(0)
-                    Text("Environment Scanner").font(.headline).tag(1)
+                    Text("BLE Devices").font(.title).tag(0)
+                    Text("Environment Scanner").font(.title).tag(1)
+                    Text("AWDL Scanner").font(.title).tag(2)
                 }
                 .pickerStyle(SegmentedPickerStyle())
-                .frame(width: 350.0, height: 50.0)
+                .frame(width: 450.0, height: 50.0)
 //                .background()
             }
+            .edgesIgnoringSafeArea(.all)
             
             if currentViewSelected == 1 {
                 EnvironmentScanner().environmentObject(bleScanner).environmentObject(viewModel)
+            }else if currentViewSelected == 2 {
+                AWDLScannerView()
+                    .environmentObject(awdlScanner)
             }else {
                 DeviceListView().environmentObject(bleScanner).environmentObject(viewModel)
             }
@@ -42,7 +51,7 @@ struct MainView: View {
                 DeviceListView().environmentObject(bleScanner).environmentObject(viewModel)
                     .tabItem {
                         Image(systemName:"list.dash")
-                        Text("Devices")
+                        Text("BLE Devices")
                 }
                 
                 EnvironmentScanner().environmentObject(bleScanner).environmentObject(viewModel)
@@ -51,9 +60,20 @@ struct MainView: View {
                         Text("Environment Scanner")
                 }
                 
+                AWDLScannerView().environmentObject(awdlScanner)
+                    .tabItem {
+                        Image(systemName:"wifi")
+                        Text("AWDL Scanner")
+                }
+                
             }
             
             #endif
+        }.onAppear {
+            guard !self.launched else {return}
+            self.bleScanner.scanning = true
+            self.awdlScanner.startSearching()
+            self.launched = true
         }
         
     }
