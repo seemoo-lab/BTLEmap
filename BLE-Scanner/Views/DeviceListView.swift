@@ -13,9 +13,13 @@ import CoreBluetooth
 struct DeviceListView: View {
     @EnvironmentObject var scanner: BLEScanner
     
+    var devices: [BLEDevice] {
+        self.scanner.deviceList.sorted(by: {$0.id < $1.id})
+    }
+    
     var body: some View {
         NavigationView {
-            List(self.scanner.deviceList) { device in
+            List(self.devices) { device in
                 NavigationLink(destination: DeviceDetailView(device: device)) {
                     BLEDeviceRow(bleDevice: device)
                 }
@@ -37,6 +41,7 @@ struct DeviceListView: View {
             self.scanner.scanning = true
         }
     }
+    
     
     func checkForBluetoothPermission() {
         

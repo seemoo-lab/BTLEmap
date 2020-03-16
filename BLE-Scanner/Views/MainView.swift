@@ -39,11 +39,13 @@ struct MainView: View {
             
             if currentViewSelected == 1 {
                 EnvironmentScanner().environmentObject(bleScanner).environmentObject(viewModel)
+                    
             }else if currentViewSelected == 2 {
-                AWDLScannerView()
-                    .environmentObject(awdlScanner)
+                AWDLScannerView().environmentObject(awdlScanner)
+                    
             }else {
                 DeviceListView().environmentObject(bleScanner).environmentObject(viewModel)
+                    
             }
             #else
             

@@ -25,8 +25,8 @@ struct ManfucaturerSelection: View {
                         self.selectedManufacturers.append(manufacturerString)
                     }
                 }) {
-                        Text(manufacturerString)
                     HStack {
+                        Text(manufacturerString)
                         Spacer()
                         Image(systemName: self.selectedManufacturers.contains(manufacturerString) ? "checkmark.circle.fill" : "circle")
                     }

@@ -75,9 +75,12 @@ struct DeviceDetailView: View {
     
     var exportButton: some View {
         
-        
         Button(action: {
+            #if targetEnvironment(macCatalyst)
             export(file: self.csvURL)
+            #else
+            share(items: [self.csvURL])
+            #endif
         }) {
             Image(systemName: "square.and.arrow.up")
                 .imageScale(.large)
@@ -240,6 +243,10 @@ struct AdvertismentRow: View {
                 return "\(key): \t\t\(data.hexadecimal.separate(every: 8, with: " "))\n"
             }
             
+            if let array = value as? [Any] {
+                return "\(key): \t \(array.map{String(describing: $0)}) \n"
+            }
+            
             return "\(key):\t\t\(value)\n"
         }
     }
@@ -266,11 +273,11 @@ struct AdvertisementRawManufacturerData: View {
             if self.advertisement.advertisementTLV != nil {
                 HStack {
                     VStack(alignment: .leading) {
+                        Text("Apple").bold()
                         ForEach(self.advertisement.advertisementTLV!.tlvs, id: \.type) { tlv in
                             HStack {
-                                Text("").font(.system(.body, design: .monospaced))
                                 BLEAdvertisment.AppleAdvertisementType(rawValue: tlv.type).map({
-                                Text($0.description)
+                                Text("\($0.description) ")
                                     .bold()
                                 })
                             }
