@@ -172,15 +172,12 @@ struct EnvironmentScanner: View {
                 Button(action: {
                     self.showManufacturerSelection.toggle()
                 }, label:  {
-                    
                     Text("Btn_filter_manufacturers")
                         .padding(10)
-                    //                            .background(Color.gray)
-                    //                            .cornerRadius(5.0)
                 })
-                    .popover(isPresented: self.$showManufacturerSelection) {
+                    .popoverSheet(isPresented: self.$showManufacturerSelection, content: {
                         ManfucaturerSelection(selectedManufacturers: self.$selectedManufacturers, isShown: self.$showManufacturerSelection)
-                }
+                    })
                 
 //                Spacer()
                 

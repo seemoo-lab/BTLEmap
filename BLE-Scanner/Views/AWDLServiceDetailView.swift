@@ -18,17 +18,18 @@ struct AWDLServiceDetailView: View {
     }
     
     var body: some View {
-        VStack {
-            Text(service.name)
-                .font(.title)
-            Text(service.type)
-            Text("\(service.service.port)")
-            Text("AWDL")
-                .foregroundColor(service.includesAWDL ? Color("isOnColor") : Color("isOffColor"))
-            
-            Divider()
-            
-            ScrollView {
+        
+        ScrollView {
+            VStack(alignment: .center) {
+                Text(service.name)
+                    .font(.title)
+                Text(service.type)
+                Text("\(service.service.port)")
+                Text("AWDL")
+                    .foregroundColor(service.includesAWDL ? Color("isOnColor") : Color("isOffColor"))
+                
+                Divider()
+                
                 VStack(alignment: .leading) {
                     Text("IP Addresses")
                         .font(.headline)
@@ -45,14 +46,15 @@ struct AWDLServiceDetailView: View {
                             .font(.headline)
                         ForEach(self.txtRecord!, id: \.key, content: { element in
                             Text("\(element.key): \t")
-                            .bold()
-                            +
+                                .bold()
+                                +
                                 Text(element.value.hexadecimal)
                         })
                     }
                 }
-            }
+            }.padding()
         }
+        
     }
     
     struct TXTEntry {

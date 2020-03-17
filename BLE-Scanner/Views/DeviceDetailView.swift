@@ -47,9 +47,14 @@ struct DeviceDetailView: View {
             .imageScale(.large)
             .padding()
         })
-            .popover(isPresented: $showAdvertisementFilter, content: {
-                AdvertisementTypeFilterView(selectedAdvertisementTypes: self.$displayedAdvertisementTypes, isShown: self.$showAdvertisementFilter)
-            })
+        .popoverSheet(isPresented: $showAdvertisementFilter, content: {
+            AdvertisementTypeFilterView(selectedAdvertisementTypes: self.$displayedAdvertisementTypes, isShown: self.$showAdvertisementFilter)
+        })
+
+            
+//            .popover(isPresented: $showAdvertisementFilter, content: {
+//                AdvertisementTypeFilterView(selectedAdvertisementTypes: self.$displayedAdvertisementTypes, isShown: self.$showAdvertisementFilter)
+//            })
         
     }
     
@@ -107,7 +112,11 @@ struct DeviceDetailView: View {
             }else {
                 DetailViewContent(device: device, isShown: $isShown, filteredAdvertisements: self.advertisements)
                     .navigationBarTitle(Text(device.name ?? device.id))
-                    .navigationBarItems(leading: self.filterButton, trailing: self.exportButton)
+                    .navigationBarItems(trailing:
+                        HStack{
+                            self.filterButton
+                            self.exportButton
+                    })
                    
             }
             

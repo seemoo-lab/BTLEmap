@@ -16,10 +16,11 @@ struct MainView: View {
     @EnvironmentObject var awdlScanner: AWDLNetServiceBrowser
     
     @State var launched = false
+
     
     var body: some View {
         
-        VStack {
+        Group {
             #if targetEnvironment(macCatalyst)
             ZStack(alignment: .center) {
                 Rectangle()
@@ -35,7 +36,6 @@ struct MainView: View {
                 .frame(width: 450.0, height: 50.0)
 //                .background()
             }
-            .edgesIgnoringSafeArea(.all)
             
             if currentViewSelected == 1 {
                 EnvironmentScanner().environmentObject(bleScanner).environmentObject(viewModel)
@@ -77,6 +77,8 @@ struct MainView: View {
             self.awdlScanner.startSearching()
             self.launched = true
         }
+        .edgesIgnoringSafeArea(.top)
+        
         
     }
 }
