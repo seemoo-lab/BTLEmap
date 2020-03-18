@@ -152,48 +152,60 @@ struct EnvironmentScanner: View {
         @EnvironmentObject var bleScanner: BLEScanner
         @State var devicesCanTimeout = true
         
+        var timeoutButton: some View {
+            
+            Button(action: {
+                self.bleScanner.devicesCanTimeout.toggle()
+                self.devicesCanTimeout = self.bleScanner.devicesCanTimeout
+            }) {
+                if self.devicesCanTimeout {
+                    HStack{Image(systemName:"checkmark.circle"); Text("Timeout devices")}
+                }else {
+                    HStack{Image(systemName:"circle"); Text("Timeout devices")}
+                }
+            }
+            .buttonStyle(PlainButtonStyle())
+            
+        }
+        
+        var filterButton: some View {
+            Button(action: {
+                self.showManufacturerSelection.toggle()
+            }, label:  {
+                Text("Btn_filter_manufacturers")
+                    .padding(10)
+            })
+                .popoverSheet(isPresented: self.$showManufacturerSelection, content: {
+                    ManfucaturerSelection(selectedManufacturers: self.$selectedManufacturers, isShown: self.$showManufacturerSelection)
+                })
+        }
+        
+        var sliderRange = Float(-100.0)...Float(0.0)
+        
         
         var body: some View {
             Group {
-//                Spacer()
                 
-                Button(action: {
-                    self.bleScanner.devicesCanTimeout.toggle()
-                    self.devicesCanTimeout = self.bleScanner.devicesCanTimeout
-                }) {
-                    if self.devicesCanTimeout {
-                        HStack{Image(systemName:"checkmark.circle"); Text("Timeout devices")}
-                    }else {
-                        HStack{Image(systemName:"circle"); Text("Timeout devices")}
-                    }
+                self.timeoutButton
+                
+                self.filterButton
+                
+                Slider(value: self.$minimumRSSI,in: self.sliderRange)
+                    .frame(maxWidth: 200.0)
+                
+                if self.minimumRSSI == -Float.infinity {
+                    Text(String("Minimum RSSI -∞"))
+                }else {
+                    Text(String(format: "Minimum RSSI %0.fdBm", Float(self.minimumRSSI)))
                 }
-                .buttonStyle(PlainButtonStyle())
                 
-                Button(action: {
-                    self.showManufacturerSelection.toggle()
-                }, label:  {
-                    Text("Btn_filter_manufacturers")
-                        .padding(10)
-                })
-                    .popoverSheet(isPresented: self.$showManufacturerSelection, content: {
-                        ManfucaturerSelection(selectedManufacturers: self.$selectedManufacturers, isShown: self.$showManufacturerSelection)
-                    })
-                
-//                Spacer()
-                
-                HStack {
-                    Slider(value: self.$minimumRSSI, in: Float(-100.0)...Float(0.0))
-                        .frame(maxWidth: 200.0)
-                    if self.minimumRSSI == -Float.infinity {
-                        Text("Minimum RSSI -∞")
-                    }else {
-                        Text(String(format: "Minimum RSSI %.0fdBm", self.minimumRSSI))
-                    }
-                }
-
-                
-                
-//                Spacer()
+//                Slider(value: self.$minimumRSSI, in: Float(-100.0)...Float(0.0))
+////                    .frame(maxWidth: CGFloat(200.0))
+//                if self.minimumRSSI == -Float.infinity {
+//                    Text(String("Minimum RSSI -∞"))
+//                }else {
+//                    Text(String(format: "Minimum RSSI %.0fdBm", self.minimumRSSI))
+//                }
             }
         }
     }
