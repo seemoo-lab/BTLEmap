@@ -11,9 +11,10 @@ import BLETools
 
 
 struct RecordAdvertisementsView: View {
-    var bleScanner = BLEScanner()
+    @EnvironmentObject var bleScanner: BLEScanner
     
     @State var isRecording: Bool = false
+    @State var showError = false
     @State var recording: RecordingModel?
     @State var timePassed: Double = 0.0
     let timer = Timer.publish(every: 0.01, on: .main, in: .common).autoconnect()
@@ -21,6 +22,10 @@ struct RecordAdvertisementsView: View {
     var timeRecordedString: String {
         return String(format: "%.2f s", Float(self.timePassed))
     }
+    
+    @State var exportURL: URL?
+    @State var showExportSheet = false
+
     
     var body: some View {
         ZStack {
@@ -48,36 +53,82 @@ struct RecordAdvertisementsView: View {
                     self.isRecording.toggle()
                     if self.isRecording {
                         self.recording = RecordingModel()
+                    }else {
+                        self.exportToJson()
                     }
                     self.bleScanner.scanning = self.isRecording
                 }
-                
+                .sheet(isPresented: $showExportSheet) {
+                    ActivityViewController(activityItems: [self.exportURL!])
+                }
                 Spacer()
                 
             }
             
-            if self.isRecording {
-                VStack {
-                    Text("Recorded \(self.recording!.advertisements.count) advertisements")
-                    .padding()
-                        .foregroundColor(Color.white)
+            VStack {
+                if self.isRecording {
+                    Spacer()
+                    VStack {
+                        Text("Detected \(self.recording!.rssiDevices.keys.count) devices")
+                        .padding()
+                            .foregroundColor(Color.white)
+                    }
+                    .background(
+                        RoundedRectangle(cornerRadius: 7.5, style: .continuous)
+                            .fill(Color.gray))
+                        .transition(AnyTransition.opacity.animation(.linear(duration: 0.3)))
+                        .frame(alignment: .bottom)
                 }
-                .background(
-                    RoundedRectangle(cornerRadius: 7.5, style: .continuous)
-                        .fill(Color.gray))
-                    .transition(AnyTransition.opacity.animation(.linear(duration: 0.3)))
-                    .frame(alignment: .bottom)
             }
+
 
         }
         .frame(minWidth: 0, maxWidth: .infinity)
+        .alert(isPresented: self.$showError, content: { () -> Alert in
+            Alert(title: Text("Export failed"), message: Text("Failed exporting results. Please try again"), dismissButton: .cancel())
+        })
+        .onAppear(perform: {
+            self.bleScanner.filterDuplicates = false
+            self.bleScanner.scanning = self.isRecording
+        })
+        .onDisappear(perform: {
+            self.bleScanner.filterDuplicates = true
+        })
         .onReceive(self.bleScanner.newAdvertisementSubject) { (event) in
-//            self.recording?.advertisements.append(event.advertisement)
+            guard self.isRecording else {return}
+            var rssis = self.recording?.rssiDevices[event.device.id] ?? []
+            if let lastrssi = event.advertisement.rssi.last?.floatValue {
+                rssis.append(lastrssi)
+            }
+            
+            self.recording?.rssiDevices[event.device.id] = rssis
         }
-//        .background(Color.red)
-        
     }
     
+    func exportToJson() {
+        guard let jsonData = self.recording?.jsonExport,
+            let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .allDomainsMask, true).first else {
+            self.showError = true
+            return
+        }
+        
+        do {
+            let jsonURL = URL(fileURLWithPath: documentDirectory).appendingPathComponent("rssiRecording.json")
+            
+            //Write to Sandbox
+            try jsonData.write(to: jsonURL)
+            
+            #if targetEnvironment(macCatalyst)
+            export(file: jsonURL)
+            #else
+            self.exportURL = jsonURL
+            self.showExportSheet = true
+            #endif
+        }catch {
+            self.showError = true
+        }
+        
+    }
 }
 
 struct RecordAdvertisementsView_Previews: PreviewProvider {
@@ -89,6 +140,11 @@ struct RecordAdvertisementsView_Previews: PreviewProvider {
 struct RecordingModel {
     var startDate: Date = Date()
     var endDate: Date?
-    var advertisements = [BLEAdvertisment]()
+    /// All RSSIs received for one device
+    var rssiDevices = [String: [Float]]()
+//    var advertisements = [BLEAdvertisment]()
     
+    var jsonExport: Data? {
+        try? JSONSerialization.data(withJSONObject: self.rssiDevices)
+    }
 }

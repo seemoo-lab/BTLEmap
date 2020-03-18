@@ -36,17 +36,24 @@ struct AdvertisementTypeFilterView: View {
             }
             .navigationBarTitle(Text("Title_advertisement_selection"), displayMode: .inline)
             .navigationBarItems(trailing: Button(action: {self.isShown = false}, label: {Text("Btn_Dismiss")}))
-            .navigationBarItems(leading: HStack {
-                if self.selectedAdvertisementTypes.count == self.allAdvertisementTypes.count {
-                    Button(action: {
+            .navigationBarItems(leading:
+                Button(action: {
+                    if self.selectedAdvertisementTypes.count == self.allAdvertisementTypes.count {
                         self.selectedAdvertisementTypes = []
-                    }, label: {Text("Btn_deselect_all")})
-                }else {
-                    Button(action: {
+                    }else {
                         self.selectedAdvertisementTypes = self.allAdvertisementTypes
-                    }, label: {Text("Btn_select_all")})
-                }
-            })
+                    }
+                    
+                }, label: {
+                    if self.selectedAdvertisementTypes.count == self.allAdvertisementTypes.count {
+                        Image(systemName: "minus.circle.fill")
+                    }else {
+                        Image(systemName: "plus.circle.fill")
+                    }
+                })
+                    .imageScale(.large)
+                    .padding()
+            )
             
         }
         .navigationViewStyle(StackNavigationViewStyle())

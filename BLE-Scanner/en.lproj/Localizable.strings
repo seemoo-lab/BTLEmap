@@ -16,3 +16,9 @@
 "Service_Name" = "Service name";
 "Service_Type" = "Service type";
 "Title_advertisementTypes" = "Advertisement types";
+"Sts_ble_scanning" = "BLE Scanning On";
+"Sts_filter_duplicates" = "Filter duplicates";
+"Sts_devices_can_timeout" = "Timeout devices";
+"Sts_timeout_interval" = "Timeout interval";
+"min" = "min";
+"Ttl_settings" = "Settings";

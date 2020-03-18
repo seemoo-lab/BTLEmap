@@ -59,6 +59,7 @@
 		78B8661C240FE43F003761D0 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 78B8661B240FE43F003761D0 /* README.md */; };
 		78B8662024123C80003761D0 /* ManfucaturerSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B8661F24123C80003761D0 /* ManfucaturerSelection.swift */; };
 		78D86E46240D81D400E718BF /* CoreBluetoothTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D86E45240D81D400E718BF /* CoreBluetoothTests.swift */; };
+		78EFB97C242277A000C4A6B8 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EFB97B242277A000C4A6B8 /* SettingsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -122,6 +123,7 @@
 		78B8661B240FE43F003761D0 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		78B8661F24123C80003761D0 /* ManfucaturerSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManfucaturerSelection.swift; sourceTree = "<group>"; };
 		78D86E45240D81D400E718BF /* CoreBluetoothTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreBluetoothTests.swift; sourceTree = "<group>"; };
+		78EFB97B242277A000C4A6B8 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -190,8 +192,9 @@
 				787D6F75241BC91D00AB7AB3 /* DetailWindowController.swift */,
 				78B8661F24123C80003761D0 /* ManfucaturerSelection.swift */,
 				7879E3BA2417EB23003AA8DF /* AdvertisementTypeFilterView.swift */,
-				78236829241F884100406CEE /* UIKitRepresentable */,
 				78A7715824212A6200EF3E0C /* RecordAdvertisementsView.swift */,
+				78EFB97B242277A000C4A6B8 /* SettingsView.swift */,
+				78236829241F884100406CEE /* UIKitRepresentable */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -483,6 +486,7 @@
 				7823682E2420C29600406CEE /* PopoverSheet.swift in Sources */,
 				787D6F76241BC91D00AB7AB3 /* DetailWindowController.swift in Sources */,
 				788D9889240D435C005FC745 /* DeviceListView.swift in Sources */,
+				78EFB97C242277A000C4A6B8 /* SettingsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

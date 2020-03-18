@@ -34,17 +34,24 @@ struct ManfucaturerSelection: View {
             }
             .navigationBarTitle(Text("Title_manufacturer_selection"), displayMode: .inline)
             .navigationBarItems(trailing: Button(action: {self.isShown = false}, label: {Text("Btn_Dismiss")}))
-            .navigationBarItems(leading: HStack {
-                if self.selectedManufacturers.count == self.allManufacturers.count {
-                    Button(action: {
+            .navigationBarItems(leading:
+                Button(action: {
+                    if self.selectedManufacturers.count == self.allManufacturers.count {
                         self.selectedManufacturers = []
-                    }, label: {Text("Btn_deselect_all")})
-                }else {
-                    Button(action: {
+                    }else {
                         self.selectedManufacturers = self.allManufacturers
-                    }, label: {Text("Btn_select_all")})
-                }
-            })
+                    }
+                    
+                }, label: {
+                    if self.selectedManufacturers.count == self.allManufacturers.count {
+                        Image(systemName: "minus.circle.fill")
+                    }else {
+                        Image(systemName: "plus.circle.fill")
+                    }
+                })
+                    .imageScale(.large)
+                    .padding()
+            )
             
         }
         .navigationViewStyle(StackNavigationViewStyle())

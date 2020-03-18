@@ -152,32 +152,16 @@ struct EnvironmentScanner: View {
         @EnvironmentObject var bleScanner: BLEScanner
         @State var devicesCanTimeout = true
         
-        var timeoutButton: some View {
-            
-            Button(action: {
-                self.bleScanner.devicesCanTimeout.toggle()
-                self.devicesCanTimeout = self.bleScanner.devicesCanTimeout
-            }) {
-                if self.devicesCanTimeout {
-                    HStack{Image(systemName:"checkmark.circle"); Text("Timeout devices")}
-                }else {
-                    HStack{Image(systemName:"circle"); Text("Timeout devices")}
-                }
-            }
-            .buttonStyle(PlainButtonStyle())
-            
-        }
-        
         var filterButton: some View {
             Button(action: {
                 self.showManufacturerSelection.toggle()
             }, label:  {
-                Text("Btn_filter_manufacturers")
-                    .padding(10)
+                Image(systemName: "line.horizontal.3.decrease.circle")
+                    .imageScale(.large)
             })
-                .popoverSheet(isPresented: self.$showManufacturerSelection, content: {
-                    ManfucaturerSelection(selectedManufacturers: self.$selectedManufacturers, isShown: self.$showManufacturerSelection)
-                })
+            .popoverSheet(isPresented: self.$showManufacturerSelection, content: {
+                ManfucaturerSelection(selectedManufacturers: self.$selectedManufacturers, isShown: self.$showManufacturerSelection)
+            })
         }
         
         var sliderRange = Float(-100.0)...Float(0.0)
@@ -186,7 +170,6 @@ struct EnvironmentScanner: View {
         var body: some View {
             Group {
                 
-                self.timeoutButton
                 
                 self.filterButton
                 

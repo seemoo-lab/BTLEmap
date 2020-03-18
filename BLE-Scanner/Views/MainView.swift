@@ -77,7 +77,7 @@ struct MainView: View {
             self.awdlScanner.startSearching()
             self.launched = true
         }
-        .edgesIgnoringSafeArea(.top)
+//        .edgesIgnoringSafeArea(.top)
         
         
     }
