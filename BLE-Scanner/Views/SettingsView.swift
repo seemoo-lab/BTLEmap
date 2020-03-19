@@ -18,14 +18,14 @@ struct SettingsView: View {
         }
     }
     
-    @State var filterDuplicates = true {
+    @State var filterDuplicates = UserDefaults.standard.filterDuplicates {
         didSet {
             self.bleScanner.filterDuplicates = self.filterDuplicates
             UserDefaults.standard.filterDuplicates = self.filterDuplicates
         }
     }
     
-    @State var timeoutDevices = false {
+    @State var timeoutDevices = UserDefaults.standard.timeoutDevices {
         didSet {
             self.bleScanner.devicesCanTimeout = self.timeoutDevices
             UserDefaults.standard.timeoutDevices = self.timeoutDevices
@@ -42,6 +42,7 @@ struct SettingsView: View {
         }
     }
     
+    @State var showRSSIRecorder: Bool = false
     
     
     var body: some View {
@@ -65,10 +66,39 @@ struct SettingsView: View {
                     
                     Text("min")
                 }
+                
+                Button(action: {
+                    self.showRSSIRecorder.toggle()
+                }, label: {
+                    HStack {
+                        Text("Sts_showrssi")
+                    }
+                })
+                
             }
-        .navigationBarTitle(Text("Ttl_settings"))
+            .navigationBarTitle(Text("Ttl_settings"))
+            .sheet(isPresented: self.$showRSSIRecorder, content: {
+                RecordAdvertisementsView().environmentObject(self.bleScanner)
+            })
         }
     .navigationViewStyle(StackNavigationViewStyle())
+        .onAppear {
+            self.scanning = self.bleScanner.scanning
+        }
+        .onDisappear {
+            self.bleScanner.scanning = self.scanning
+            
+            self.bleScanner.filterDuplicates = self.filterDuplicates
+            UserDefaults.standard.filterDuplicates = self.filterDuplicates
+            
+            self.bleScanner.devicesCanTimeout = self.timeoutDevices
+            UserDefaults.standard.timeoutDevices = self.timeoutDevices
+            
+            if let timeInterval = TimeInterval(self.timeoutInterval) {
+                self.bleScanner.timeoutInterval = timeInterval * 60.0
+                UserDefaults.standard.timeoutInterval = timeInterval * 60.0
+            }
+        }
     }
         
 }

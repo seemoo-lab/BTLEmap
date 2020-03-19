@@ -24,6 +24,8 @@
 	<string>Discover Apple devices in your region and read out data they are sending</string>
 	<key>NSBluetoothPeripheralUsageDescription</key>
 	<string>Discover Apple devices in your region and read out data they are sending</string>
+	<key>NSMotionUsageDescription</key>
+	<string>To detect where Bluetooth devices are located around you</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

@@ -58,11 +58,15 @@ struct ActivityViewController: UIViewControllerRepresentable {
 
     var activityItems: [Any]
     var applicationActivities: [UIActivity]? = nil
+    var completionWithItemsHandler: ((UIActivity.ActivityType?, Bool, [Any]?, Error?) -> Void)?
 
     func makeUIViewController(context: UIViewControllerRepresentableContext<ActivityViewController>) -> UIActivityViewController {
+        
         let controller = UIActivityViewController(activityItems: activityItems, applicationActivities: applicationActivities)
 //        controller.popoverPresentationController?.barButtonItem = context.environment.
 
+        controller.completionWithItemsHandler = self.completionWithItemsHandler
+        
         return controller
     }
 
