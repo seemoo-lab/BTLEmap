@@ -13,6 +13,7 @@ import CoreMotion
 
 struct RecordAdvertisementsView: View {
     @EnvironmentObject var bleScanner: BLEScanner
+    @Binding var isShown: Bool
     
     @State var isRecording: Bool = false
     @State var showError = false
@@ -56,7 +57,7 @@ struct RecordAdvertisementsView: View {
     }
     
     var recordingTimeView: some View {
-        HStack(alignment: .top) {
+        HStack(alignment: .center) {
             Text("Time recording")
             Text(self.timeRecordedString)
                 .font(.system(.body, design: .monospaced))
@@ -141,6 +142,13 @@ struct RecordAdvertisementsView: View {
         ZStack {
             VStack {
                 
+                HStack {
+                    Spacer()
+                    Button("Btn_Dismiss") {self.isShown = false}.padding([.top,.trailing])
+                }
+                
+                Divider()
+                
                 self.recordingTimeView
                 
                 Spacer()
@@ -158,7 +166,7 @@ struct RecordAdvertisementsView: View {
             }
             
             self.recordingInfoView
-
+                .padding(.bottom)
 
         }
         .frame(minWidth: 0, maxWidth: .infinity)
@@ -283,8 +291,10 @@ struct RecordAdvertisementsView: View {
 }
 
 struct RecordAdvertisementsView_Previews: PreviewProvider {
+    @State static var isShown = false
+    
     static var previews: some View {
-        RecordAdvertisementsView()
+        RecordAdvertisementsView(isShown: $isShown)
     }
 }
 

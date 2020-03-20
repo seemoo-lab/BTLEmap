@@ -37,16 +37,20 @@ struct MainView: View {
 //                .background()
             }
             
-            if currentViewSelected == 1 {
-                EnvironmentScanner().environmentObject(bleScanner).environmentObject(viewModel)
-                    
-            }else if currentViewSelected == 2 {
-                AWDLScannerView().environmentObject(awdlScanner)
-                    
-            }else {
-                DeviceListView().environmentObject(bleScanner).environmentObject(viewModel)
-                    
-            }
+            Group {
+                if currentViewSelected == 1 {
+                    EnvironmentScanner().environmentObject(bleScanner).environmentObject(viewModel)
+                        
+                }else if currentViewSelected == 2 {
+                    AWDLScannerView().environmentObject(awdlScanner)
+                        
+                }else {
+                    DeviceListView().environmentObject(bleScanner).environmentObject(viewModel)
+                        
+                }
+                
+            }.edgesIgnoringSafeArea([.top])
+
             #else
             
             TabView {
@@ -77,7 +81,7 @@ struct MainView: View {
             self.awdlScanner.startSearching()
             self.launched = true
         }
-//        .edgesIgnoringSafeArea(.top)
+        .edgesIgnoringSafeArea(UIDevice.current.userInterfaceIdiom == .pad ? .top : [])
         
         
     }

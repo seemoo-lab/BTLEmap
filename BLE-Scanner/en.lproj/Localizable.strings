@@ -22,4 +22,4 @@
 "Sts_timeout_interval" = "Timeout interval";
 "min" = "min";
 "Ttl_settings" = "Settings";
-"Sts_showrssi" = "Show RSSI"; 
+"Sts_showrssi" = "Scan for RSSI"; 

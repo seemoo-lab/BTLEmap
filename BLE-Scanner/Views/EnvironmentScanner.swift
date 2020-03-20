@@ -14,7 +14,7 @@ class EnvironmentViewModel: ObservableObject {
     var lastAngle: CGFloat = 0
     var detailDevice: BLEDevice?
     
-    @Published var maxRSSI: Int = 1
+    var maxRSSI: Int = 100
     
     func updateViewModel(for devices: [BLEDevice]) {
         var angle: CGFloat = 0
@@ -25,10 +25,6 @@ class EnvironmentViewModel: ObservableObject {
         devices.forEach { (d) in
             angles[d] = angle
             angle += angleStep
-            
-            if maxRSSI < abs(d.lastRSSI.intValue) {
-                maxRSSI = abs(d.lastRSSI.intValue)
-            }
         }
     }
 }
@@ -41,7 +37,11 @@ struct EnvironmentScanner: View {
     @State var showDetail: Bool = false
     
     @State var selectedManufacturers: [String] = BLEManufacturer.allCases.map{$0.rawValue.capitalized}
-    @State var minimumRSSI: Float = -.infinity
+    @State var minimumRSSI: Float = -100
+    
+    @GestureState var scaling: CGFloat = 1.0
+    @State var finalScale: CGFloat = 1.0
+    @State var currentScale: CGFloat = 0.0
     
     static var sheetTransition: AnyTransition {
         let insertion = AnyTransition.move(edge: .bottom)
@@ -54,71 +54,103 @@ struct EnvironmentScanner: View {
     
 
     var presentedDevices: [BLEDevice] {
-        var devices = self.bleScanner.deviceList
+        var devices = self.bleScanner.deviceList.sorted(by: {$0.id < $1.id})
         
         //Filter out all unselected devices
         devices = devices.filter {self.selectedManufacturers.contains($0.manufacturer.rawValue.capitalized)}
         
-        devices = devices.filter {$0.lastRSSI.floatValue > self.minimumRSSI}
+        devices = devices.filter { self.minimumRSSI <= -100 ? true : $0.lastRSSI.floatValue >= self.minimumRSSI}
         
+//
         return devices
+    }
+    
+    var zoomGesture: some Gesture {
+        MagnificationGesture()
+            .onChanged { (amount) in
+                self.currentScale = amount - 1
+            }
+            .onEnded { amount in
+                self.finalScale += self.currentScale
+                self.currentScale = 0
+            }
+    }
+    
+    func environmentSize(for geometry: GeometryProxy) -> CGSize {
+        let scale = (self.finalScale + self.currentScale)
+        let size = geometry.size.width < geometry.size.height ? geometry.size.width : geometry.size.height
+        return CGSize(width: size * 0.8 * scale, height: size * 0.8 * scale)
     }
 
     var body: some View {
         GeometryReader { geometry in
-            VStack {
-                
-                HStack {
-                    FilterSettings(selectedManufacturers: self.$selectedManufacturers, minimumRSSI: self.$minimumRSSI)
-                    .padding()
+            ZStack {
+                VStack {
+                    HStack {
+                        FilterSettings(selectedManufacturers: self.$selectedManufacturers, minimumRSSI: self.$minimumRSSI)
+                        .padding()
+                    }
+                    Spacer(minLength: 20.0)
                 }
                 
-                Spacer(minLength: 20.0)
                 
                 //Scanner view
+//                ScrollView([.horizontal, .vertical], showsIndicators: true) {
                 ZStack {
-                    GeometryReader { geometry  in
-                        ZStack {
-                            BackgroundView(viewModel: self.viewModel)
-                            
-                            //Draw devices
-                            
-                            ForEach(self.presentedDevices) { device in
-                                Button(action: {
-                                    self.viewModel.detailDevice = device
-                                    self.showDetail = true
-                                }, label: {
-                                    DeviceOnCircleView(device: device)
-                                })
-                                .buttonStyle(PlainButtonStyle())
-                                .position(self.position(for: device.lastRSSI, size: geometry.size, angle: self.angle(for: device)))
-                                .sheet(isPresented: self.$showDetail) {
-                                    DeviceDetailView(device: self.viewModel.detailDevice!, showInModal: true, isShown: self.$showDetail)
+                    
+                        GeometryReader { geometry  in
+                            ZStack {
+                                BackgroundView(minRSSI: self.$minimumRSSI)
+
+                                //Draw devices
+
+                                ForEach(self.presentedDevices) { device in
+                                    Button(action: {
+                                        self.viewModel.detailDevice = device
+                                        self.showDetail = true
+                                    }, label: {
+                                        DeviceOnCircleView(device: device)
+                                    })
+                                    .buttonStyle(PlainButtonStyle())
+                                    .position(self.position(for: device.lastRSSI, size: geometry.size, angle: self.angle(for: device)))
+                                    .sheet(isPresented: self.$showDetail) {
+                                        DeviceDetailView(device: self.viewModel.detailDevice!, showInModal: true, isShown: self.$showDetail)
+                                    }
+
                                 }
-                                
                             }
+                            .animation(.linear)
                         }
-                        .animation(.linear)
-                    }
+                        .padding()
+                        .frame(width: self.environmentSize(for: geometry).width, height: self.environmentSize(for: geometry).height, alignment: .top)
+                        .offset(x: 0, y: 0)
+                        .highPriorityGesture(self.zoomGesture)
+                    
+                    
                 }
-                .frame(width: geometry.size.width * 0.8, height: geometry.size.height * 0.8, alignment: .center)
+                
+                
+                
                 
                 Spacer()
             }
+            
         }
-        .onReceive(self.bleScanner.objectWillChange) { (bleScanner) in
-            self.viewModel.updateViewModel(for: self.bleScanner.deviceList)
-        }
+    
         
         
     }
     
-    func angle(for device: BLEDevice) -> CGFloat{
-        if self.viewModel.angles[device] == nil {
-            self.viewModel.updateViewModel(for: self.bleScanner.deviceList)
+    func angle(for device: BLEDevice) -> CGFloat {
+        let devices = self.presentedDevices
+        let angle: CGFloat = 0
+        let angleStep = 2 * CGFloat.pi / CGFloat(devices.count)
+        
+        if let idx = devices.firstIndex(of: device) {
+            return angle + angleStep * CGFloat(idx.distance(to: 0))
         }
         
-        return self.viewModel.angles[device]!
+        return angle
     }
     
     func position(for rssi: NSNumber, size: CGSize, angle: CGFloat) -> CGPoint {
@@ -129,9 +161,9 @@ struct EnvironmentScanner: View {
             return size.width
         }()
         
-        let rssiMax = CGFloat(self.viewModel.maxRSSI)
+        let rssiMax = CGFloat(self.minimumRSSI)
         let distance: CGFloat = {
-            if CGFloat(rssi.floatValue) < -rssiMax {
+            if CGFloat(rssi.floatValue) < rssiMax {
                 return circleSize/2
             }
             
@@ -176,7 +208,7 @@ struct EnvironmentScanner: View {
                 Slider(value: self.$minimumRSSI,in: self.sliderRange)
                     .frame(maxWidth: 200.0)
                 
-                if self.minimumRSSI == -Float.infinity {
+                if self.minimumRSSI <= -100 {
                     Text(String("Minimum RSSI -∞"))
                 }else {
                     Text(String(format: "Minimum RSSI %0.fdBm", Float(self.minimumRSSI)))
@@ -205,7 +237,9 @@ struct EnvironmentScanner_Previews: PreviewProvider {
 struct BackgroundView: View {
     let strokeStyle = StrokeStyle(lineWidth: 2.0)
     let circleColor = Color.gray
-    @ObservedObject var viewModel: EnvironmentViewModel
+//    @ObservedObject var viewModel: EnvironmentViewModel
+    
+    @Binding var minRSSI: Float
     
     var body: some View {
         
@@ -216,37 +250,38 @@ struct BackgroundView: View {
                     .fill(self.circleColor)
                     .frame(width: geometry.size.width * 0.1, height: geometry.size.height * 0.1, alignment: .center)
             
-                Text("\(String(format: "-%.2f", Float(self.viewModel.maxRSSI) * 0.1)) dBm")
+                Text("\(String(format: "%.2f", self.minRSSI * 0.1)) dBm")
                     .position(x: geometry.size.width/2, y: geometry.size.smaller * 0.05 + geometry.size.height/2 + 10.0)
                 
                 Circle()
                     .stroke(self.circleColor, style: self.strokeStyle)
                     .frame(width: geometry.size.width/4, height: geometry.size.height/4, alignment: .center)
-                Text("\(String(format: "-%.2f", Float(self.viewModel.maxRSSI) * 0.25)) dBm")
+                Text("\(String(format: "%.2f", self.minRSSI * 0.25)) dBm")
                     .position(x: geometry.size.width/2, y: geometry.size.smaller * 0.125 + geometry.size.height/2 + 10.0)
                 
                 Circle()
                     .stroke(self.circleColor, style: self.strokeStyle)
                     .frame(width: geometry.size.width/2, height: geometry.size.height/2, alignment: .center)
                 
-                Text("\(String(format: "-%.2f", Float(self.viewModel.maxRSSI) * 0.5)) dBm")
+                Text("\(String(format: "%.2f", self.minRSSI * 0.5)) dBm")
                     .position(x: geometry.size.width/2, y:geometry.size.smaller * 0.25 + geometry.size.height/2 + 10.0)
                 
                 Circle()
                     .stroke(self.circleColor, style: self.strokeStyle)
                     .frame(width: geometry.size.width * 0.75, height: geometry.size.height * 0.75, alignment: .center)
                 
-                Text("\(String(format: "-%.2f", Float(self.viewModel.maxRSSI) * 0.75)) dBm")
+                Text("\(String(format: "%.2f", self.minRSSI * 0.75)) dBm")
                     .position(x: geometry.size.width/2, y: geometry.size.smaller * 0.375 + geometry.size.height/2 + 10.0)
                 
                 Circle()
                     .stroke(self.circleColor, style: self.strokeStyle)
                     .frame(width: geometry.size.width, height: geometry.size.height, alignment: .center)
                 
-                Text("\(String(format: "-%.2f", Float(self.viewModel.maxRSSI) )) dBm")
+                Text("\(String(format: "%.2f", Float(self.minRSSI))) dBm")
                     .position(x: geometry.size.width/2, y: geometry.size.smaller * 0.5 + geometry.size.height/2 + 10.0)
             }
             .frame(width: geometry.size.width, height: geometry.size.height, alignment: .center)
+           .opacity(0.75)
         }
     }
     

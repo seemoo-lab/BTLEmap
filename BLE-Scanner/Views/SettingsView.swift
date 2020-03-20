@@ -11,6 +11,7 @@ import BLETools
 
 struct SettingsView: View {
     @EnvironmentObject var bleScanner: BLEScanner
+    @Binding var isShown: Bool
     
     @State var scanning = true {
         didSet {
@@ -32,7 +33,7 @@ struct SettingsView: View {
         }
     }
     
-    @State var timeoutInterval: String = String(format: "%0.0f", UserDefaults.standard.timeoutInterval) {
+    @State var timeoutInterval: String = String(format: "%0.0f", UserDefaults.standard.timeoutInterval/60.0) {
         didSet {
 //            self.bleScanner.timeoutInterval = self.timeoutInterval
             if let timeInterval = TimeInterval(self.timeoutInterval) {
@@ -77,11 +78,14 @@ struct SettingsView: View {
                 
             }
             .navigationBarTitle(Text("Ttl_settings"))
+            .navigationBarItems(trailing: Button("Btn_Dismiss") {
+                self.isShown = false
+            })
             .sheet(isPresented: self.$showRSSIRecorder, content: {
-                RecordAdvertisementsView().environmentObject(self.bleScanner)
+                RecordAdvertisementsView(isShown: self.$showRSSIRecorder).environmentObject(self.bleScanner)
             })
         }
-    .navigationViewStyle(StackNavigationViewStyle())
+        .navigationViewStyle(StackNavigationViewStyle())
         .onAppear {
             self.scanning = self.bleScanner.scanning
         }
@@ -143,7 +147,9 @@ extension UserDefaults {
 }
 
 struct SettingsView_Previews: PreviewProvider {
+    @State static var isShown: Bool = true
+    
     static var previews: some View {
-        SettingsView()
+        SettingsView(isShown: $isShown)
     }
 }

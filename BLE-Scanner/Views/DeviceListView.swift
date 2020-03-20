@@ -36,7 +36,7 @@ struct DeviceListView: View {
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 25.0, height: 25.0)
-                .padding()
+                    .padding([.top, .bottom])
             })
             
         }
@@ -57,7 +57,7 @@ struct DeviceListView: View {
             self.scanner.scanning = true
         }
         .sheet(isPresented: self.$showSettings) {
-            SettingsView().environmentObject(self.scanner)
+            SettingsView(isShown: self.$showSettings).environmentObject(self.scanner)
         }
     }
     
