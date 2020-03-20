@@ -42,6 +42,7 @@ struct EnvironmentScanner: View {
     @GestureState var scaling: CGFloat = 1.0
     @State var finalScale: CGFloat = 1.0
     @State var currentScale: CGFloat = 0.0
+    @State var dragAmount = CGSize.zero
     
     static var sheetTransition: AnyTransition {
         let insertion = AnyTransition.move(edge: .bottom)
@@ -71,8 +72,25 @@ struct EnvironmentScanner: View {
                 self.currentScale = amount - 1
             }
             .onEnded { amount in
-                self.finalScale += self.currentScale
+                if self.finalScale + self.currentScale < 1.0 {
+                    self.finalScale = 1.0
+                }else {
+                    self.finalScale += self.currentScale
+                }
+                
                 self.currentScale = 0
+            }
+    }
+    
+    var dragGesture: some Gesture {
+        DragGesture()
+            .onChanged { (dragValue) in
+                if self.finalScale > 1.0 {
+                    self.dragAmount = dragValue.translation
+                }
+            }
+            .onEnded { (dragValue) in
+            
             }
     }
     
@@ -123,8 +141,9 @@ struct EnvironmentScanner: View {
                         }
                         .padding()
                         .frame(width: self.environmentSize(for: geometry).width, height: self.environmentSize(for: geometry).height, alignment: .top)
-                        .offset(x: 0, y: 0)
+                        .offset(self.dragAmount)
                         .highPriorityGesture(self.zoomGesture)
+                        .highPriorityGesture(self.dragGesture)
                     
                     
                 }
