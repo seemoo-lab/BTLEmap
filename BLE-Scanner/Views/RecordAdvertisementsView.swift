@@ -8,6 +8,7 @@
 
 import SwiftUI
 import BLETools
+import CoreMotion
 
 
 struct RecordAdvertisementsView: View {
@@ -27,8 +28,10 @@ struct RecordAdvertisementsView: View {
         return String(format: "%.2f s", Float(self.timePassed))
     }
     
-    @State var exportURL: URL?
+    @State var exportURLs: [URL]?
     @State var showExportSheet = false
+    
+    static let motion = CMMotionManager()
     
     var plots: some View {
         self.recording.map({ recording in
@@ -44,7 +47,7 @@ struct RecordAdvertisementsView: View {
     
     var exportButton: some View {
         Button(action: {
-            self.exportPlotsToPDF()
+            self.exportRecording()
         }, label: {
             Image(systemName: "square.and.arrow.up")
                 .imageScale(.large)
@@ -93,20 +96,25 @@ struct RecordAdvertisementsView: View {
     
     
     var recordingButton: some View {
-        Button(self.isRecording ? "Stop Recording" : "Start Recording") {
-            //                withAnimation {self.isRecording.toggle()}
-            self.isRecording.toggle()
-            if self.isRecording {
-                self.recording = RecordingModel()
-            }else {
-                //                        self.exportToJson()
+        Group {
+            Button(self.isRecording ? "Stop Recording" : "Start Recording") {
+                self.toggleRecording()
             }
-            self.bleScanner.scanning = self.isRecording
-        }
-        .sheet(isPresented: $showExportSheet) {
-            ActivityViewController(activityItems: [self.exportURL!], completionWithItemsHandler: { (activityType, completed, items, error) in
-                self.showExportSheet = false
-            })
+            .padding()
+            .sheet(isPresented: $showExportSheet) {
+                ActivityViewController(activityItems: self.exportURLs!, completionWithItemsHandler: { (activityType, completed, items, error) in
+                    self.showExportSheet = false
+                })
+            }
+            
+            if isRecording {
+                Button("Looking at Device") {
+                     if let yaw = RecordAdvertisementsView.motion.deviceMotion?.attitude.yaw {
+                        self.recording?.manualAngles.append(yaw)
+                     }
+                }
+                .padding()
+            }
         }
     }
     
@@ -171,46 +179,67 @@ struct RecordAdvertisementsView: View {
     }
     
     func received(ble event: BLEScanner.BLE_Event) {
-        var rssis = self.recording?.rssiDevices[event.device.id] ?? []
         
         guard self.selectedManufacturers.contains(event.device.manufacturer.rawValue.capitalized) else {return}
         
+        var rssis = self.recording?.rssiDevices[event.device.id] ?? []
+        var data = self.recording?.recordedData[event.device ] ?? [RecordingModel.RecordingEntry]()
+        
         if let lastrssi = event.advertisement.rssi.last?.floatValue {
             rssis.append(lastrssi)
+            
+            if let yaw = RecordAdvertisementsView.motion.deviceMotion?.attitude.yaw {
+                data.append(RecordingModel.RecordingEntry(yaw: yaw, rssi: lastrssi, time: -(recording?.startDate.timeIntervalSinceNow ?? 0.0) ))
+            }
+            
         }
-        
         self.recording?.rssiDevices[event.device.id] = rssis
+        self.recording?.recordedData[event.device] = data
     }
     
-    func exportToJson() {
-        guard let jsonData = self.recording?.jsonExport,
-            let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .allDomainsMask, true).first else {
-            self.showError = true
-            return
-        }
+    func toggleRecording() {
         
-        do {
-            let jsonURL = URL(fileURLWithPath: documentDirectory).appendingPathComponent("rssiRecording.json")
-            
-            //Write to Sandbox
-            try jsonData.write(to: jsonURL)
-            
-            #if targetEnvironment(macCatalyst)
-            export(file: jsonURL)
-            #else
-            self.exportURL = jsonURL
-            self.showExportSheet = true
-            #endif
-        }catch {
-            self.showError = true
+        self.isRecording.toggle()
+        if self.isRecording {
+            self.recording = RecordingModel()
+            //Start Core Motion
+            self.startCoreMotionReceiving()
+        }else {
+            RecordAdvertisementsView.motion.stopDeviceMotionUpdates()
         }
-        
+        self.bleScanner.scanning = self.isRecording
     }
     
-    func exportPlotsToPDF() {
+    func startCoreMotionReceiving() {
+        guard RecordAdvertisementsView.motion.isDeviceMotionAvailable else {return}
+        
+        RecordAdvertisementsView.motion.deviceMotionUpdateInterval = 1.0/5.0
+        RecordAdvertisementsView.motion.showsDeviceMovementDisplay = true
+        RecordAdvertisementsView.motion.startDeviceMotionUpdates(using: .xMagneticNorthZVertical)
+    }
+    
+
+    func exportRecording() {
         guard let recording = self.recording else {
             self.showError = true
             return
+        }
+        
+        var exportURLs = recording.csvExport
+        if let pdfURL = self.createPlotPDF() {
+            exportURLs.append(pdfURL)
+        }
+        
+        self.exportURLs = exportURLs
+        self.showExportSheet = true
+        
+    }
+    
+    
+    func createPlotPDF() -> URL? {
+        guard let recording = self.recording else {
+            self.showError = true
+            return nil
         }
         
         let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
@@ -236,19 +265,20 @@ struct RecordAdvertisementsView: View {
                 pdfVC.view.layer.render(in: context.cgContext)
             })
             
-            self.exportURL = outputFileURL
-            self.showExportSheet = true
-            
+            pdfVC.removeFromParent()
+            pdfVC.view.removeFromSuperview()
+           
         }catch {
             self.showError = true
             print("Could not create PDF file: \(error)")
+            
+            pdfVC.removeFromParent()
+            pdfVC.view.removeFromSuperview()
+            return nil
         }
         
-        pdfVC.removeFromParent()
-        pdfVC.view.removeFromSuperview()
+        return outputFileURL
     }
-    
-
     
 }
 
@@ -265,6 +295,8 @@ struct RecordingModel {
     var rssiDevices = [String: [Float]]()
 //    var advertisements = [BLEAdvertisment]()
     
+    var recordedData = [BLEDevice: [RecordingEntry]]()
+    
     var drawableRSSIs: [(key: String, value: [Float])] {
         rssiDevices.map{($0.key, $0.value)}.sorted(by: {$0.key < $1.key})
     }
@@ -272,104 +304,41 @@ struct RecordingModel {
     var jsonExport: Data? {
         try? JSONSerialization.data(withJSONObject: self.rssiDevices)
     }
-}
-
-struct RSSIPlots: View {
-    var recording: RecordingModel
-    var width: CGFloat
     
-    var body: some View {
-        VStack {
-            Text("RSSI charts")
-            ForEach(recording.drawableRSSIs, id: \.0) { rssiTuple in
-                VStack {
-                    Text(rssiTuple.0)
-                    RSSIChart(id: rssiTuple.0, rssiValues: rssiTuple.1, width: self.width)
-                        .frame(width: self.width, height: 200)
-                }
-                .padding([.top, .bottom])
-            }
-        }
-    }
-}
-
-struct RSSIChart: View {
-    let id: String
-    let rssis: [RSSI]
-    let width: CGFloat
-    let height: CGFloat = 200.0
+    var manualAngles: [Double] = []
     
-    init(id: String, rssiValues:[Float], width: CGFloat) {
-        self.rssis = rssiValues.enumerated().map{RSSI(idx: $0.offset, value: $0.element)}
-        self.id = id
-        self.width = width
-    }
-    
-    
-    func lineY(lineNum line: Int) -> CGFloat {
-        let dHeight = self.height / CGFloat(100)
-        return self.height - dHeight * CGFloat(line * 10)
-    }
-    
-    var body: some View {
-        ZStack {
-            // 1
-            ForEach(0..<11) { line in
-                
-              // 2
-              Group {
-                Path { path in
-                    
-                    let y = self.lineY(lineNum: line)
-                    path.move(to: CGPoint(x: 0, y: y))
-                    path.addLine(to: CGPoint(x: self.width, y: y))
-                    
-                  // 4
-                }.stroke(line == 0 ? Color.black : Color.gray)
-                // 5
-                if line >= 0 {
-                  Text("-\(line * 10)dBm")
-                    .position(CGPoint(x: 30, y: self.lineY(lineNum: line) + CGFloat(10)))
-                }
-              }
+    var csvExport: [URL] {
+        let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let csvDirFileURL = documentDirectory.appendingPathComponent("/csvs")
+        try? FileManager.default.createDirectory(at: csvDirFileURL, withIntermediateDirectories: false, attributes: nil)
+        
+        return recordedData.compactMap {
+            var csv = "Time;Angle;RSSI\n"
+            let entryStrings = $0.value.map({
+                "\(String(format:"%0.2f", $0.time)); \(String(format:"%0.5f", $0.yaw)); \(String(format:"%0.2f", $0.rssi))"
+                }).joined(separator: "\n")
+            csv += entryStrings
+            
+            let csvURL = csvDirFileURL.appendingPathComponent($0.key.id + ".csv")
+            do {
+                try csv.write(to: csvURL, atomically: true, encoding: .utf8)
+                return csvURL
+            }catch {
+                print("Failed to write CSV \(error)")
             }
             
-            Path { p in
-                self.rssis.forEach { (rssi) in
-                    // 3
-                    let dWidth = self.width / CGFloat(self.rssis.count)
-                    let dHeight = self.height / CGFloat(100)
-                    // 4
-                    let posOffset = dWidth * CGFloat(rssi.id)
-                    let rssiVal = abs(rssi.value) < 100 ? abs(rssi.value) : Float(100.0)
-                    let rssiOffset = dHeight * CGFloat(rssiVal)
-                    
-                    //                let highOffset = self.tempOffset(measurement.high, degreeHeight: dHeight)
-                    // 5
-                    if rssi.id == 0 {
-                        p.move(to: CGPoint(x: posOffset, y: self.height - rssiOffset))
-                    }else {
-                        p.addLine(to: CGPoint(x: posOffset, y: self.height - rssiOffset - 10))
-                    }
-                    
-                    
-                    //                p.addLine(to: CGPoint(x: dOffset, y: reader.size.height - highOffset))
-                    // 6
-                }
-            }
-            .stroke(Color.accentColor)
+            return nil
         }
     }
     
-//    func
-    
-    struct RSSI: Identifiable {
-        var id: Int
-        var value: Float
+    struct RecordingEntry {
+        /// Rotation of the device on the Z-axis in radians
+        let yaw: Double
+        /// RSSI value received at this point
+        let rssi: Float
         
-        init(idx: Int, value: Float) {
-            self.id = idx
-            self.value = value
-        }
+        let time: TimeInterval
     }
 }
+
+

@@ -65,7 +65,6 @@ struct DeviceDetailView: View {
             Text("Btn_Dismiss")
                 .padding()
         }
-        .background(Color.red)
     }
     
     var csvURL: URL {

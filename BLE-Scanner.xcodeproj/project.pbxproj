@@ -22,6 +22,7 @@
 		787D6F76241BC91D00AB7AB3 /* DetailWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787D6F75241BC91D00AB7AB3 /* DetailWindowController.swift */; };
 		787D6F79241BD1D600AB7AB3 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787D6F78241BD1D600AB7AB3 /* Model.swift */; };
 		787D6F7B241BD63E00AB7AB3 /* ModelSceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787D6F7A241BD63E00AB7AB3 /* ModelSceneDelegate.swift */; };
+		787F50002424B2BD005861EE /* RSSIPlots.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787F4FFF2424B2BD005861EE /* RSSIPlots.swift */; };
 		788D9885240D435C005FC745 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788D9884240D435C005FC745 /* AppDelegate.swift */; };
 		788D9887240D435C005FC745 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788D9886240D435C005FC745 /* SceneDelegate.swift */; };
 		788D9889240D435C005FC745 /* DeviceListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788D9888240D435C005FC745 /* DeviceListView.swift */; };
@@ -101,6 +102,7 @@
 		787D6F75241BC91D00AB7AB3 /* DetailWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailWindowController.swift; sourceTree = "<group>"; };
 		787D6F78241BD1D600AB7AB3 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		787D6F7A241BD63E00AB7AB3 /* ModelSceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelSceneDelegate.swift; sourceTree = "<group>"; };
+		787F4FFF2424B2BD005861EE /* RSSIPlots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RSSIPlots.swift; sourceTree = "<group>"; };
 		788D9881240D435C005FC745 /* BLE-Scanner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "BLE-Scanner.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		788D9884240D435C005FC745 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		788D9886240D435C005FC745 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -193,6 +195,7 @@
 				78B8661F24123C80003761D0 /* ManfucaturerSelection.swift */,
 				7879E3BA2417EB23003AA8DF /* AdvertisementTypeFilterView.swift */,
 				78A7715824212A6200EF3E0C /* RecordAdvertisementsView.swift */,
+				787F4FFF2424B2BD005861EE /* RSSIPlots.swift */,
 				78EFB97B242277A000C4A6B8 /* SettingsView.swift */,
 				78236829241F884100406CEE /* UIKitRepresentable */,
 			);
@@ -485,6 +488,7 @@
 				78B8662024123C80003761D0 /* ManfucaturerSelection.swift in Sources */,
 				7823682E2420C29600406CEE /* PopoverSheet.swift in Sources */,
 				787D6F76241BC91D00AB7AB3 /* DetailWindowController.swift in Sources */,
+				787F50002424B2BD005861EE /* RSSIPlots.swift in Sources */,
 				788D9889240D435C005FC745 /* DeviceListView.swift in Sources */,
 				78EFB97C242277A000C4A6B8 /* SettingsView.swift in Sources */,
 			);
