@@ -142,7 +142,7 @@ struct DeviceDetailView: View {
         var advertisements: [BLEAdvertisment] {
             let advertisements = self.filteredAdvertisements
             
-            return advertisements.reversed()
+            return advertisements.sorted(by: {$0.receptionDates.first! > $1.receptionDates.first!})
         }
         
         var advertisementTypes: [BLEAdvertisment.AppleAdvertisementType] {
@@ -179,7 +179,7 @@ struct DeviceDetailView: View {
                 }
                 
                 HStack {
-                    Text("RSSI \(self.device.lastRSSI.intValue) dBm")
+                    Text(String(format: "RSSI: %0.0f dBm", Float(self.device.lastRSSI)))
                     Divider()
                     Text("Connectable: \(self.device.connectable ? "true" : "false")")
                 }
@@ -235,12 +235,22 @@ struct AdvertismentRow: View {
         return dictDescriptions
     }
     
+    var dateFormatter: DateFormatter {
+        let df = DateFormatter()
+        df.timeStyle = .short
+        df.dateStyle = .short
+        
+        return df
+    }
+    
     var body: some View {
         VStack(alignment: .leading) {
             AdvertisementRawManufacturerData(advertisement: advertisement)
             Text(self.decodedAdvertisement)
             HStack {
                 Text("Received \(advertisement.numberOfTimesReceived) times")
+                Spacer() 
+                Text("\(dateFormatter.string(from: advertisement.receptionDates.first!)) - \(dateFormatter.string(from: advertisement.receptionDates.last!))")
             }
         }
     }

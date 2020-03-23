@@ -60,7 +60,7 @@ struct EnvironmentScanner: View {
         //Filter out all unselected devices
         devices = devices.filter {self.selectedManufacturers.contains($0.manufacturer.rawValue.capitalized)}
         
-        devices = devices.filter { self.minimumRSSI <= -100 ? true : $0.lastRSSI.floatValue >= self.minimumRSSI}
+        devices = devices.filter { self.minimumRSSI <= -100 ? true : $0.lastRSSI >= self.minimumRSSI}
         
 //
         return devices
@@ -172,7 +172,7 @@ struct EnvironmentScanner: View {
         return angle
     }
     
-    func position(for rssi: NSNumber, size: CGSize, angle: CGFloat) -> CGPoint {
+    func position(for rssi: Float, size: CGSize, angle: CGFloat) -> CGPoint {
         let circleSize: CGFloat = {
             if size.width > size.height {
                 return size.height
@@ -182,11 +182,11 @@ struct EnvironmentScanner: View {
         
         let rssiMax = CGFloat(self.minimumRSSI)
         let distance: CGFloat = {
-            if CGFloat(rssi.floatValue) < rssiMax {
+            if CGFloat(rssi) < rssiMax {
                 return circleSize/2
             }
             
-            return circleSize/2 * CGFloat(abs(rssi.floatValue))/rssiMax
+            return circleSize/2 * CGFloat(abs(rssi))/rssiMax
         }()
        
         let distX = distance * cos(angle)
@@ -323,28 +323,13 @@ struct DeviceOnCircleView: View {
     
     var angle = (CGFloat(arc4random()) / CGFloat(RAND_MAX)) * CGFloat(2) * CGFloat.pi
     
-    var deviceTypeString: String {
-        switch self.device.deviceType {
-        case .AirPods:
-            return "AirPods"
-        case .appleEmbedded:
-            return "Embedded"
-        case .iMac:
-            return "iMac"
-        case .AppleWatch:
-            return "Apple Watch"
-        case .iPad: return "iPad"
-        case .iPod: return "iPod"
-        case .iPhone: return "iPhone"
-        case .macBook: return "MacBook"
-        case .other:
-            if self.device.manufacturer == .apple {
-                return "Apple"
-            }
-            return "Other"
-        case .Pencil: return "Pencil"
-        case .none: return "Other"
+    
+    var imageName: String {
+        if self.device.manufacturer == .seemoo {
+            return "seemoo"
         }
+        
+        return self.device.deviceType?.string ?? "BluetoothDevice"
     }
     
     var scaling: CGFloat {
@@ -372,7 +357,7 @@ struct DeviceOnCircleView: View {
                     .multilineTextAlignment(.center)
             }
             if self.device.manufacturer == .apple {
-                Text(self.deviceTypeString)
+                Text(self.device.deviceType!.string)
                     .frame(width: 100)
                     .multilineTextAlignment(.center)
                 
@@ -382,14 +367,14 @@ struct DeviceOnCircleView: View {
             }
             
             
-            Image(self.deviceTypeString)
+            Image(self.imageName)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(height: 45.0)
                 .foregroundColor(self.iconColor)
                 
                 
-            Text("RSSI: \(device.lastRSSI.intValue) dBm")
+            Text(String(format: "RSSI: %0.0f dBm", Float(device.lastRSSI)))
                 .frame(width: 100.0)
                 .font(.footnote)
 //                .background(DeviceOnCircleView.background)

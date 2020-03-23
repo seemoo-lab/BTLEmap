@@ -71,28 +71,11 @@ struct DeviceListView: View {
 struct BLEDeviceRow: View {
     @ObservedObject var bleDevice: BLEDevice
     
-    var deviceTypeString: String {
-        switch self.bleDevice.deviceType {
-        case .AirPods:
-            return "AirPods"
-        case .appleEmbedded:
-            return "Embedded"
-        case .iMac:
-            return "iMac"
-        case .AppleWatch:
-            return "Apple Watch"
-        case .iPad: return "iPad"
-        case .iPod: return "iPod"
-        case .iPhone: return "iPhone"
-        case .macBook: return "MacBook"
-        case .other:
-            if self.bleDevice.manufacturer == .apple {
-                return "Apple"
-            }
-            return "Other"
-        case .Pencil: return "Pencil"
-        case .none: return "Other"
+    var imageName: String {
+        if self.bleDevice.manufacturer == .seemoo {
+            return "seemoo"
         }
+        return self.bleDevice.deviceType?.string ?? "BluetoothDevice"
     }
     
     var iconColor: Color {
@@ -105,7 +88,7 @@ struct BLEDeviceRow: View {
     
     var deviceImage: some View {
         Group {
-            Image(self.deviceTypeString)
+            Image(self.imageName)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(height: 35.0)
