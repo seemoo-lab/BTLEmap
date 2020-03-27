@@ -133,10 +133,9 @@ struct DeviceDetailView: View {
         var filteredAdvertisements: [BLEAdvertisment]
         
         var services: [String] {
-            if let services = device.peripheral.services {
-                return services.map{$0.uuid.description}
+            device.services.map {
+                $0.description ?? $0.uuidString
             }
-            return []
         }
         
         var advertisements: [BLEAdvertisment] {

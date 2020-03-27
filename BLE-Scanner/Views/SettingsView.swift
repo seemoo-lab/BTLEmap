@@ -45,47 +45,87 @@ struct SettingsView: View {
     
     @State var showRSSIRecorder: Bool = false
     
+    /// When set to true the BLE receiver selection is shown
+    @State var showReceiverSelection: Bool = false
+    @State var loading = true
+    
+    var receiverActionsheet: ActionSheet {
+        ActionSheet(title: Text("Title_Select_BLE_receiver"), message: Text("Message_Select_BLE_Receiver"), buttons: BLEScanner.Receiver.allCases.map{ t in
+            ActionSheet.Button.default(Text(t.name), action: {
+                withAnimation {
+                    self.bleScanner.receiverType = t
+                }
+                })
+            }
+            +
+            [ActionSheet.Button.cancel()]
+        )
+    }
     
     var body: some View {
-        NavigationView {
-            List {
-                Toggle(isOn: self.$scanning, label: {Text("Sts_ble_scanning")})
-                
-                Toggle(isOn: self.$filterDuplicates, label: {Text("Sts_filter_duplicates")})
-                    .disabled(!self.scanning)
-                
-                Toggle(isOn: self.$timeoutDevices, label: {Text("Sts_devices_can_timeout")})
-                    .disabled(!self.scanning)
-                
-                HStack {
-                    Text("Sts_timeout_interval")
-                    Spacer()
-                    TextField("Sts_timeout_interval", text: self.$timeoutInterval)
-                        .multilineTextAlignment(.trailing)
-                        .keyboardType(.numberPad)
+        ZStack(alignment: .bottom) {
+            NavigationView {
+            
+                List {
+                    Toggle(isOn: self.$scanning, label: {Text("Sts_ble_scanning")})
+                    
+                    Toggle(isOn: self.$filterDuplicates, label: {Text("Sts_filter_duplicates")})
                         .disabled(!self.scanning)
                     
-                    Text("min")
-                }
-                
-                Button(action: {
-                    self.showRSSIRecorder.toggle()
-                }, label: {
+                    Toggle(isOn: self.$timeoutDevices, label: {Text("Sts_devices_can_timeout")})
+                        .disabled(!self.scanning)
+                    
                     HStack {
-                        Text("Sts_showrssi")
+                        Text("Sts_timeout_interval")
+                        Spacer()
+                        TextField("Sts_timeout_interval", text: self.$timeoutInterval)
+                            .multilineTextAlignment(.trailing)
+                            .keyboardType(.numberPad)
+                            .disabled(!self.scanning)
+                        
+                        Text("min")
                     }
+                    
+                    Button(action: {
+                        self.showRSSIRecorder.toggle()
+                    }, label: {
+                        HStack {
+                            Text("Sts_showrssi")
+                        }
+                    })
+                    
+                    Button(action: {
+                        self.showReceiverSelection.toggle()
+                    }, label: {
+                        HStack {
+                            Text("Sts_Receiver_Selection")
+                            Spacer()
+                            Text(self.bleScanner.receiverType.name)
+                                .multilineTextAlignment(.trailing)
+                                .lineLimit(2)
+                        }
+                    })
+                    
+                    
+                }
+                .navigationBarTitle(Text("Ttl_settings"))
+                .navigationBarItems(trailing: Button("Btn_Dismiss") {
+                    self.isShown = false
                 })
-                
+                .sheet(isPresented: self.$showRSSIRecorder, content: {
+                    RecordAdvertisementsView(isShown: self.$showRSSIRecorder).environmentObject(self.bleScanner)
+                })
             }
-            .navigationBarTitle(Text("Ttl_settings"))
-            .navigationBarItems(trailing: Button("Btn_Dismiss") {
-                self.isShown = false
-            })
-            .sheet(isPresented: self.$showRSSIRecorder, content: {
-                RecordAdvertisementsView(isShown: self.$showRSSIRecorder).environmentObject(self.bleScanner)
-            })
+        
+            .navigationViewStyle(StackNavigationViewStyle())
+            
+            if !bleScanner.connectedToReceiver {
+                ConnectingView().environmentObject(self.bleScanner)
+            }
         }
-        .navigationViewStyle(StackNavigationViewStyle())
+        .actionSheet(isPresented: self.$showReceiverSelection) { () -> ActionSheet in
+            self.receiverActionsheet
+        }
         .onAppear {
             self.scanning = self.bleScanner.scanning
         }
@@ -102,6 +142,8 @@ struct SettingsView: View {
                 self.bleScanner.timeoutInterval = timeInterval * 60.0
                 UserDefaults.standard.timeoutInterval = timeInterval * 60.0
             }
+            
+            UserDefaults.standard.BLEreceiverType = self.bleScanner.receiverType
         }
     }
         
@@ -144,12 +186,22 @@ extension UserDefaults {
         }
     }
     
+    var BLEreceiverType: BLETools.BLEScanner.Receiver {
+        set(v) {
+            self.set(v.rawValue, forKey: "BLE_Receiver")
+        }
+        get {
+            return BLETools.BLEScanner.Receiver(rawValue: self.integer(forKey: "BLE_Receiver")) ?? .coreBluetooth
+        }
+    }
+    
 }
 
 struct SettingsView_Previews: PreviewProvider {
     @State static var isShown: Bool = true
+    static var bleScanner = BLEScanner()
     
     static var previews: some View {
-        SettingsView(isShown: $isShown)
+        SettingsView(isShown: $isShown).environmentObject(bleScanner)
     }
 }

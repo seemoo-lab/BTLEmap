@@ -23,6 +23,9 @@
 		787D6F79241BD1D600AB7AB3 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787D6F78241BD1D600AB7AB3 /* Model.swift */; };
 		787D6F7B241BD63E00AB7AB3 /* ModelSceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787D6F7A241BD63E00AB7AB3 /* ModelSceneDelegate.swift */; };
 		787F50002424B2BD005861EE /* RSSIPlots.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787F4FFF2424B2BD005861EE /* RSSIPlots.swift */; };
+		7888CFDE242DFAB900A2C971 /* ActivitySpinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7888CFDD242DFAB900A2C971 /* ActivitySpinner.swift */; };
+		7888CFE3242E04D600A2C971 /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7888CFE2242E04D600A2C971 /* BlurView.swift */; };
+		7888CFE5242E550F00A2C971 /* ConnectingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7888CFE4242E550F00A2C971 /* ConnectingView.swift */; };
 		788D9885240D435C005FC745 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788D9884240D435C005FC745 /* AppDelegate.swift */; };
 		788D9887240D435C005FC745 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788D9886240D435C005FC745 /* SceneDelegate.swift */; };
 		788D9889240D435C005FC745 /* DeviceListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788D9888240D435C005FC745 /* DeviceListView.swift */; };
@@ -103,6 +106,9 @@
 		787D6F78241BD1D600AB7AB3 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		787D6F7A241BD63E00AB7AB3 /* ModelSceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelSceneDelegate.swift; sourceTree = "<group>"; };
 		787F4FFF2424B2BD005861EE /* RSSIPlots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RSSIPlots.swift; sourceTree = "<group>"; };
+		7888CFDD242DFAB900A2C971 /* ActivitySpinner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivitySpinner.swift; sourceTree = "<group>"; };
+		7888CFE2242E04D600A2C971 /* BlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurView.swift; sourceTree = "<group>"; };
+		7888CFE4242E550F00A2C971 /* ConnectingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectingView.swift; sourceTree = "<group>"; };
 		788D9881240D435C005FC745 /* BLE-Scanner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "BLE-Scanner.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		788D9884240D435C005FC745 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		788D9886240D435C005FC745 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -169,6 +175,8 @@
 			children = (
 				7852D37E241BE20D00AA1B96 /* ActivityView.swift */,
 				7823682A241F885A00406CEE /* DocumentPickerView.swift */,
+				7888CFDD242DFAB900A2C971 /* ActivitySpinner.swift */,
+				7888CFE2242E04D600A2C971 /* BlurView.swift */,
 			);
 			path = UIKitRepresentable;
 			sourceTree = "<group>";
@@ -197,6 +205,7 @@
 				78A7715824212A6200EF3E0C /* RecordAdvertisementsView.swift */,
 				787F4FFF2424B2BD005861EE /* RSSIPlots.swift */,
 				78EFB97B242277A000C4A6B8 /* SettingsView.swift */,
+				7888CFE4242E550F00A2C971 /* ConnectingView.swift */,
 				78236829241F884100406CEE /* UIKitRepresentable */,
 			);
 			path = Views;
@@ -223,6 +232,13 @@
 				7879E3BF2418EF40003AA8DF /* SFBLEScanner.h */,
 			);
 			path = PrivateHeaders;
+			sourceTree = "<group>";
+		};
+		7888CFDF242DFE3400A2C971 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 		788D9878240D435C005FC745 = {
@@ -261,6 +277,7 @@
 				788D988A240D435E005FC745 /* Assets.xcassets */,
 				788D988F240D435E005FC745 /* LaunchScreen.storyboard */,
 				788D9892240D435E005FC745 /* Info.plist */,
+				7888CFDF242DFE3400A2C971 /* Extension */,
 				7879E3BD2418EE7A003AA8DF /* SFBLE */,
 				788D988C240D435E005FC745 /* Preview Content */,
 				788D98E5240D561E005FC745 /* Localizable.strings */,
@@ -485,10 +502,13 @@
 				787D6F7B241BD63E00AB7AB3 /* ModelSceneDelegate.swift in Sources */,
 				7823682B241F885A00406CEE /* DocumentPickerView.swift in Sources */,
 				7879E3C62418EF6C003AA8DF /* SharingBLEHandler.m in Sources */,
+				7888CFE5242E550F00A2C971 /* ConnectingView.swift in Sources */,
 				78B8662024123C80003761D0 /* ManfucaturerSelection.swift in Sources */,
+				7888CFE3242E04D600A2C971 /* BlurView.swift in Sources */,
 				7823682E2420C29600406CEE /* PopoverSheet.swift in Sources */,
 				787D6F76241BC91D00AB7AB3 /* DetailWindowController.swift in Sources */,
 				787F50002424B2BD005861EE /* RSSIPlots.swift in Sources */,
+				7888CFDE242DFAB900A2C971 /* ActivitySpinner.swift in Sources */,
 				788D9889240D435C005FC745 /* DeviceListView.swift in Sources */,
 				78EFB97C242277A000C4A6B8 /* SettingsView.swift in Sources */,
 			);

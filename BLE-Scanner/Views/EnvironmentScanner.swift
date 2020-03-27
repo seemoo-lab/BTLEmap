@@ -353,17 +353,21 @@ struct DeviceOnCircleView: View {
             
             if device.name != nil {
                 Text(device.name!)
-                .frame(minWidth: 100, maxWidth: 150)
+                    .frame(minWidth: 100, maxWidth: 150)
                     .multilineTextAlignment(.center)
+                    .animation(.none)
             }
-            if self.device.manufacturer == .apple {
-                Text(self.device.deviceType!.string)
+            
+            if self.device.deviceType != nil {
+                Text(device.deviceType!.string)
                     .frame(width: 100)
                     .multilineTextAlignment(.center)
+                    .animation(.none)
                 
             }else {
                 Text(self.device.manufacturer.rawValue)
                     .frame(width: 100)
+                    .animation(.none)
             }
             
             
@@ -377,6 +381,7 @@ struct DeviceOnCircleView: View {
             Text(String(format: "RSSI: %0.0f dBm", Float(device.lastRSSI)))
                 .frame(width: 100.0)
                 .font(.footnote)
+                .animation(.none)
 //                .background(DeviceOnCircleView.background)
         }
         .background(RoundedRectangle(cornerRadius: 10.0).fill(DeviceOnCircleView.background))

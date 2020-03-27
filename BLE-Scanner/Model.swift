@@ -12,7 +12,11 @@ import AWDLScanner
 
 /// Stores static singleton instances for environment objects
 struct Model {
-    static let bleScanner = BLEScanner(devicesCanTimeout: UserDefaults.standard.timeoutDevices, timeoutInterval: UserDefaults.standard.timeoutInterval, filterDuplicates: UserDefaults.standard.filterDuplicates)
+    static let bleScanner = BLEScanner(
+        devicesCanTimeout: UserDefaults.standard.timeoutDevices,
+        timeoutInterval: UserDefaults.standard.timeoutInterval,
+        filterDuplicates: UserDefaults.standard.filterDuplicates,
+        receiverType: UserDefaults.standard.BLEreceiverType)
     static let viewModel = EnvironmentViewModel()
     static let awdlScanner = AWDLNetServiceBrowser()
 }

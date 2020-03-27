@@ -23,3 +23,6 @@
 "min" = "min";
 "Ttl_settings" = "Settings";
 "Sts_showrssi" = "Scan for RSSI"; 
+"Sts_Receiver_Selection" = "BLE receiver";
+"Title_Select_BLE_receiver" = "Select BLE receiver";
+"Message_Select_BLE_Receiver" = "This app offers multiple ways of receiving BLE signals. For Raspberry Pis, make sure that you set them up correctly";

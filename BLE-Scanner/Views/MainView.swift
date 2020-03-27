@@ -8,6 +8,8 @@
 
 import SwiftUI
 import AWDLScanner
+import BLETools
+import AWDLScanner
 
 struct MainView: View {
     @State var currentViewSelected: Int = 0
@@ -20,7 +22,7 @@ struct MainView: View {
     
     var body: some View {
         
-        Group {
+        ZStack {
             #if targetEnvironment(macCatalyst)
             ZStack(alignment: .center) {
                 Rectangle()
@@ -75,20 +77,25 @@ struct MainView: View {
             }
             
             #endif
-        }.onAppear {
+            
+            if !bleScanner.connectedToReceiver {
+                ConnectingView().environmentObject(self.bleScanner)
+            }
+            
+        }
+        .onAppear {
             guard !self.launched else {return}
             self.bleScanner.scanning = true
             self.awdlScanner.startSearching()
             self.launched = true
         }
-        .edgesIgnoringSafeArea(UIDevice.current.userInterfaceIdiom == .pad ? .top : [])
-        
+
         
     }
 }
 
 struct MainTabbarView_Previews: PreviewProvider {
     static var previews: some View {
-        MainView()
+        MainView().environmentObject(BLEScanner()).environmentObject(AWDLNetServiceBrowser()).environmentObject(EnvironmentViewModel())
     }
 }
