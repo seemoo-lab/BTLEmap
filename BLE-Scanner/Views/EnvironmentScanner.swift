@@ -324,7 +324,7 @@ struct DeviceOnCircleView: View {
             return "seemoo"
         }
         
-        return self.device.deviceType?.string ?? "BluetoothDevice"
+        return self.device.deviceType.string
     }
     
     var scaling: CGFloat {
@@ -344,24 +344,25 @@ struct DeviceOnCircleView: View {
     }
     
     var body: some View {
-        VStack {
+        VStack(alignment: .center) {
             
             if device.name != nil {
                 Text(device.name! + " ")
-                    .frame(minWidth: 100, maxWidth: 150)
+                    .frame(width: 125.0)
                     .multilineTextAlignment(.center)
                     .animation(.none)
             }
             
-            if self.device.deviceType != nil {
-                Text("\(device.deviceType!.string) ")
-                    .frame(width: 100)
+            if self.device.deviceType != .other {
+                Text("\(device.deviceType.string) ")
+                    .frame(width: 125.0)
                     .multilineTextAlignment(.center)
                     .animation(.none)
                 
             }else {
-                Text(self.device.manufacturer.rawValue + " ")
-                    .frame(width: 100)
+                Text(self.device.manufacturer.rawValue.capitalized + " " + NSLocalizedString("device", comment: ""))
+                    .frame(width: 125.0)
+                    .multilineTextAlignment(.center)
                     .animation(.none)
             }
             

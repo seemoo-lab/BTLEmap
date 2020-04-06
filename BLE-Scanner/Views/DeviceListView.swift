@@ -75,7 +75,7 @@ struct BLEDeviceRow: View {
         if self.bleDevice.manufacturer == .seemoo {
             return "seemoo"
         }
-        return self.bleDevice.deviceType?.string ?? "BluetoothDevice"
+        return self.bleDevice.deviceType.string
     }
     
     var iconColor: Color {

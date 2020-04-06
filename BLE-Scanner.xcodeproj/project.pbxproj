@@ -15,6 +15,7 @@
 		7823682E2420C29600406CEE /* PopoverSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7823682D2420C29600406CEE /* PopoverSheet.swift */; };
 		7823683124210AEE00406CEE /* BLETools in Frameworks */ = {isa = PBXBuildFile; productRef = 7823683024210AEE00406CEE /* BLETools */; };
 		7838954C241A5625008248CA /* AWDLScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7838954B241A5625008248CA /* AWDLScannerView.swift */; };
+		78510A2A243B69FB00FCCF83 /* LineHStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78510A29243B69FB00FCCF83 /* LineHStack.swift */; };
 		7852D37F241BE20D00AA1B96 /* ActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7852D37E241BE20D00AA1B96 /* ActivityView.swift */; };
 		786A383424339CAB00608FAB /* iPadActionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786A383324339CAB00608FAB /* iPadActionSheet.swift */; };
 		7874249C2437874D00F06B90 /* AdvertisementRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7874249B2437874D00F06B90 /* AdvertisementRow.swift */; };
@@ -95,6 +96,7 @@
 		7823682A241F885A00406CEE /* DocumentPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentPickerView.swift; sourceTree = "<group>"; };
 		7823682D2420C29600406CEE /* PopoverSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopoverSheet.swift; sourceTree = "<group>"; };
 		7838954B241A5625008248CA /* AWDLScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AWDLScannerView.swift; sourceTree = "<group>"; };
+		78510A29243B69FB00FCCF83 /* LineHStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineHStack.swift; sourceTree = "<group>"; };
 		7852D37E241BE20D00AA1B96 /* ActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityView.swift; sourceTree = "<group>"; };
 		786A383324339CAB00608FAB /* iPadActionSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iPadActionSheet.swift; sourceTree = "<group>"; };
 		7874249B2437874D00F06B90 /* AdvertisementRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvertisementRow.swift; sourceTree = "<group>"; };
@@ -195,6 +197,7 @@
 				7823682D2420C29600406CEE /* PopoverSheet.swift */,
 				786A383324339CAB00608FAB /* iPadActionSheet.swift */,
 				7874249E24378C7B00F06B90 /* ColorExtension.swift */,
+				78510A29243B69FB00FCCF83 /* LineHStack.swift */,
 			);
 			path = SupportingViews;
 			sourceTree = "<group>";
@@ -517,6 +520,7 @@
 				787D6F79241BD1D600AB7AB3 /* Model.swift in Sources */,
 				788D9887240D435C005FC745 /* SceneDelegate.swift in Sources */,
 				7852D37F241BE20D00AA1B96 /* ActivityView.swift in Sources */,
+				78510A2A243B69FB00FCCF83 /* LineHStack.swift in Sources */,
 				78A7715924212A6200EF3E0C /* RecordAdvertisementsView.swift in Sources */,
 				78232034240E7D7B00D4FDE3 /* DeviceDetailView.swift in Sources */,
 				787D6F7B241BD63E00AB7AB3 /* ModelSceneDelegate.swift in Sources */,
