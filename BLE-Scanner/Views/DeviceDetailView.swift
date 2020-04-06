@@ -100,6 +100,7 @@ struct DeviceDetailView: View {
             if showInModal {
                 NavigationView {
                     DetailViewContent(device: device, isShown: $isShown, filteredAdvertisements: self.advertisements)
+                        .environmentObject(RowColors())
                         .navigationBarTitle(Text(device.name ?? device.id), displayMode: .inline)
                         .navigationBarItems(leading: self.filterButton, trailing: HStack {
                             self.exportButton
@@ -110,6 +111,7 @@ struct DeviceDetailView: View {
                 
             }else {
                 DetailViewContent(device: device, isShown: $isShown, filteredAdvertisements: self.advertisements)
+                .environmentObject(RowColors())
                     .navigationBarTitle(Text(device.name ?? device.id))
                     .navigationBarItems(trailing:
                         HStack{
@@ -127,15 +129,14 @@ struct DeviceDetailView: View {
     
     struct DetailViewContent: View {
         @ObservedObject var device: BLEDevice
+        @EnvironmentObject var rowColors: RowColors
         @Binding var isShown: Bool
         @Environment(\.horizontalSizeClass) var sizeClass
         
         var filteredAdvertisements: [BLEAdvertisment]
         
-        var services: [String] {
-            device.services.map {
-                $0.description ?? $0.uuidString
-            }
+        var services: [BLEService] {
+            device.services.sorted(by: {$0.commonName < $1.commonName})
         }
         
         var advertisements: [BLEAdvertisment] {
@@ -187,6 +188,39 @@ struct DeviceDetailView: View {
             }
         }
         
+        func row(for service: BLEService) -> some View {
+            let characteristics = service.characteristics.sorted(by: {$0.commonName < $1.commonName})
+            return HStack {
+                RoundedRectangle(cornerRadius: 2.5, style: .continuous)
+                    .fill(Color(red: 0.5, green: 0.306, blue: 0.055))
+                    .frame(width: 5.0)
+                    
+                VStack(alignment: .leading) {
+                    Text(service.commonName)
+                    Text(service.uuidString).font(.system(.caption, design: .monospaced))
+                    ForEach(characteristics, id: \.self) { (characteristic: BLECharacteristic) in
+                        self.view(for: characteristic)
+                    }
+                }
+            }
+        }
+        
+        func view(for characteristic: BLECharacteristic) -> some View {
+            Group {
+                Text("\t" + characteristic.commonName)
+                Text("\t" + characteristic.uuid.uuidString).font(.system(.caption, design: .monospaced))
+                if characteristic.value != nil {
+                    Text("\t\t" + characteristic.valueDescription)
+                        .font(.system(.footnote, design: .monospaced))
+                        .foregroundColor(Color("Highlight"))
+                    
+                }
+//                String(data: characteristic.value!, encoding: .utf8)?.map { value in
+//                    Text(value)
+//                }
+            }
+        }
+        
         var body: some View {
             VStack {
                 self.deviceInformation
@@ -196,7 +230,7 @@ struct DeviceDetailView: View {
                         if self.services.count > 0 {
                             Section(header: Text("Title_advertised_services")) {
                                 ForEach(self.services, id: \.self) { service in
-                                    Text(service)
+                                    self.row(for: service)
                                 }
                             }
                         }
@@ -211,7 +245,7 @@ struct DeviceDetailView: View {
                         
                         Section(header: Text("Title_advertisements_received")) {
                             ForEach(self.advertisements) { advertisement in
-                                AdvertismentRow(advertisement: advertisement)
+                                AdvertisementRow(advertisement: advertisement)
                             }
                         }
                     }
@@ -221,161 +255,81 @@ struct DeviceDetailView: View {
     }
 }
 
-struct AdvertismentRow: View {
-    @ObservedObject var advertisement: BLEAdvertisment
-    
-    var decodedAdvertisement: String {
-        guard let advertisementTLV = advertisement.advertisementTLV else {return NSLocalizedString("txt_not_decodable", comment: "Info text")}
+class RowColors: ObservableObject {
+    struct CustomColor {
+        var red: Double
+        var green: Double
+        var blue: Double
         
-        let decodedDicts = advertisementTLV.getTypes().compactMap{(try? AppleBLEDecoding.decoder(forType: UInt8($0)).decode(advertisementTLV.getValue(forType: $0)!))}
-        
-        let dictDescriptions =  decodedDicts.map(description(for:)).map{$0.sorted().joined()}.joined(separator: "\n\n")
-        
-        return dictDescriptions
-    }
-    
-    var dateFormatter: DateFormatter {
-        let df = DateFormatter()
-        df.timeStyle = .short
-        df.dateStyle = .short
-        
-        return df
-    }
-    
-    var body: some View {
-        VStack(alignment: .leading) {
-            AdvertisementRawManufacturerData(advertisement: advertisement)
-            Text(self.decodedAdvertisement)
-            HStack {
-                Text("Received \(advertisement.numberOfTimesReceived) times")
-                Spacer() 
-                Text("\(dateFormatter.string(from: advertisement.receptionDates.first!)) - \(dateFormatter.string(from: advertisement.receptionDates.last!))")
-            }
+        func darken() -> CustomColor {
+            return CustomColor(red: red * 0.9, green: green * 0.9, blue: blue * 0.9)
         }
     }
-    
-    func description(for dictionary: [String: Any]) -> [String] {
-        return dictionary.map { (key, value) -> String in
-            if let data = value as? Data {
-                return "\(key): \t\t\(data.hexadecimal.separate(every: 8, with: " "))\n"
-            }
-            
-            if let array = value as? [Any] {
-                return "\(key): \t \(array.map{String(describing: $0)}) \n"
-            }
-            
-            return "\(key):\t\t\(value)\n"
+    var currentColor = CustomColor(red: 0.5, green: 0.306, blue: 0.055)
+    /// UUID String to Color
+    var colors = [String : Color]()
+    func color(for uuidString: String) -> Color {
+        if let color = colors[uuidString] {
+            return color
+        }else {
+            let c = currentColor.darken()
+            let color = Color(red: c.red, green: c.green, blue: c.blue)
+            colors[uuidString] = color
+            self.currentColor = c
+            return color
         }
     }
 }
 
-struct AdvertisementRawManufacturerData: View {
-    @ObservedObject var advertisement: BLEAdvertisment
-    @State var copied: Bool = false
-    
-    var manufacturerDataString: String {
-        
-        if let attributedString = self.advertisement.dataAttributedString {
-            return attributedString.string
-        }
-        
-        if let manufacturerData = self.advertisement.manufacturerData {
-            return manufacturerData.hexadecimal.separate(every: 8, with: " ")
-        }
-        return "Empty"
-    }
-    
-    var manufacturerDataText: some View {
-        Group {
-            if self.advertisement.advertisementTLV != nil {
-                HStack {
-                    VStack(alignment: .leading) {
-                        Text("Apple").bold()
-                        ForEach(self.advertisement.advertisementTLV!.tlvs, id: \.type) { tlv in
-                            HStack {
-                                BLEAdvertisment.AppleAdvertisementType(rawValue: tlv.type).map({
-                                Text("\($0.description) ")
-                                    .bold()
-                                })
-                            }
-                        }
-                    }
-                    
-                    VStack(alignment: .leading) {
-                        ForEach(self.advertisement.advertisementTLV!.tlvs, id: \.type) { tlv in
-                            
-                            HStack {
-                                Text (String(format: "0x%02X", UInt8(tlv.type)))
-                                    .font(Font.system(.body, design: .monospaced))
-                                    
-                                Text (String(format: " 0x%02X: ", UInt8(tlv.length)))
-                                    .font(Font.system(.body, design: .monospaced))
-                                
-                                Text ("0x" + tlv.value.hexadecimal.separate(every: 8, with: " ").uppercased())
-                                        .font(Font.system(.body, design: .monospaced))
-                                
-                            }
-                        }
-                    }
-                }
+//struct AdvertismentRow: View {
+//    @ObservedObject var advertisement: BLEAdvertisment
+//    
+//    var decodedAdvertisement: String {
+//        guard let advertisementTLV = advertisement.advertisementTLV else {return NSLocalizedString("txt_not_decodable", comment: "Info text")}
+//        
+//        let decodedDicts = advertisementTLV.getTypes().compactMap{(try? AppleBLEDecoding.decoder(forType: UInt8($0)).decode(advertisementTLV.getValue(forType: $0)!))}
+//        
+//        let dictDescriptions =  decodedDicts.map(description(for:)).map{$0.sorted().joined()}.joined(separator: "\n\n")
+//        
+//        return dictDescriptions
+//    }
+//    
+//    var dateFormatter: DateFormatter {
+//        let df = DateFormatter()
+//        df.timeStyle = .short
+//        df.dateStyle = .short
+//        
+//        return df
+//    }
+//    
+//    var body: some View {
+//        VStack(alignment: .leading) {
+//            AdvertisementRawManufacturerData(advertisement: advertisement)
+//            Text(self.decodedAdvertisement)
+//            HStack {
+//                Text("Received \(advertisement.numberOfTimesReceived) times")
+//                Spacer()
+//                Text("\(dateFormatter.string(from: advertisement.receptionDates.first!)) - \(dateFormatter.string(from: advertisement.receptionDates.last!))")
+//            }
+//        }
+//    }
+//    
+//    func description(for dictionary: [String: Any]) -> [String] {
+//        return dictionary.map { (key, value) -> String in
+//            if let data = value as? Data {
+//                return "\(key): \t\t\(data.hexadecimal.separate(every: 8, with: " "))\n"
+//            }
+//
+//            if let array = value as? [Any] {
+//                return "\(key): \t \(array.map{String(describing: $0)}) \n"
+//            }
+//
+//            return "\(key):\t\t\(value)\n"
+//        }
+//    }
+//}
 
-            }else {
-                Text(self.advertisement.manufacturerData?.hexadecimal.separate(every: 8, with: " ") ?? "Empty")
-            }
-        }
-    }
-    
-    var copyButton: some View {
-        //Copy Button
-        ZStack {
-            
-            if !self.copied {
-            Button(action: {
-                UIPasteboard.general.string = self.advertisement.manufacturerData?.hexadecimal ?? ""
-                withAnimation {self.copied = true}
-                Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { (_) in
-                    withAnimation {self.copied = false}
-                }
-            }, label: {
-                ZStack {
-                    Circle().fill(Color("ButtonBackground"))
-                        .frame(width: 50.0, height: 50.0, alignment: .center)
-                    Image(systemName: "doc.on.clipboard")
-                        .accentColor(Color.white)
-                }
-                
-            })
-                .transition(.opacity)
-//                .opacity(self.copied ? 0.0 : 1.0 )
 
-            }
-            
-            if self.copied {
-                ZStack {
-                    RoundedRectangle(cornerRadius: 5.0)
-                        .fill(Color("ButtonBackground"))
-                        .frame(width: 100.0, height: 50.0)
-                    Text("Info_copied")
-                }
-                .transition(.opacity)
-//                .opacity(self.copied ? 1.0: 0.0)
-
-            }
-            
-        }
-    }
-    
-    var body: some View {
-        HStack {
-            self.manufacturerDataText
-            
-            Spacer()
-            
-            self.copyButton
-        }
-        
-    }
-}
 
 struct AttributedText: UIViewRepresentable {
     var attributedString: NSAttributedString

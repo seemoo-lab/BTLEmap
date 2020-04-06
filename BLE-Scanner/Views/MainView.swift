@@ -24,34 +24,37 @@ struct MainView: View {
         
         ZStack {
             #if targetEnvironment(macCatalyst)
-            ZStack(alignment: .center) {
-                Rectangle()
-                    .fill(Color("SegmentedControlBackground"))
-                    .frame(minWidth: 0, maxWidth: .infinity, maxHeight: 50.0)
-                
-                Picker(selection: $currentViewSelected, label: Text("Select Mode")) {
-                    Text("BLE Devices").font(.title).tag(0)
-                    Text("Environment Scanner").font(.title).tag(1)
-                    Text("AWDL Scanner").font(.title).tag(2)
-                }
-                .pickerStyle(SegmentedPickerStyle())
-                .frame(width: 450.0, height: 50.0)
-//                .background()
-            }
             
-            Group {
-                if currentViewSelected == 1 {
-                    EnvironmentScanner().environmentObject(bleScanner).environmentObject(viewModel)
-                        
-                }else if currentViewSelected == 2 {
-                    AWDLScannerView().environmentObject(awdlScanner)
-                        
-                }else {
-                    DeviceListView().environmentObject(bleScanner).environmentObject(viewModel)
-                        
+            VStack {
+                ZStack(alignment: .center) {
+                    Rectangle()
+                        .fill(Color("SegmentedControlBackground"))
+                        .frame(minWidth: 0, maxWidth: .infinity, maxHeight: 50.0)
+                    
+                    Picker(selection: $currentViewSelected, label: Text("Select Mode")) {
+                        Text("BLE Devices").font(.title).tag(0)
+                        Text("Environment Scanner").font(.title).tag(1)
+                        Text("AWDL Scanner").font(.title).tag(2)
+                    }
+                    .pickerStyle(SegmentedPickerStyle())
+                    .frame(width: 450.0, height: 50.0)
+                    //                .background()
                 }
                 
-            }.edgesIgnoringSafeArea([.top])
+                Group {
+                    if currentViewSelected == 1 {
+                        EnvironmentScanner().environmentObject(bleScanner).environmentObject(viewModel)
+                        
+                    }else if currentViewSelected == 2 {
+                        AWDLScannerView().environmentObject(awdlScanner)
+                        
+                    }else {
+                        DeviceListView().environmentObject(bleScanner).environmentObject(viewModel)
+                        
+                    }
+                }
+            }.edgesIgnoringSafeArea(.top)
+            
 
             #else
             

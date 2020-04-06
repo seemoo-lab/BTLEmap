@@ -79,7 +79,7 @@ struct BLEDeviceRow: View {
     }
     
     var iconColor: Color {
-        if self.bleDevice.lastUpdate.timeIntervalSinceNow > -1.1 {
+        if self.bleDevice.isActive {
             return Color("isSendingColor")
         }else {
             return Color("notSendingColor")
@@ -90,7 +90,7 @@ struct BLEDeviceRow: View {
         Group {
             Image(self.imageName)
                 .resizable()
-                .aspectRatio(contentMode: .fit)
+                .aspectRatio(1.0, contentMode: .fit)
                 .frame(height: 35.0)
                 .foregroundColor(self.iconColor)
                 .padding(.trailing)

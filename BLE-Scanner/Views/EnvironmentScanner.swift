@@ -144,13 +144,8 @@ struct EnvironmentScanner: View {
                         .offset(self.dragAmount)
                         .highPriorityGesture(self.zoomGesture)
                         .highPriorityGesture(self.dragGesture)
-                    
-                    
+
                 }
-                
-                
-                
-                
                 Spacer()
             }
             
@@ -341,7 +336,7 @@ struct DeviceOnCircleView: View {
     }
     
     var iconColor: Color {
-        if self.device.lastUpdate.timeIntervalSinceNow > -1.1 {
+        if self.device.isActive {
             return Color("isSendingColor")
         }else {
             return Color("notSendingColor")
@@ -352,20 +347,20 @@ struct DeviceOnCircleView: View {
         VStack {
             
             if device.name != nil {
-                Text(device.name!)
+                Text(device.name! + " ")
                     .frame(minWidth: 100, maxWidth: 150)
                     .multilineTextAlignment(.center)
                     .animation(.none)
             }
             
             if self.device.deviceType != nil {
-                Text(device.deviceType!.string)
+                Text("\(device.deviceType!.string) ")
                     .frame(width: 100)
                     .multilineTextAlignment(.center)
                     .animation(.none)
                 
             }else {
-                Text(self.device.manufacturer.rawValue)
+                Text(self.device.manufacturer.rawValue + " ")
                     .frame(width: 100)
                     .animation(.none)
             }

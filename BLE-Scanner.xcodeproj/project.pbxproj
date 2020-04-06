@@ -16,6 +16,9 @@
 		7823683124210AEE00406CEE /* BLETools in Frameworks */ = {isa = PBXBuildFile; productRef = 7823683024210AEE00406CEE /* BLETools */; };
 		7838954C241A5625008248CA /* AWDLScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7838954B241A5625008248CA /* AWDLScannerView.swift */; };
 		7852D37F241BE20D00AA1B96 /* ActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7852D37E241BE20D00AA1B96 /* ActivityView.swift */; };
+		786A383424339CAB00608FAB /* iPadActionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786A383324339CAB00608FAB /* iPadActionSheet.swift */; };
+		7874249C2437874D00F06B90 /* AdvertisementRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7874249B2437874D00F06B90 /* AdvertisementRow.swift */; };
+		7874249F24378C7B00F06B90 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7874249E24378C7B00F06B90 /* ColorExtension.swift */; };
 		7879E3BB2417EB23003AA8DF /* AdvertisementTypeFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7879E3BA2417EB23003AA8DF /* AdvertisementTypeFilterView.swift */; };
 		7879E3C62418EF6C003AA8DF /* SharingBLEHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 7879E3C52418EF6C003AA8DF /* SharingBLEHandler.m */; };
 		787D6F5B241BB8FD00AB7AB3 /* AWDLServiceDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787D6F5A241BB8FD00AB7AB3 /* AWDLServiceDetailView.swift */; };
@@ -35,6 +38,7 @@
 		788D989C240D435E005FC745 /* BLE_ScannerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788D989B240D435E005FC745 /* BLE_ScannerTests.swift */; };
 		788D98A7240D435E005FC745 /* BLE_ScannerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788D98A6240D435E005FC745 /* BLE_ScannerUITests.swift */; };
 		788D98E3240D561E005FC745 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 788D98E5240D561E005FC745 /* Localizable.strings */; };
+		78A43B0B2437922100319BD8 /* AdvertisementManudfacturerDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A43B0A2437922100319BD8 /* AdvertisementManudfacturerDataView.swift */; };
 		78A771392421274700EF3E0C /* AdvertisementTypeFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7879E3BA2417EB23003AA8DF /* AdvertisementTypeFilterView.swift */; };
 		78A7713A2421274700EF3E0C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788D9884240D435C005FC745 /* AppDelegate.swift */; };
 		78A7713B2421274700EF3E0C /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78232037240EA8B900D4FDE3 /* MainView.swift */; };
@@ -92,6 +96,9 @@
 		7823682D2420C29600406CEE /* PopoverSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopoverSheet.swift; sourceTree = "<group>"; };
 		7838954B241A5625008248CA /* AWDLScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AWDLScannerView.swift; sourceTree = "<group>"; };
 		7852D37E241BE20D00AA1B96 /* ActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityView.swift; sourceTree = "<group>"; };
+		786A383324339CAB00608FAB /* iPadActionSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iPadActionSheet.swift; sourceTree = "<group>"; };
+		7874249B2437874D00F06B90 /* AdvertisementRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvertisementRow.swift; sourceTree = "<group>"; };
+		7874249E24378C7B00F06B90 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		7879E3BA2417EB23003AA8DF /* AdvertisementTypeFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvertisementTypeFilterView.swift; sourceTree = "<group>"; };
 		7879E3BF2418EF40003AA8DF /* SFBLEScanner.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFBLEScanner.h; sourceTree = "<group>"; };
 		7879E3C02418EF40003AA8DF /* SFBLEDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFBLEDevice.h; sourceTree = "<group>"; };
@@ -124,6 +131,7 @@
 		788D98A6240D435E005FC745 /* BLE_ScannerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLE_ScannerUITests.swift; sourceTree = "<group>"; };
 		788D98A8240D435E005FC745 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		788D98E4240D561E005FC745 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		78A43B0A2437922100319BD8 /* AdvertisementManudfacturerDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvertisementManudfacturerDataView.swift; sourceTree = "<group>"; };
 		78A771322421272F00EF3E0C /* BLE-Scanner-JB.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "BLE-Scanner-JB.entitlements"; sourceTree = "<group>"; };
 		78A771562421274700EF3E0C /* BLE-Scanner JB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "BLE-Scanner JB.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		78A771572421274700EF3E0C /* BLE-Scanner copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "BLE-Scanner copy-Info.plist"; path = "/Users/seemoo/Work/Research/BLEScanner/Projects/BLE-Scanner/BLE-Scanner copy-Info.plist"; sourceTree = "<absolute>"; };
@@ -185,6 +193,8 @@
 			isa = PBXGroup;
 			children = (
 				7823682D2420C29600406CEE /* PopoverSheet.swift */,
+				786A383324339CAB00608FAB /* iPadActionSheet.swift */,
+				7874249E24378C7B00F06B90 /* ColorExtension.swift */,
 			);
 			path = SupportingViews;
 			sourceTree = "<group>";
@@ -192,7 +202,6 @@
 		7838954A241A55EF008248CA /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				7823682C2420C27800406CEE /* SupportingViews */,
 				788D9888240D435C005FC745 /* DeviceListView.swift */,
 				78232033240E7D7B00D4FDE3 /* DeviceDetailView.swift */,
 				78232039240EBB4500D4FDE3 /* EnvironmentScanner.swift */,
@@ -206,9 +215,20 @@
 				787F4FFF2424B2BD005861EE /* RSSIPlots.swift */,
 				78EFB97B242277A000C4A6B8 /* SettingsView.swift */,
 				7888CFE4242E550F00A2C971 /* ConnectingView.swift */,
+				7823682C2420C27800406CEE /* SupportingViews */,
+				7874249A2437870100F06B90 /* AdvertisementViews */,
 				78236829241F884100406CEE /* UIKitRepresentable */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		7874249A2437870100F06B90 /* AdvertisementViews */ = {
+			isa = PBXGroup;
+			children = (
+				7874249B2437874D00F06B90 /* AdvertisementRow.swift */,
+				78A43B0A2437922100319BD8 /* AdvertisementManudfacturerDataView.swift */,
+			);
+			path = AdvertisementViews;
 			sourceTree = "<group>";
 		};
 		7879E3BD2418EE7A003AA8DF /* SFBLE */ = {
@@ -505,12 +525,16 @@
 				7888CFE5242E550F00A2C971 /* ConnectingView.swift in Sources */,
 				78B8662024123C80003761D0 /* ManfucaturerSelection.swift in Sources */,
 				7888CFE3242E04D600A2C971 /* BlurView.swift in Sources */,
+				7874249C2437874D00F06B90 /* AdvertisementRow.swift in Sources */,
 				7823682E2420C29600406CEE /* PopoverSheet.swift in Sources */,
 				787D6F76241BC91D00AB7AB3 /* DetailWindowController.swift in Sources */,
 				787F50002424B2BD005861EE /* RSSIPlots.swift in Sources */,
 				7888CFDE242DFAB900A2C971 /* ActivitySpinner.swift in Sources */,
+				786A383424339CAB00608FAB /* iPadActionSheet.swift in Sources */,
 				788D9889240D435C005FC745 /* DeviceListView.swift in Sources */,
 				78EFB97C242277A000C4A6B8 /* SettingsView.swift in Sources */,
+				7874249F24378C7B00F06B90 /* ColorExtension.swift in Sources */,
+				78A43B0B2437922100319BD8 /* AdvertisementManudfacturerDataView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

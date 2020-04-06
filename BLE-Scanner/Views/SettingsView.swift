@@ -49,16 +49,16 @@ struct SettingsView: View {
     @State var showReceiverSelection: Bool = false
     @State var loading = true
     
-    var receiverActionsheet: ActionSheet {
-        ActionSheet(title: Text("Title_Select_BLE_receiver"), message: Text("Message_Select_BLE_Receiver"), buttons: BLEScanner.Receiver.allCases.map{ t in
-            ActionSheet.Button.default(Text(t.name), action: {
+    var receiverActionsheet: PopSheet {
+        PopSheet(title: Text("Title_Select_BLE_receiver"), message: Text("Message_Select_BLE_Receiver"), buttons: BLEScanner.Receiver.allCases.map{ t in
+            PopSheet.Button.default(Text(t.name), action: {
                 withAnimation {
                     self.bleScanner.receiverType = t
                 }
                 })
             }
             +
-            [ActionSheet.Button.cancel()]
+            [PopSheet.Button.cancel()]
         )
     }
     
@@ -105,7 +105,9 @@ struct SettingsView: View {
                                 .lineLimit(2)
                         }
                     })
-                    
+                    .popSheet(isPresented: self.$showReceiverSelection, content: {
+                               self.receiverActionsheet
+                           })
                     
                 }
                 .navigationBarTitle(Text("Ttl_settings"))
@@ -122,9 +124,6 @@ struct SettingsView: View {
             if !bleScanner.connectedToReceiver {
                 ConnectingView().environmentObject(self.bleScanner)
             }
-        }
-        .actionSheet(isPresented: self.$showReceiverSelection) { () -> ActionSheet in
-            self.receiverActionsheet
         }
         .onAppear {
             self.scanning = self.bleScanner.scanning
