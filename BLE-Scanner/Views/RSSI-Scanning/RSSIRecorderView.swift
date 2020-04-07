@@ -11,7 +11,7 @@ import BLETools
 import CoreMotion
 
 
-struct RecordAdvertisementsView: View {
+struct RSSIRecorderView: View {
     @EnvironmentObject var bleScanner: BLEScanner
     @Binding var isShown: Bool
     
@@ -110,7 +110,7 @@ struct RecordAdvertisementsView: View {
             
             if isRecording {
                 Button("Looking at Device") {
-                     if let yaw = RecordAdvertisementsView.motion.deviceMotion?.attitude.yaw {
+                     if let yaw = RSSIRecorderView.motion.deviceMotion?.attitude.yaw {
                         self.recording?.manualAngles.append(yaw)
                      }
                 }
@@ -196,7 +196,7 @@ struct RecordAdvertisementsView: View {
         if let lastrssi = event.advertisement.rssi.last?.floatValue {
             rssis.append(lastrssi)
             
-            if let yaw = RecordAdvertisementsView.motion.deviceMotion?.attitude.yaw {
+            if let yaw = RSSIRecorderView.motion.deviceMotion?.attitude.yaw {
                 data.append(RecordingModel.RecordingEntry(yaw: yaw, rssi: lastrssi, time: -(recording?.startDate.timeIntervalSinceNow ?? 0.0) ))
             }
             
@@ -213,17 +213,17 @@ struct RecordAdvertisementsView: View {
             //Start Core Motion
             self.startCoreMotionReceiving()
         }else {
-            RecordAdvertisementsView.motion.stopDeviceMotionUpdates()
+            RSSIRecorderView.motion.stopDeviceMotionUpdates()
         }
         self.bleScanner.scanning = self.isRecording
     }
     
     func startCoreMotionReceiving() {
-        guard RecordAdvertisementsView.motion.isDeviceMotionAvailable else {return}
+        guard RSSIRecorderView.motion.isDeviceMotionAvailable else {return}
         
-        RecordAdvertisementsView.motion.deviceMotionUpdateInterval = 1.0/5.0
-        RecordAdvertisementsView.motion.showsDeviceMovementDisplay = true
-        RecordAdvertisementsView.motion.startDeviceMotionUpdates(using: .xMagneticNorthZVertical)
+        RSSIRecorderView.motion.deviceMotionUpdateInterval = 1.0/5.0
+        RSSIRecorderView.motion.showsDeviceMovementDisplay = true
+        RSSIRecorderView.motion.startDeviceMotionUpdates(using: .xMagneticNorthZVertical)
     }
     
 
@@ -294,7 +294,7 @@ struct RecordAdvertisementsView_Previews: PreviewProvider {
     @State static var isShown = false
     
     static var previews: some View {
-        RecordAdvertisementsView(isShown: $isShown)
+        RSSIRecorderView(isShown: $isShown)
     }
 }
 
