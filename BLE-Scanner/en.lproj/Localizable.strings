@@ -6,6 +6,7 @@
 "Btn_filter_manufacturers" = "Filter manufacturers";
 "Btn_Dismiss" = "Dismiss";
 "Title_advertised_services" = "Advertised services";
+"Title_supoorted_services" = "Supported services";
 "Title_advertisements_received" = "Advertisements received";
 "Title_manufacturer_selection" = "Displayed manufacturers";
 "Btn_deselect_all" = "Deselect all";
@@ -20,6 +21,7 @@
 "Sts_filter_duplicates" = "Filter duplicates";
 "Sts_devices_can_timeout" = "Timeout devices";
 "Sts_timeout_interval" = "Timeout interval";
+"Sts_autoconnect" = "Autoconnect to BLE devices";
 "min" = "min";
 "Ttl_settings" = "Settings";
 "Sts_showrssi" = "Scan for RSSI"; 

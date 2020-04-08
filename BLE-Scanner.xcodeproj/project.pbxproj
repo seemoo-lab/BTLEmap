@@ -64,7 +64,7 @@
 		78A771502421274700EF3E0C /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 78B8661B240FE43F003761D0 /* README.md */; };
 		78A771512421274700EF3E0C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 788D988D240D435E005FC745 /* Preview Assets.xcassets */; };
 		78A771522421274700EF3E0C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 788D988A240D435E005FC745 /* Assets.xcassets */; };
-		78A7715924212A6200EF3E0C /* RecordAdvertisementsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A7715824212A6200EF3E0C /* RecordAdvertisementsView.swift */; };
+		78A7715924212A6200EF3E0C /* RSSIRecorderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A7715824212A6200EF3E0C /* RSSIRecorderView.swift */; };
 		78B8661C240FE43F003761D0 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 78B8661B240FE43F003761D0 /* README.md */; };
 		78B8662024123C80003761D0 /* ManfucaturerSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B8661F24123C80003761D0 /* ManfucaturerSelection.swift */; };
 		78D86E46240D81D400E718BF /* CoreBluetoothTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D86E45240D81D400E718BF /* CoreBluetoothTests.swift */; };
@@ -137,7 +137,7 @@
 		78A771322421272F00EF3E0C /* BLE-Scanner-JB.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "BLE-Scanner-JB.entitlements"; sourceTree = "<group>"; };
 		78A771562421274700EF3E0C /* BLE-Scanner JB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "BLE-Scanner JB.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		78A771572421274700EF3E0C /* BLE-Scanner copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "BLE-Scanner copy-Info.plist"; path = "/Users/seemoo/Work/Research/BLEScanner/Projects/BLE-Scanner/BLE-Scanner copy-Info.plist"; sourceTree = "<absolute>"; };
-		78A7715824212A6200EF3E0C /* RecordAdvertisementsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordAdvertisementsView.swift; sourceTree = "<group>"; };
+		78A7715824212A6200EF3E0C /* RSSIRecorderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RSSIRecorderView.swift; sourceTree = "<group>"; };
 		78B8661B240FE43F003761D0 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		78B8661F24123C80003761D0 /* ManfucaturerSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManfucaturerSelection.swift; sourceTree = "<group>"; };
 		78D86E45240D81D400E718BF /* CoreBluetoothTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreBluetoothTests.swift; sourceTree = "<group>"; };
@@ -214,10 +214,9 @@
 				787D6F75241BC91D00AB7AB3 /* DetailWindowController.swift */,
 				78B8661F24123C80003761D0 /* ManfucaturerSelection.swift */,
 				7879E3BA2417EB23003AA8DF /* AdvertisementTypeFilterView.swift */,
-				78A7715824212A6200EF3E0C /* RecordAdvertisementsView.swift */,
-				787F4FFF2424B2BD005861EE /* RSSIPlots.swift */,
 				78EFB97B242277A000C4A6B8 /* SettingsView.swift */,
 				7888CFE4242E550F00A2C971 /* ConnectingView.swift */,
+				78F5BBB1243CCD81002091CA /* RSSI-Scanning */,
 				7823682C2420C27800406CEE /* SupportingViews */,
 				7874249A2437870100F06B90 /* AdvertisementViews */,
 				78236829241F884100406CEE /* UIKitRepresentable */,
@@ -333,6 +332,15 @@
 				788D98A8240D435E005FC745 /* Info.plist */,
 			);
 			path = "BLE-ScannerUITests";
+			sourceTree = "<group>";
+		};
+		78F5BBB1243CCD81002091CA /* RSSI-Scanning */ = {
+			isa = PBXGroup;
+			children = (
+				78A7715824212A6200EF3E0C /* RSSIRecorderView.swift */,
+				787F4FFF2424B2BD005861EE /* RSSIPlots.swift */,
+			);
+			path = "RSSI-Scanning";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -521,7 +529,7 @@
 				788D9887240D435C005FC745 /* SceneDelegate.swift in Sources */,
 				7852D37F241BE20D00AA1B96 /* ActivityView.swift in Sources */,
 				78510A2A243B69FB00FCCF83 /* LineHStack.swift in Sources */,
-				78A7715924212A6200EF3E0C /* RecordAdvertisementsView.swift in Sources */,
+				78A7715924212A6200EF3E0C /* RSSIRecorderView.swift in Sources */,
 				78232034240E7D7B00D4FDE3 /* DeviceDetailView.swift in Sources */,
 				787D6F7B241BD63E00AB7AB3 /* ModelSceneDelegate.swift in Sources */,
 				7823682B241F885A00406CEE /* DocumentPickerView.swift in Sources */,

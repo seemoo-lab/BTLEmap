@@ -16,7 +16,8 @@ struct Model {
         devicesCanTimeout: UserDefaults.standard.timeoutDevices,
         timeoutInterval: UserDefaults.standard.timeoutInterval,
         filterDuplicates: UserDefaults.standard.filterDuplicates,
-        receiverType: UserDefaults.standard.BLEreceiverType)
+        receiverType: UserDefaults.standard.BLEreceiverType,
+        autoconnect: UserDefaults.standard.autoconnectToDevices)
     static let viewModel = EnvironmentViewModel()
     static let awdlScanner = AWDLNetServiceBrowser()
 }

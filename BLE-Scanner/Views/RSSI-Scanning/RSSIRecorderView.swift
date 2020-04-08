@@ -215,6 +215,8 @@ struct RSSIRecorderView: View {
         }else {
             RSSIRecorderView.motion.stopDeviceMotionUpdates()
         }
+        
+        self.bleScanner.autoconnect = false
         self.bleScanner.scanning = self.isRecording
     }
     

@@ -43,6 +43,8 @@ struct SettingsView: View {
         }
     }
     
+    @State var autoConnectToDevices:Bool = UserDefaults.standard.autoconnectToDevices
+    
     @State var showRSSIRecorder: Bool = false
     
     /// When set to true the BLE receiver selection is shown
@@ -73,6 +75,9 @@ struct SettingsView: View {
                         .disabled(!self.scanning)
                     
                     Toggle(isOn: self.$timeoutDevices, label: {Text("Sts_devices_can_timeout")})
+                        .disabled(!self.scanning)
+                    
+                    Toggle(isOn: $autoConnectToDevices, label: {Text("Sts_autoconnect")})
                         .disabled(!self.scanning)
                     
                     HStack {
@@ -115,7 +120,7 @@ struct SettingsView: View {
                     self.isShown = false
                 })
                 .sheet(isPresented: self.$showRSSIRecorder, content: {
-                    RecordAdvertisementsView(isShown: self.$showRSSIRecorder).environmentObject(self.bleScanner)
+                    RSSIRecorderView(isShown: self.$showRSSIRecorder).environmentObject(self.bleScanner)
                 })
             }
         
@@ -129,6 +134,7 @@ struct SettingsView: View {
             self.scanning = self.bleScanner.scanning
         }
         .onDisappear {
+            self.bleScanner.autoconnect = self.autoConnectToDevices
             self.bleScanner.scanning = self.scanning
             
             self.bleScanner.filterDuplicates = self.filterDuplicates
@@ -143,6 +149,8 @@ struct SettingsView: View {
             }
             
             UserDefaults.standard.BLEreceiverType = self.bleScanner.receiverType
+            
+            UserDefaults.standard.autoconnectToDevices = self.autoConnectToDevices
         }
     }
         
@@ -191,6 +199,14 @@ extension UserDefaults {
         }
         get {
             return BLETools.BLEScanner.Receiver(rawValue: self.integer(forKey: "BLE_Receiver")) ?? .coreBluetooth
+        }
+    }
+    
+    var autoconnectToDevices: Bool {
+        set(v) {
+            self.set(v, forKey: "AutoconnectToDevices")
+        }get {
+            self.bool(forKey: "AutoconnectToDevices")
         }
     }
     

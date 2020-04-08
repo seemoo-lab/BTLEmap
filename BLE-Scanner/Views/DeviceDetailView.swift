@@ -188,7 +188,7 @@ struct DeviceDetailView: View {
             }
         }
         
-        func row(for service: BLEService) -> some View {
+        func generateServiceRow(for service: BLEService) -> some View {
             let characteristics = service.characteristics.sorted(by: {$0.commonName < $1.commonName})
             return HStack {
                 RoundedRectangle(cornerRadius: 2.5, style: .continuous)
@@ -197,15 +197,16 @@ struct DeviceDetailView: View {
                     
                 VStack(alignment: .leading) {
                     Text(service.commonName)
-                    Text(service.uuidString).font(.system(.caption, design: .monospaced))
+                    TextField("", text: Binding.constant(service.uuidString)).font(.system(.caption, design: .monospaced))
+//                    Text(service.uuidString).font(.system(.caption, design: .monospaced))
                     ForEach(characteristics, id: \.self) { (characteristic: BLECharacteristic) in
-                        self.view(for: characteristic)
+                        self.generateCharacteristicsView(for: characteristic)
                     }
                 }
             }
         }
         
-        func view(for characteristic: BLECharacteristic) -> some View {
+        func generateCharacteristicsView(for characteristic: BLECharacteristic) -> some View {
             Group {
                 Text("\t" + characteristic.commonName)
                 Text("\t" + characteristic.uuid.uuidString).font(.system(.caption, design: .monospaced))
@@ -228,9 +229,9 @@ struct DeviceDetailView: View {
                 VStack {
                     List {
                         if self.services.count > 0 {
-                            Section(header: Text("Title_advertised_services")) {
+                            Section(header: Text("Title_supoorted_services")) {
                                 ForEach(self.services, id: \.self) { service in
-                                    self.row(for: service)
+                                    self.generateServiceRow(for: service)
                                 }
                             }
                         }

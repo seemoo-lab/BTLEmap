@@ -11,7 +11,7 @@ import BLETools
 import SwiftUI
 
 struct AdvertisementRow: View {
-    var advertisement: BLEAdvertisment
+    @ObservedObject var advertisement: BLEAdvertisment
 
     var isDecodedAdvertisement: Bool {
         self.advertisement.advertisementTLV != nil
