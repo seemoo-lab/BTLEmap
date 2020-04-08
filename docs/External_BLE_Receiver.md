@@ -27,8 +27,90 @@ The Type uses one byte, the length 4 bytes (little-endian), and the value is a v
 |:----------|:------------|
 | 0x00      | BLE Advertisement | 
 | 0x01      | BLE Services      | 
-| 0x02      | BLE Service Charactersitics Info | 
+| 0x02      | BLE Service charactersitics Info | 
 | 0xef      | Control Command |
+
+
+### BLE Advertisement 
+
+Every time the external receiver receives an advertisement it should send the advertisement data in a JSON message formatted like this: 
+
+```json
+{
+    "manufacturerDataHex": "Hex formatted string", 
+    "macAddress": "aa:bb:cc:dd:ee:ff", 
+    "rssi": -10, 
+    "name": "BLE Name" | null,  
+    "flags": "" | null,
+    "addressType": "random" | "public", 
+    "connectable": true | false, 
+    "rawData": "Hex formatted raw data", 
+    "scanData": {
+        "Flags": "Hex formatted flags" | null, 
+        "Incomplete 16b Services": "Hex formatted flags" | null, 
+        "Complete 16b Services" : "Hex formatted flags" | null, 
+        "Incomplete 32b Services": "Hex formatted flags" | null, 
+        "Complete 32b Services": "Hex formatted flags" | null, 
+        "Incomplete 128b Services": "Hex formatted flags" | null, 
+        "Complete 128b Services": "Hex formatted flags" | null, 
+        "Short Local Name": "Hex formatted flags" | null, 
+        "Complete Local Name": "Hex formatted flags" | null, 
+        "Tx Power": "Hex formatted flags" | null, 
+        "16b Service Solicitation": "Hex formatted flags" | null, 
+        "32b Service Solicitation": "Hex formatted flags" | null, 
+        "128b Service Solicitation": "Hex formatted flags" | null, 
+        "16b Service Data": "Hex formatted flags" | null, 
+        "32b Service Data": "Hex formatted flags" | null, 
+        "128b Service Data": "Hex formatted flags" | null, 
+        "Public Target Address": "Hex formatted flags" | null, 
+        "Random Target Address":  "Hex formatted flags" | null,
+        "Appearance": "Hex formatted flags" | null,
+        "Advertising Interval": "Hex formatted flags" | null,
+        "Manufacturer": "Hex formatted flags" | null,
+    }   
+}
+```
+
+
+
+### BLE Services
+
+After the external receiver has connected to a device and fetched the services supported by the the device. 
+It does only contain basic service information, like the UUID and an optional common name. 
+
+```json
+{
+    "macAddress": "aa:bb:cc:dd",
+    "services": [
+        {
+            "uuid": "Hex formatted UUID", 
+            "commonName": "Common name or UUID string"
+        }
+    ]
+}
+```
+
+### BLE Service characteristics info 
+
+After the external receiver has accessed a service and fetched the characteristics. Not all characteristics can be read and therefore the value may be null. Otherwise, its a hex formatted value that can be an interger or string depending on the characteristic that has been read. 
+
+```json
+{
+    "macAddress":  "aa:bb:cc:dd", 
+    "service": {
+        "uuid": "Hex formatted UUID", 
+        "commonName": "Common name or UUID string"
+    }, 
+    "characteristics": [
+        {
+            "properties": "READ, WRITE, EXTENDED", // Comma seperated strings 
+            "uuid": "Hex formatted UUID", 
+            "commonName": "Characteristic common name or UUID string", 
+            "value": "Hex formatted read value" | null
+        }
+    ]
+}
+```
 
 
 ### Control Commands
@@ -36,11 +118,14 @@ The App is able to send control commands to the external receiver, e.g. to start
 Before the external receiver scans the app will send such a command to the receiver to set it up. 
 
 The JSON structure is defined as: 
-```
+```json
 {
     // If true: Start scanning. If false: Stop any ongoing scans 
-    "scanning": Boolean, 
+    "scanning": true | false, 
     // If true: The receiver should automatically connect to all discovered devices to request more information, like services, characteristics and characteristic values 
-    "autoconnect": Boolean,
+    "autoconnect": true | false,
 }
 ```
+
+If scanning is set t true the external receiver should start the scan for BLE devices and BLE advertisements.
+If the autoconnect is set to true the external receiver should connect to all discovered and connectable devices. Then after a connection the it requests services and characteristics 
