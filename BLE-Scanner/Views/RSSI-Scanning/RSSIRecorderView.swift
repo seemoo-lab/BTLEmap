@@ -239,6 +239,7 @@ struct RSSIRecorderView: View {
         if let pdfURL = self.createPlotPDF() {
             exportURLs.append(pdfURL)
         }
+        exportURLs.append(recording.recordingInfoTxt)
         
         self.exportURLs = exportURLs
         self.showExportSheet = true
@@ -256,7 +257,7 @@ struct RSSIRecorderView: View {
         let outputFileURL = documentDirectory.appendingPathComponent("Charts.pdf")
         
         let width: CGFloat = 8.5 * 72.0
-        let height: CGFloat = CGFloat(recording.rssiDevices.keys.count) * CGFloat(280)
+        let height: CGFloat = CGFloat(recording.rssiDevices.keys.count) * CGFloat(350)
         let plots = RSSIPlots(recording: recording, width: width)
         
         let pdfVC = UIHostingController(rootView: plots)
@@ -317,6 +318,8 @@ struct RecordingModel {
         try? JSONSerialization.data(withJSONObject: self.rssiDevices)
     }
     
+    
+    
     var manualAngles: [Double] = []
     
     var csvExport: [URL] {
@@ -341,6 +344,31 @@ struct RecordingModel {
             
             return nil
         }
+    }
+    
+    /// File with information about the recordings
+    var recordingInfoTxt: URL {
+        let recordingText =
+        """
+        Recording from \(startDate)
+        Recorded \(self.recordedData.keys.count) devices
+        Manually marked device locations:
+        \(manualAngles)
+        """
+        
+        let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let csvDirFileURL = documentDirectory.appendingPathComponent("/csvs")
+        try? FileManager.default.createDirectory(at: csvDirFileURL, withIntermediateDirectories: false, attributes: nil)
+        
+        let documentURL = documentDirectory.appendingPathComponent("recordingInfo.txt")
+        
+        do {
+            try recordingText.write(to: documentURL, atomically: true, encoding: .utf8)
+        }catch {
+            print("Failed to write text file" )
+        }
+        
+        return documentURL
     }
     
     struct RecordingEntry {

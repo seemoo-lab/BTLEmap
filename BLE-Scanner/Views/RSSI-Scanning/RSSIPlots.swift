@@ -8,6 +8,7 @@
 
 import Foundation
 import SwiftUI
+import BLETools
 
 
 struct RSSIPlots: View {
@@ -18,15 +19,27 @@ struct RSSIPlots: View {
         recording.recordedData.map({($0.key, $0.value)})
     }
     
+    var devices: [BLEDevice] {
+        Array(recording.recordedData.keys)
+    }
+    
     
     var body: some View {
         VStack {
             Text("RSSI charts")
-            ForEach(self.dataArray, id: \.0) { rssiTuple in
+            ForEach(self.devices) { (device) in
                 VStack {
-                    Text(rssiTuple.device.id)
-                    RSSIChart(device: rssiTuple.device, rssiValues: rssiTuple.entries, width: self.width, plotMultipleRounds:true, manualSelections: self.recording.manualAngles)
-                        .frame(width: self.width, height: 200)
+                    Text(device.id)
+                    Text(device.manufacturer.name)
+                    if device.modelNumber != nil {
+                        Text(device.modelNumber!)
+                    }
+                    RSSIChart(device: device,
+                              rssiValues: self.recording.recordedData[device]!,
+                              width: self.width,
+                              plotMultipleRounds: true,
+                              manualSelections: self.recording.manualAngles)
+                        .frame(width: self.width, height: 220)
                 }
                 .padding([.top, .bottom])
             }
@@ -36,21 +49,22 @@ struct RSSIPlots: View {
 
 struct RSSIChart: View {
     let device: BLEDevice
-    let rssis: [RSSI]
+    let rssis: [RSSIAngle]
     let width: CGFloat
     let height: CGFloat = 200.0
-    
+    var angleCalculation: AngleCalculation!
     var plotMultipleRounds = false
     let manualSelections: [Double]
     
     init(device: BLEDevice, rssiValues:[RecordingModel.RecordingEntry], width: CGFloat, plotMultipleRounds: Bool=false, manualSelections: [Double] = []) {
-        self.rssis = rssiValues.enumerated().map{RSSI(idx: $0.offset, value: $0.element.rssi, angle: $0.element.yaw)}
+        self.rssis = rssiValues.enumerated().map{RSSIAngle(idx: $0.offset, value: $0.element.rssi, angle: $0.element.yaw)}
         self.device = device
         self.width = width
         self.plotMultipleRounds = plotMultipleRounds
         self.manualSelections = manualSelections
+        self.angleCalculation = AngleCalculation(rssis: self.rssis, device: self.device)
     }
-    
+
     
     func lineY(lineNum line: Int) -> CGFloat {
         let dHeight = self.height / CGFloat(100)
@@ -192,7 +206,7 @@ struct RSSIChart: View {
         .stroke(Color.orange)
     }
     
-    func circlePositionFrom(rssi: RSSI) -> CGPoint {
+    func circlePositionFrom(rssi: RSSIAngle) -> CGPoint {
         let dWidth: CGFloat = self.width / (2 * CGFloat.pi)
         let dHeight: CGFloat = self.height / CGFloat(100)
         
@@ -228,6 +242,17 @@ struct RSSIChart: View {
         }
     }
     
+    var anticipatedAngleCircle: some View {
+        let angle = self.angleCalculation.calculatedAngle
+        
+        let angleOnGraph = CGFloat(angle) + CGFloat.pi
+        
+        return Circle()
+            .fill(Color.blue)
+            .frame(width: 5.0, height: 5.0)
+            .position(CGPoint(x: angleOnGraph * (self.width / (2 * CGFloat.pi)), y: self.height - 15.0))
+    }
+    
     var body: some View {
         ZStack {
             
@@ -248,20 +273,12 @@ struct RSSIChart: View {
                 self.angleXRSSIYPath
                 
                 self.manualSelectionCircles
+                
+                self.anticipatedAngleCircle
             }
         }
     }
     
     
-    struct RSSI: Identifiable {
-        var id: Int
-        var value: Float
-        var angle: Double
-        
-        init(idx: Int, value: Float, angle: Double) {
-            self.id = idx
-            self.value = value
-            self.angle = angle
-        }
-    }
+
 }

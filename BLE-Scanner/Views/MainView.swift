@@ -29,7 +29,8 @@ struct MainView: View {
                 Picker(selection: $currentViewSelected, label: Text("Select Mode")) {
                     Text("BLE Devices").font(.title).tag(0)
                     Text("Environment Scanner").font(.title).tag(1)
-                    Text("AWDL Scanner").font(.title).tag(2)
+                    Text("RSSI Graph").font(.title).tag(2)
+                    Text("AWDL Scanner").font(.title).tag(3)
                 }
                 .pickerStyle(SegmentedPickerStyle())
                 .frame(width: 450.0, height: 50.0)
@@ -41,6 +42,10 @@ struct MainView: View {
                     EnvironmentScanner().environmentObject(bleScanner).environmentObject(viewModel)
                     
                 }else if currentViewSelected == 2 {
+                    RSSIPlotsView().environmentObject(bleScanner)
+                }
+                
+                else if currentViewSelected == 3 {
                     AWDLScannerView().environmentObject(awdlScanner)
                     
                 }else {
@@ -97,9 +102,7 @@ struct MainView: View {
             #if targetEnvironment(macCatalyst)
             self.catalystView
             #else
-            
-
-            
+            self.iOSView
             #endif
             
             if !bleScanner.connectedToReceiver {

@@ -108,7 +108,11 @@ struct AdvertisementRow: View {
 
             //Map to tuple of (String, DecodedEntry) and sort it by the bytes
             let advDescription = advDict.map { ($0.0, $0.1) }.sorted { (lhs, rhs) -> Bool in
-                return lhs.1.byteRange.lowerBound < rhs.1.byteRange.lowerBound
+                if lhs.1.byteRange.lowerBound < rhs.1.byteRange.lowerBound {
+                    return true
+                }
+                
+                return lhs.1.byteRange.lowerBound == rhs.1.byteRange.lowerBound && lhs.1.description.lowercased() < rhs.1.description.lowercased()
             }
 
             let keyValues: [(String, String)] = advDescription.map({

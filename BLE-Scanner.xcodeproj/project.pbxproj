@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		781B2DF6243F080F00C529A5 /* AngleCalculation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781B2DF5243F080F00C529A5 /* AngleCalculation.swift */; };
+		781B2DF8243F0AD100C529A5 /* RSSI_AngleCalculation_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781B2DF7243F0AD100C529A5 /* RSSI_AngleCalculation_Tests.swift */; };
+		781B2DFA243F0AE600C529A5 /* rssi_measurement_1.csv in Resources */ = {isa = PBXBuildFile; fileRef = 781B2DF9243F0AE600C529A5 /* rssi_measurement_1.csv */; };
+		781B2DFC243F0B0500C529A5 /* rssi_measurement_2.csv in Resources */ = {isa = PBXBuildFile; fileRef = 781B2DFB243F0B0500C529A5 /* rssi_measurement_2.csv */; };
 		78232034240E7D7B00D4FDE3 /* DeviceDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78232033240E7D7B00D4FDE3 /* DeviceDetailView.swift */; };
 		78232038240EA8BA00D4FDE3 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78232037240EA8B900D4FDE3 /* MainView.swift */; };
 		7823203A240EBB4500D4FDE3 /* EnvironmentScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78232039240EBB4500D4FDE3 /* EnvironmentScanner.swift */; };
@@ -14,6 +18,8 @@
 		7823682B241F885A00406CEE /* DocumentPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7823682A241F885A00406CEE /* DocumentPickerView.swift */; };
 		7823682E2420C29600406CEE /* PopoverSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7823682D2420C29600406CEE /* PopoverSheet.swift */; };
 		7823683124210AEE00406CEE /* BLETools in Frameworks */ = {isa = PBXBuildFile; productRef = 7823683024210AEE00406CEE /* BLETools */; };
+		782A35142445B9260085C47B /* RSSIPlotsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 782A35132445B9260085C47B /* RSSIPlotsView.swift */; };
+		782A3516244603020085C47B /* FilterSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 782A3515244603020085C47B /* FilterSettings.swift */; };
 		7838954C241A5625008248CA /* AWDLScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7838954B241A5625008248CA /* AWDLScannerView.swift */; };
 		78510A2A243B69FB00FCCF83 /* LineHStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78510A29243B69FB00FCCF83 /* LineHStack.swift */; };
 		7852D37F241BE20D00AA1B96 /* ActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7852D37E241BE20D00AA1B96 /* ActivityView.swift */; };
@@ -69,6 +75,8 @@
 		78B8662024123C80003761D0 /* ManfucaturerSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B8661F24123C80003761D0 /* ManfucaturerSelection.swift */; };
 		78D86E46240D81D400E718BF /* CoreBluetoothTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D86E45240D81D400E718BF /* CoreBluetoothTests.swift */; };
 		78EFB97C242277A000C4A6B8 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EFB97B242277A000C4A6B8 /* SettingsView.swift */; };
+		78F0E161243F4B9200002906 /* rssi_measurement_3.csv in Resources */ = {isa = PBXBuildFile; fileRef = 78F0E160243F4B9200002906 /* rssi_measurement_3.csv */; };
+		78F0E163243F57E000002906 /* rssi_measurement_4.csv in Resources */ = {isa = PBXBuildFile; fileRef = 78F0E162243F57E000002906 /* rssi_measurement_4.csv */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -89,12 +97,18 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		781B2DF5243F080F00C529A5 /* AngleCalculation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AngleCalculation.swift; sourceTree = "<group>"; };
+		781B2DF7243F0AD100C529A5 /* RSSI_AngleCalculation_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RSSI_AngleCalculation_Tests.swift; sourceTree = "<group>"; };
+		781B2DF9243F0AE600C529A5 /* rssi_measurement_1.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = rssi_measurement_1.csv; sourceTree = "<group>"; };
+		781B2DFB243F0B0500C529A5 /* rssi_measurement_2.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = rssi_measurement_2.csv; sourceTree = "<group>"; };
 		7823202E240E771200D4FDE3 /* BLE-Scanner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "BLE-Scanner.entitlements"; sourceTree = "<group>"; };
 		78232033240E7D7B00D4FDE3 /* DeviceDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceDetailView.swift; sourceTree = "<group>"; };
 		78232037240EA8B900D4FDE3 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		78232039240EBB4500D4FDE3 /* EnvironmentScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentScanner.swift; sourceTree = "<group>"; };
 		7823682A241F885A00406CEE /* DocumentPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentPickerView.swift; sourceTree = "<group>"; };
 		7823682D2420C29600406CEE /* PopoverSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopoverSheet.swift; sourceTree = "<group>"; };
+		782A35132445B9260085C47B /* RSSIPlotsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RSSIPlotsView.swift; sourceTree = "<group>"; };
+		782A3515244603020085C47B /* FilterSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterSettings.swift; sourceTree = "<group>"; };
 		7838954B241A5625008248CA /* AWDLScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AWDLScannerView.swift; sourceTree = "<group>"; };
 		78510A29243B69FB00FCCF83 /* LineHStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineHStack.swift; sourceTree = "<group>"; };
 		7852D37E241BE20D00AA1B96 /* ActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityView.swift; sourceTree = "<group>"; };
@@ -142,6 +156,8 @@
 		78B8661F24123C80003761D0 /* ManfucaturerSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManfucaturerSelection.swift; sourceTree = "<group>"; };
 		78D86E45240D81D400E718BF /* CoreBluetoothTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreBluetoothTests.swift; sourceTree = "<group>"; };
 		78EFB97B242277A000C4A6B8 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		78F0E160243F4B9200002906 /* rssi_measurement_3.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = rssi_measurement_3.csv; sourceTree = "<group>"; };
+		78F0E162243F57E000002906 /* rssi_measurement_4.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = rssi_measurement_4.csv; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -198,6 +214,7 @@
 				786A383324339CAB00608FAB /* iPadActionSheet.swift */,
 				7874249E24378C7B00F06B90 /* ColorExtension.swift */,
 				78510A29243B69FB00FCCF83 /* LineHStack.swift */,
+				782A3515244603020085C47B /* FilterSettings.swift */,
 			);
 			path = SupportingViews;
 			sourceTree = "<group>";
@@ -220,6 +237,7 @@
 				7823682C2420C27800406CEE /* SupportingViews */,
 				7874249A2437870100F06B90 /* AdvertisementViews */,
 				78236829241F884100406CEE /* UIKitRepresentable */,
+				782A35132445B9260085C47B /* RSSIPlotsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -318,6 +336,11 @@
 		788D989A240D435E005FC745 /* BLE-ScannerTests */ = {
 			isa = PBXGroup;
 			children = (
+				781B2DF9243F0AE600C529A5 /* rssi_measurement_1.csv */,
+				781B2DFB243F0B0500C529A5 /* rssi_measurement_2.csv */,
+				78F0E160243F4B9200002906 /* rssi_measurement_3.csv */,
+				78F0E162243F57E000002906 /* rssi_measurement_4.csv */,
+				781B2DF7243F0AD100C529A5 /* RSSI_AngleCalculation_Tests.swift */,
 				788D989B240D435E005FC745 /* BLE_ScannerTests.swift */,
 				78D86E45240D81D400E718BF /* CoreBluetoothTests.swift */,
 				788D989D240D435E005FC745 /* Info.plist */,
@@ -339,6 +362,7 @@
 			children = (
 				78A7715824212A6200EF3E0C /* RSSIRecorderView.swift */,
 				787F4FFF2424B2BD005861EE /* RSSIPlots.swift */,
+				781B2DF5243F080F00C529A5 /* AngleCalculation.swift */,
 			);
 			path = "RSSI-Scanning";
 			sourceTree = "<group>";
@@ -490,6 +514,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				781B2DFC243F0B0500C529A5 /* rssi_measurement_2.csv in Resources */,
+				78F0E161243F4B9200002906 /* rssi_measurement_3.csv in Resources */,
+				781B2DFA243F0AE600C529A5 /* rssi_measurement_1.csv in Resources */,
+				78F0E163243F57E000002906 /* rssi_measurement_4.csv in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -525,6 +553,7 @@
 				787D6F5B241BB8FD00AB7AB3 /* AWDLServiceDetailView.swift in Sources */,
 				7838954C241A5625008248CA /* AWDLScannerView.swift in Sources */,
 				7823203A240EBB4500D4FDE3 /* EnvironmentScanner.swift in Sources */,
+				782A35142445B9260085C47B /* RSSIPlotsView.swift in Sources */,
 				787D6F79241BD1D600AB7AB3 /* Model.swift in Sources */,
 				788D9887240D435C005FC745 /* SceneDelegate.swift in Sources */,
 				7852D37F241BE20D00AA1B96 /* ActivityView.swift in Sources */,
@@ -535,6 +564,7 @@
 				7823682B241F885A00406CEE /* DocumentPickerView.swift in Sources */,
 				7879E3C62418EF6C003AA8DF /* SharingBLEHandler.m in Sources */,
 				7888CFE5242E550F00A2C971 /* ConnectingView.swift in Sources */,
+				782A3516244603020085C47B /* FilterSettings.swift in Sources */,
 				78B8662024123C80003761D0 /* ManfucaturerSelection.swift in Sources */,
 				7888CFE3242E04D600A2C971 /* BlurView.swift in Sources */,
 				7874249C2437874D00F06B90 /* AdvertisementRow.swift in Sources */,
@@ -543,6 +573,7 @@
 				787F50002424B2BD005861EE /* RSSIPlots.swift in Sources */,
 				7888CFDE242DFAB900A2C971 /* ActivitySpinner.swift in Sources */,
 				786A383424339CAB00608FAB /* iPadActionSheet.swift in Sources */,
+				781B2DF6243F080F00C529A5 /* AngleCalculation.swift in Sources */,
 				788D9889240D435C005FC745 /* DeviceListView.swift in Sources */,
 				78EFB97C242277A000C4A6B8 /* SettingsView.swift in Sources */,
 				7874249F24378C7B00F06B90 /* ColorExtension.swift in Sources */,
@@ -554,6 +585,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				781B2DF8243F0AD100C529A5 /* RSSI_AngleCalculation_Tests.swift in Sources */,
 				788D989C240D435E005FC745 /* BLE_ScannerTests.swift in Sources */,
 				78D86E46240D81D400E718BF /* CoreBluetoothTests.swift in Sources */,
 			);

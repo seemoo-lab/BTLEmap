@@ -71,6 +71,8 @@ struct DeviceListView: View {
 struct BLEDeviceRow: View {
     @ObservedObject var bleDevice: BLEDevice
     
+    var fixedIconColor: Color?
+    
     var imageName: String {
         if self.bleDevice.manufacturer == .seemoo {
             return "seemoo"
@@ -79,6 +81,10 @@ struct BLEDeviceRow: View {
     }
     
     var iconColor: Color {
+        guard self.fixedIconColor == nil else {
+            return fixedIconColor!
+        }
+        
         if self.bleDevice.isActive {
             return Color("isSendingColor")
         }else {
