@@ -10,7 +10,8 @@
 "Title_advertisements_received" = "Advertisements received";
 "Title_manufacturer_selection" = "Displayed manufacturers";
 "Btn_deselect_all" = "Deselect all";
-"Btn_select_all" = "Select all"; 
+"Btn_select_all" = "Select all";
+"Ttl_Scroll_automatically" = "Scroll automatically"; 
 "Info_copied" = "Copied!";
 "Title_advertisement_selection" = "Filter advertisements";
 "Btn_filter_advertisements" = "Filter advertisements";

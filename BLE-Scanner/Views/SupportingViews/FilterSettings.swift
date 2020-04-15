@@ -42,8 +42,11 @@ struct FilterSettings:View {
         Button(action: {
             self.showManufacturerSelection.toggle()
         }, label:  {
-            Image(systemName: "line.horizontal.3.decrease.circle")
+            Group {
+                Text("Btn_filter_manufacturers")
+                Image(systemName: "line.horizontal.3.decrease.circle")
                 .imageScale(.large)
+            }
         })
             .popoverSheet(isPresented: self.$showManufacturerSelection, content: {
                 ManfucaturerSelection(selectedManufacturers: self.appliedFilters.manufacturerBinding, isShown: self.$showManufacturerSelection)
@@ -56,6 +59,7 @@ struct FilterSettings:View {
     var body: some View {
         Group {
             self.filterButton
+                .padding([.leading, .trailing])
             
             Slider(value: self.appliedFilters.rssiBinding, in: self.sliderRange)
                 .frame(maxWidth: 200.0)

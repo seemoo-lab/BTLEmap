@@ -28,14 +28,15 @@ struct RSSIPlotsView: View {
     @EnvironmentObject var bleScanner: BLEScanner
     @EnvironmentObject var viewModel: RSSIGraphViewModel
     @EnvironmentObject var filters: AppliedFilters
-    
+    @Environment(\.horizontalSizeClass) var sizeClass
     
     @State var scrollAutomatically: Bool = true
     @State var showFilterSettings = false
     
-    var devices: [BLEDevice] {
-        self.bleScanner.deviceList.filter({self.applyFilters(to: $0)}).sorted(by: {$0.id < $1.id})
-     }
+    /// Update timer. On every call the view should update. A direct update takes up too much energy
+    let updateTimer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
+    
+    @State var devices: [BLEDevice] = []
     
     var deviceList: some View {
         List(self.devices) { device in
@@ -43,41 +44,38 @@ struct RSSIPlotsView: View {
         }
     }
     
-    var devicesPlotInfo: [RSSIMultiDevicePlot.DevicePlotInfo] {
-        self.devices.map({RSSIMultiDevicePlot.DevicePlotInfo(deviceId: $0.id, plotColor: self.viewModel.color(for: $0), rssis: self.rssis(for: $0))})
-    }
+    @State var devicesPlotInfo: [RSSIMultiDevicePlot.DevicePlotInfo] = []
+
     
-    var filterSettings: some View {
+    func settings(for width: CGFloat) -> some View {
         Group {
-            VStack {
-                FilterSettings()
-                    .environmentObject(self.filters)
+            if width < 500  {
+                VStack {
+                    Toggle("Ttl_Scroll_automatically", isOn: self.$scrollAutomatically)
+                        .frame(maxWidth: 250)
+                        .padding([.leading, .trailing])
+                    FilterSettings()
+                        .environmentObject(self.filters)
+                }
+            }else {
+                HStack {
+                    Toggle("Ttl_Scroll_automatically", isOn: self.$scrollAutomatically)
+                                           .frame(maxWidth: 250)
+                                           .padding([.leading, .trailing])
+                    FilterSettings()
+                        .environmentObject(self.filters)
+                    
+                    Spacer()
+                }
             }
+            
         }
     }
     
     var body: some View {
         GeometryReader{ g in
             VStack {
-                HStack {
-                    Toggle("Ttl_Scroll_automatically", isOn: self.$scrollAutomatically)
-                        .frame(maxWidth: 250)
-                        .padding([.leading, .trailing])
-                    
-                    Button(action: {
-                        self.showFilterSettings.toggle()
-                    }, label:  {
-                        Image(systemName: "line.horizontal.3.decrease.circle")
-                            .imageScale(.large)
-                    })
-                        .popoverSheet(isPresented: self.$showFilterSettings, content: {
-                            self.filterSettings
-                        })
-                        .padding(.trailing)
-                    Spacer()
-                    
-                }.padding()
-                
+                self.settings(for: g.size.width)
                 
                 GeometryReader {g2 in
                     HStack() {
@@ -93,6 +91,9 @@ struct RSSIPlotsView: View {
                 }
             }
             .frame(width: g.size.width, height: g.size.height)
+        }
+        .onReceive(updateTimer) { (timer) in
+            self.updateGraph()
         }
     }
     
@@ -117,6 +118,12 @@ struct RSSIPlotsView: View {
     func applyFilters(to device: BLEDevice) -> Bool {
         guard self.filters.selectedManufacturers.contains(device.manufacturer.rawValue.capitalized) else {return false}
         return device.lastRSSI > self.filters.minRSSI
+    }
+    
+    func updateGraph() {
+        self.devices = self.bleScanner.deviceList.filter({self.applyFilters(to: $0)}).sorted(by: {$0.id < $1.id})
+                   
+        self.devicesPlotInfo = self.devices.map({RSSIMultiDevicePlot.DevicePlotInfo(deviceId: $0.id, plotColor: self.viewModel.color(for: $0), rssis: self.rssis(for: $0))})
     }
     
     struct RSSIDate {
@@ -248,7 +255,7 @@ extension RSSIPlotsView {
                         HStack {
                             Text("\(v / Int(self.scaleTimeInterval))s")
                         }
-                        .position(CGPoint(x: CGFloat(v) + 5, y: self.xLineHeight + 20))
+                        .position(CGPoint(x: CGFloat(v) + 5, y: self.xLineHeight + self.dHeight))
                     }
                 }
             }

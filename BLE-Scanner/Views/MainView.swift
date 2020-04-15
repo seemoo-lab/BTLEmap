@@ -76,6 +76,14 @@ struct MainView: View {
                     Text("Environment Scanner")
             }
             
+            RSSIPlotsView()
+                .environmentObject(self.rssiViewModel)
+                .tabItem({
+                    Image("GraphIcon")
+                        .imageScale(.small)
+                    Text("RSSI Graph")
+                })
+            
             AWDLScannerView().environmentObject(awdlScanner)
                 .tabItem {
                     Image(systemName:"wifi")
