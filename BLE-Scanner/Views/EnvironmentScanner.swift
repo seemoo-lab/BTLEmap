@@ -13,7 +13,6 @@ class EnvironmentViewModel: ObservableObject {
     var angles = [BLEDevice : CGFloat]()
     var lastAngle: CGFloat = 0
     var detailDevice: BLEDevice?
-    
     var maxRSSI: Int = 100
     
     func updateViewModel(for devices: [BLEDevice]) {
@@ -32,14 +31,14 @@ class EnvironmentViewModel: ObservableObject {
 struct EnvironmentScanner: View {
     @EnvironmentObject var bleScanner: BLEScanner
     @EnvironmentObject var viewModel: EnvironmentViewModel
+    
     @Environment(\.horizontalSizeClass) var sizeClass
     
+    @EnvironmentObject var filters: AppliedFilters
     @State var showDetail: Bool = false
     
-    @State var selectedManufacturers: [String] = BLEManufacturer.allCases.map{$0.rawValue.capitalized}
-    @State var minimumRSSI: Float = -100
-    
     @GestureState var scaling: CGFloat = 1.0
+    @State var minRSSI: Float = -100
     @State var finalScale: CGFloat = 1.0
     @State var currentScale: CGFloat = 0.0
     @State var dragAmount = CGSize.zero
@@ -58,9 +57,9 @@ struct EnvironmentScanner: View {
         var devices = self.bleScanner.deviceList.sorted(by: {$0.id < $1.id})
         
         //Filter out all unselected devices
-        devices = devices.filter {self.selectedManufacturers.contains($0.manufacturer.rawValue.capitalized)}
+        devices = devices.filter {self.filters.selectedManufacturers.contains($0.manufacturer.rawValue.capitalized)}
         
-        devices = devices.filter { self.minimumRSSI <= -100 ? true : $0.lastRSSI >= self.minimumRSSI}
+        devices = devices.filter { self.filters.minRSSI <= -100 ? true : $0.lastRSSI >= self.filters.minRSSI}
         
 //
         return devices
@@ -105,7 +104,7 @@ struct EnvironmentScanner: View {
             ZStack {
                 VStack {
                     HStack {
-                        FilterSettings(selectedManufacturers: self.$selectedManufacturers, minimumRSSI: self.$minimumRSSI)
+                        FilterSettings()
                         .padding()
                     }
                     Spacer(minLength: 20.0)
@@ -118,7 +117,7 @@ struct EnvironmentScanner: View {
                     
                         GeometryReader { geometry  in
                             ZStack {
-                                BackgroundView(minRSSI: self.$minimumRSSI)
+                                BackgroundView(minRSSI: self.filters.minRSSI)
 
                                 //Draw devices
 
@@ -175,7 +174,7 @@ struct EnvironmentScanner: View {
             return size.width
         }()
         
-        let rssiMax = CGFloat(self.minimumRSSI)
+        let rssiMax = CGFloat(self.filters.minRSSI)
         let distance: CGFloat = {
             if CGFloat(rssi) < rssiMax {
                 return circleSize/2
@@ -196,8 +195,12 @@ struct EnvironmentScanner: View {
 
 
 struct EnvironmentScanner_Previews: PreviewProvider {
+    @State static var filters = AppliedFilters()
+    
     static var previews: some View {
-        EnvironmentScanner()
+        EnvironmentScanner(
+//            filters: $filters
+        )
     }
 }
 
@@ -206,7 +209,7 @@ struct BackgroundView: View {
     let circleColor = Color.gray
 //    @ObservedObject var viewModel: EnvironmentViewModel
     
-    @Binding var minRSSI: Float
+    var minRSSI: Float
     
     var body: some View {
         

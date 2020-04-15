@@ -71,6 +71,7 @@
 		78A771512421274700EF3E0C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 788D988D240D435E005FC745 /* Preview Assets.xcassets */; };
 		78A771522421274700EF3E0C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 788D988A240D435E005FC745 /* Assets.xcassets */; };
 		78A7715924212A6200EF3E0C /* RSSIRecorderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A7715824212A6200EF3E0C /* RSSIRecorderView.swift */; };
+		78AE2D882446F0A6002D28D9 /* RSSIGraphTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78AE2D872446F0A6002D28D9 /* RSSIGraphTests.swift */; };
 		78B8661C240FE43F003761D0 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 78B8661B240FE43F003761D0 /* README.md */; };
 		78B8662024123C80003761D0 /* ManfucaturerSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B8661F24123C80003761D0 /* ManfucaturerSelection.swift */; };
 		78D86E46240D81D400E718BF /* CoreBluetoothTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D86E45240D81D400E718BF /* CoreBluetoothTests.swift */; };
@@ -152,6 +153,7 @@
 		78A771562421274700EF3E0C /* BLE-Scanner JB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "BLE-Scanner JB.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		78A771572421274700EF3E0C /* BLE-Scanner copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "BLE-Scanner copy-Info.plist"; path = "/Users/seemoo/Work/Research/BLEScanner/Projects/BLE-Scanner/BLE-Scanner copy-Info.plist"; sourceTree = "<absolute>"; };
 		78A7715824212A6200EF3E0C /* RSSIRecorderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RSSIRecorderView.swift; sourceTree = "<group>"; };
+		78AE2D872446F0A6002D28D9 /* RSSIGraphTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RSSIGraphTests.swift; sourceTree = "<group>"; };
 		78B8661B240FE43F003761D0 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		78B8661F24123C80003761D0 /* ManfucaturerSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManfucaturerSelection.swift; sourceTree = "<group>"; };
 		78D86E45240D81D400E718BF /* CoreBluetoothTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreBluetoothTests.swift; sourceTree = "<group>"; };
@@ -237,7 +239,6 @@
 				7823682C2420C27800406CEE /* SupportingViews */,
 				7874249A2437870100F06B90 /* AdvertisementViews */,
 				78236829241F884100406CEE /* UIKitRepresentable */,
-				782A35132445B9260085C47B /* RSSIPlotsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -344,6 +345,7 @@
 				788D989B240D435E005FC745 /* BLE_ScannerTests.swift */,
 				78D86E45240D81D400E718BF /* CoreBluetoothTests.swift */,
 				788D989D240D435E005FC745 /* Info.plist */,
+				78AE2D872446F0A6002D28D9 /* RSSIGraphTests.swift */,
 			);
 			path = "BLE-ScannerTests";
 			sourceTree = "<group>";
@@ -360,6 +362,7 @@
 		78F5BBB1243CCD81002091CA /* RSSI-Scanning */ = {
 			isa = PBXGroup;
 			children = (
+				782A35132445B9260085C47B /* RSSIPlotsView.swift */,
 				78A7715824212A6200EF3E0C /* RSSIRecorderView.swift */,
 				787F4FFF2424B2BD005861EE /* RSSIPlots.swift */,
 				781B2DF5243F080F00C529A5 /* AngleCalculation.swift */,
@@ -586,6 +589,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				781B2DF8243F0AD100C529A5 /* RSSI_AngleCalculation_Tests.swift in Sources */,
+				78AE2D882446F0A6002D28D9 /* RSSIGraphTests.swift in Sources */,
 				788D989C240D435E005FC745 /* BLE_ScannerTests.swift in Sources */,
 				78D86E46240D81D400E718BF /* CoreBluetoothTests.swift in Sources */,
 			);

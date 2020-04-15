@@ -16,6 +16,8 @@ struct MainView: View {
     @EnvironmentObject var bleScanner: BLEScanner
     @EnvironmentObject var viewModel: EnvironmentViewModel
     @EnvironmentObject var awdlScanner: AWDLNetServiceBrowser
+    @EnvironmentObject var appliedFilters: AppliedFilters
+    @ObservedObject var rssiViewModel = RSSIGraphViewModel()
     
     @State var launched = false
     
@@ -39,10 +41,13 @@ struct MainView: View {
             
             Group {
                 if currentViewSelected == 1 {
-                    EnvironmentScanner().environmentObject(bleScanner).environmentObject(viewModel)
+                    EnvironmentScanner()
+                        .environmentObject(bleScanner)
+                        .environmentObject(viewModel)
                     
                 }else if currentViewSelected == 2 {
-                    RSSIPlotsView().environmentObject(bleScanner)
+                    RSSIPlotsView()
+                        .environmentObject(self.rssiViewModel)
                 }
                 
                 else if currentViewSelected == 3 {
@@ -64,7 +69,8 @@ struct MainView: View {
                     Text("BLE Devices")
             }
             
-            EnvironmentScanner().environmentObject(bleScanner).environmentObject(viewModel)
+            EnvironmentScanner()
+                .environmentObject(bleScanner).environmentObject(viewModel)
                 .tabItem {
                     Image(systemName:"dot.radiowaves.left.and.right")
                     Text("Environment Scanner")
