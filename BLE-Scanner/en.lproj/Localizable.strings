@@ -11,7 +11,7 @@
 "Title_manufacturer_selection" = "Displayed manufacturers";
 "Btn_deselect_all" = "Deselect all";
 "Btn_select_all" = "Select all";
-"Ttl_Scroll_automatically" = "Scroll automatically"; 
+"Ttl_Scroll_automatically" = "Scroll automatically";
 "Info_copied" = "Copied!";
 "Title_advertisement_selection" = "Filter advertisements";
 "Btn_filter_advertisements" = "Filter advertisements";
@@ -29,3 +29,5 @@
 "Sts_Receiver_Selection" = "BLE receiver";
 "Title_Select_BLE_receiver" = "Select BLE receiver";
 "Message_Select_BLE_Receiver" = "This app offers multiple ways of receiving BLE signals. For Raspberry Pis, make sure that you set them up correctly";
+"Empty_advertisement" = "No manufacturer data";
+"Channel" = "Channel";

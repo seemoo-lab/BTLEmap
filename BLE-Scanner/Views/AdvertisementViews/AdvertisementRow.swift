@@ -32,6 +32,14 @@ struct AdvertisementRow: View {
             return DecodedAdvType(type: advType, data: advData, description: decoded)
         }
     }
+    
+    var advChannel: String {
+        if let channel = self.advertisement.channel {
+            return String(describing: channel)
+        }else {
+            return "unknown"
+        }
+    }
 
     var dateFormatter: DateFormatter {
         let df = DateFormatter()
@@ -53,6 +61,12 @@ struct AdvertisementRow: View {
                 }
             }
 
+            HStack {
+                Text("Channel: \(self.advChannel)")
+                Spacer() 
+            }
+            
+            
             HStack {
                 Text("Received \(advertisement.numberOfTimesReceived) times")
                 Spacer()
@@ -89,6 +103,8 @@ struct AdvertisementRow: View {
 
                         Spacer()
                     }
+                }else {
+                    Text("Empty_advertisement")
                 }
             }
 
