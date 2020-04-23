@@ -17,7 +17,8 @@ struct DeviceListView: View {
     
     
     var devices: [BLEDevice] {
-        self.scanner.deviceList.sorted(by: {$0.id < $1.id})
+//        self.scanner.deviceList.sorted(by: {$0.id < $1.id})
+        return self.scanner.deviceList
     }
     
     var navigationBarItems: some View {
@@ -50,12 +51,7 @@ struct DeviceListView: View {
             self.scanner.scanning = true
         }
     }
-    
-    
-    func checkForBluetoothPermission() {
-        
-    }
-    
+
 }
 
 struct BLEDeviceRow: View {
@@ -67,7 +63,7 @@ struct BLEDeviceRow: View {
         if self.bleDevice.manufacturer == .seemoo {
             return "seemoo"
         }
-        return self.bleDevice.deviceType.string
+        return self.bleDevice.deviceModel?.deviceType.string ?? BLEDeviceModel.DeviceType.other.string
     }
     
     var iconColor: Color {
@@ -105,6 +101,10 @@ struct BLEDeviceRow: View {
                 
                 Spacer()
                 
+                bleDevice.deviceModel.map({
+                    Text($0.modelDescription)
+                })
+                
                 HStack {
                     bleDevice.name.map {
                         Text($0)
@@ -114,6 +114,7 @@ struct BLEDeviceRow: View {
                     Text(bleDevice.manufacturer.name)
                         .font(.callout)
                 }
+            
                 
                 HStack {
                     bleDevice.osVersion.map {

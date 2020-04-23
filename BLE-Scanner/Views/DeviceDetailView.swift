@@ -156,7 +156,7 @@ struct DeviceDetailView: View {
                     
                     HStack {
                         
-                        Text(self.device.modelNumber ?? "Unknown model")
+                        Text(self.device.deviceModel?.modelDescription ?? "Unknown model")
                         
                         
                         if self.device.osVersion != nil {

@@ -280,7 +280,7 @@ struct DeviceOnCircleView: View {
             return "seemoo"
         }
         
-        return self.device.deviceType.string
+        return self.device.deviceModel?.deviceType.string ?? BLEDeviceModel.DeviceType.other.string
     }
     
     var scaling: CGFloat {
@@ -309,8 +309,8 @@ struct DeviceOnCircleView: View {
                     .animation(.none)
             }
             
-            if self.device.deviceType != .other {
-                Text("\(device.deviceType.string) ")
+            if self.device.deviceModel?.deviceType != .other {
+                Text("\(device.deviceModel?.deviceType.string ?? BLEDeviceModel.DeviceType.other.string) ")
                     .frame(width: 125.0)
                     .multilineTextAlignment(.center)
                     .animation(.none)

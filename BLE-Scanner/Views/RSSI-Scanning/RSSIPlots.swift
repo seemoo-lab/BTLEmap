@@ -31,8 +31,8 @@ struct RSSIPlots: View {
                 VStack {
                     Text(device.id)
                     Text(device.manufacturer.name)
-                    if device.modelNumber != nil {
-                        Text(device.modelNumber!)
+                    if device.deviceModel != nil {
+                        Text(device.deviceModel!.modelDescription)
                     }
                     RSSIChart(device: device,
                               rssiValues: self.recording.recordedData[device]!,

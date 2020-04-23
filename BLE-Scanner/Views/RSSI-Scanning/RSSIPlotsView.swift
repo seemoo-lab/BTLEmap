@@ -32,6 +32,7 @@ struct RSSIPlotsView: View {
     
     @State var scrollAutomatically: Bool = true
     @State var showFilterSettings = false
+    @State var selectedDevice: BLEDevice?
     
     /// Update timer. On every call the view should update. A direct update takes up too much energy
     let updateTimer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
@@ -40,8 +41,18 @@ struct RSSIPlotsView: View {
     
     var deviceList: some View {
         List(self.devices) { device in
-            BLEDeviceRow(bleDevice: device, fixedIconColor: self.viewModel.color(for: device))
+            Button(action: {
+                if self.selectedDevice == device {
+                    self.selectedDevice = nil
+                }else {
+                    self.selectedDevice = device
+                }
+            }, label: {
+                BLEDeviceRow(bleDevice: device, fixedIconColor: self.viewModel.color(for: device))
+                    
+            })
         }
+        
     }
     
     @State var devicesPlotInfo: [RSSIMultiDevicePlot.DevicePlotInfo] = []
@@ -121,7 +132,12 @@ struct RSSIPlotsView: View {
     }
     
     func updateGraph() {
-        self.devices = self.bleScanner.deviceList.filter({self.applyFilters(to: $0)}).sorted(by: {$0.id < $1.id})
+        
+        if let selectedDevice = self.selectedDevice {
+            self.devices = [selectedDevice]
+        }else {
+            self.devices = self.bleScanner.deviceList.filter({self.applyFilters(to: $0)}).sorted(by: {$0.id < $1.id})
+        }
                    
         self.devicesPlotInfo = self.devices.map({RSSIMultiDevicePlot.DevicePlotInfo(deviceId: $0.id, plotColor: self.viewModel.color(for: $0), rssis: self.rssis(for: $0))})
     }
