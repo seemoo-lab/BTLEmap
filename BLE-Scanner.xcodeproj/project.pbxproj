@@ -48,6 +48,7 @@
 		788D989C240D435E005FC745 /* BLE_ScannerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788D989B240D435E005FC745 /* BLE_ScannerTests.swift */; };
 		788D98A7240D435E005FC745 /* BLE_ScannerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788D98A6240D435E005FC745 /* BLE_ScannerUITests.swift */; };
 		788D98E3240D561E005FC745 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 788D98E5240D561E005FC745 /* Localizable.strings */; };
+		789BE5092451EF1700A1C54C /* MenuBarHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789BE5082451EF1700A1C54C /* MenuBarHandler.swift */; };
 		78A43B0B2437922100319BD8 /* AdvertisementManudfacturerDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A43B0A2437922100319BD8 /* AdvertisementManudfacturerDataView.swift */; };
 		78A771392421274700EF3E0C /* AdvertisementTypeFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7879E3BA2417EB23003AA8DF /* AdvertisementTypeFilterView.swift */; };
 		78A7713A2421274700EF3E0C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788D9884240D435C005FC745 /* AppDelegate.swift */; };
@@ -154,6 +155,7 @@
 		788D98A6240D435E005FC745 /* BLE_ScannerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLE_ScannerUITests.swift; sourceTree = "<group>"; };
 		788D98A8240D435E005FC745 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		788D98E4240D561E005FC745 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		789BE5082451EF1700A1C54C /* MenuBarHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarHandler.swift; sourceTree = "<group>"; };
 		78A43B0A2437922100319BD8 /* AdvertisementManudfacturerDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvertisementManudfacturerDataView.swift; sourceTree = "<group>"; };
 		78A771322421272F00EF3E0C /* BLE-Scanner-JB.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "BLE-Scanner-JB.entitlements"; sourceTree = "<group>"; };
 		78A771562421274700EF3E0C /* BLE-Scanner JB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "BLE-Scanner JB.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -328,6 +330,7 @@
 				78A771322421272F00EF3E0C /* BLE-Scanner-JB.entitlements */,
 				7823202E240E771200D4FDE3 /* BLE-Scanner.entitlements */,
 				788D9884240D435C005FC745 /* AppDelegate.swift */,
+				789BE5082451EF1700A1C54C /* MenuBarHandler.swift */,
 				787D6F78241BD1D600AB7AB3 /* Model.swift */,
 				788D9886240D435C005FC745 /* SceneDelegate.swift */,
 				787D6F7A241BD63E00AB7AB3 /* ModelSceneDelegate.swift */,
@@ -588,6 +591,7 @@
 				7888CFE5242E550F00A2C971 /* ConnectingView.swift in Sources */,
 				782A3516244603020085C47B /* FilterSettings.swift in Sources */,
 				78B8662024123C80003761D0 /* ManfucaturerSelection.swift in Sources */,
+				789BE5092451EF1700A1C54C /* MenuBarHandler.swift in Sources */,
 				7888CFE3242E04D600A2C971 /* BlurView.swift in Sources */,
 				7874249C2437874D00F06B90 /* AdvertisementRow.swift in Sources */,
 				7823682E2420C29600406CEE /* PopoverSheet.swift in Sources */,

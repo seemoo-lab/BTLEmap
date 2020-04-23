@@ -12,7 +12,7 @@ import UIKit
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
+    var menuHandler = MenuBarHandler()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -20,72 +20,44 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     
+    //MARK:- Mac Menu
     override func buildMenu(with builder: UIMenuBuilder) {
         super.buildMenu(with: builder)
         
         guard builder.system == UIMenuSystem.main else {return}
-        
-//        let showDevicesScanner = UIKeyCommand(title: "Menu_Show_devices",
-//        action: #selector(showSceneForDeviceList(_:)),
-//        input: "n",
-//        modifierFlags: .command)
-//
-////        let showRadiusScanner = UIKeyCommand(title: NSLocalizedString("Menu_show_radius_scanner", comment: "Menu bar item"), action: #selector(showSceneForRadiusScanner))
-//
-//        let menu = UIMenu(title: "", image: nil, identifier: .file, options: .displayInline, children: [showDevicesScanner])
-//
-//        builder.insertChild(menu, atStartOfMenu: .file)
-        
-        
-        builder.replaceChildren(ofMenu: .application) { (oldchildren) -> [UIMenuElement] in
-            var newChildren = [UIMenuElement]()
-            
-            let preferences = UIKeyCommand(title: NSLocalizedString("XZX_Prefernces", comment: "Menu bar item"), action: #selector(showPreferences(_:)), input: ",", modifierFlags: .command)
-            
-            newChildren.append(preferences)
-            return newChildren
-        }
-        
-        
-        builder.replaceChildren(ofMenu: .file) { oldChildren in
-            var newChildren = [UIMenuElement]()
 
-            let showDevicesList = UIKeyCommand(
-                title: NSLocalizedString("Menu_Show_devices", comment: "Menu bar item"),
-                action: #selector(showSceneForDeviceList(_:)),
-                input: "D",
-                modifierFlags: .command)
-            
-            let showRadiusScanner = UIKeyCommand(
-                title: NSLocalizedString("Menu_show_radius_scanner", comment: "Menu bar item"),
-                action: #selector(showSceneForRadiusScanner(_:)),
-                input: "R",
-                modifierFlags: .command)
-            
-            newChildren.insert(showDevicesList, at: 0)
-            newChildren.insert(showRadiusScanner, at: 1)
-            
-            return newChildren
-        }
+        self.menuHandler.buildMenu(with: builder)
+    }
     
+    
+    @objc func newWindow(_ sender: AnyObject?) {
+        let userActivity = NSUserActivity(activityType: "de.tu-darmstadt.seemoo.new-window")
+               
+        UIApplication.shared.requestSceneSessionActivation(nil, userActivity: userActivity, options: nil)
     }
     
     @objc func showSceneForDeviceList(_ sender: AnyObject?) {
-        
+         NotificationCenter.default.post(name: Notification.Name.App.showDeviceList, object: nil)
     }
     
     
     
     @objc func showSceneForRadiusScanner(_ sender: AnyObject?) {
-        
-        let userActivity = NSUserActivity(activityType: "de.tu-darmstadt.seemoo.live-analysis")
-        
-        UIApplication.shared.requestSceneSessionActivation(nil, userActivity: userActivity, options: nil)
+        NotificationCenter.default.post(name: Notification.Name.App.showEnvironment, object: nil)
+    }
+    
+    @objc func showRSSIGraph(_ sender: AnyObject?) {
+        NotificationCenter.default.post(name: Notification.Name.App.showRSSI, object: nil)
+    }
+    
+    @objc func showAWDL(_ sender: AnyObject?) {
+        NotificationCenter.default.post(name: Notification.Name.App.showAWDL, object: nil)
     }
     
     @objc func showPreferences(_ sender: AnyObject?) {
         NotificationCenter.default.post(name: Notification.Name.App.showPreferences, object: nil)
     }
+    
 
     // MARK: UISceneSession Lifecycle
 

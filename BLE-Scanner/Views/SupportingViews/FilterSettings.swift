@@ -34,6 +34,7 @@ class AppliedFilters: ObservableObject {
 }
 
 struct FilterSettings:View {
+    @Environment(\.horizontalSizeClass) var sizeClass
     @EnvironmentObject var appliedFilters: AppliedFilters
     @State var showManufacturerSelection = false
     @State var devicesCanTimeout = true
@@ -42,11 +43,17 @@ struct FilterSettings:View {
         Button(action: {
             self.showManufacturerSelection.toggle()
         }, label:  {
-            Group {
-                Text("Btn_filter_manufacturers")
+            if sizeClass == .compact {
                 Image(systemName: "line.horizontal.3.decrease.circle")
                 .imageScale(.large)
+            }else {
+                Group {
+                    Text("Btn_filter_manufacturers")
+                    Image(systemName: "line.horizontal.3.decrease.circle")
+                    .imageScale(.large)
+                }
             }
+            
         })
             .popoverSheet(isPresented: self.$showManufacturerSelection, content: {
                 ManfucaturerSelection(selectedManufacturers: self.appliedFilters.manufacturerBinding, isShown: self.$showManufacturerSelection)
