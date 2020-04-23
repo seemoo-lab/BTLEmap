@@ -44,17 +44,17 @@ struct DeviceDetailView: View {
             self.showAdvertisementFilter.toggle()
         }, label: {
             Image(systemName: "line.horizontal.3.decrease.circle")
-            .imageScale(.large)
-            .padding()
+                .imageScale(.large)
+                .padding()
         })
-        .popoverSheet(isPresented: $showAdvertisementFilter, content: {
-            AdvertisementTypeFilterView(selectedAdvertisementTypes: self.$displayedAdvertisementTypes, isShown: self.$showAdvertisementFilter)
-        })
-
-            
-//            .popover(isPresented: $showAdvertisementFilter, content: {
-//                AdvertisementTypeFilterView(selectedAdvertisementTypes: self.$displayedAdvertisementTypes, isShown: self.$showAdvertisementFilter)
-//            })
+            .popoverSheet(isPresented: $showAdvertisementFilter, content: {
+                AdvertisementTypeFilterView(selectedAdvertisementTypes: self.$displayedAdvertisementTypes, isShown: self.$showAdvertisementFilter)
+            })
+        
+        
+        //            .popover(isPresented: $showAdvertisementFilter, content: {
+        //                AdvertisementTypeFilterView(selectedAdvertisementTypes: self.$displayedAdvertisementTypes, isShown: self.$showAdvertisementFilter)
+        //            })
         
     }
     
@@ -88,10 +88,10 @@ struct DeviceDetailView: View {
         }) {
             Image(systemName: "square.and.arrow.up")
                 .imageScale(.large)
-            .padding()
+                .padding()
         }
         
-
+        
     }
     
     
@@ -111,21 +111,21 @@ struct DeviceDetailView: View {
                 
             }else {
                 DetailViewContent(device: device, isShown: $isShown, filteredAdvertisements: self.advertisements)
-                .environmentObject(RowColors())
+                    .environmentObject(RowColors())
                     .navigationBarTitle(Text(device.name ?? device.id))
                     .navigationBarItems(trailing:
                         HStack{
                             self.filterButton
                             self.exportButton
                     })
-                   
+                
             }
             
         }
         .frame(minWidth: 0, maxWidth: .infinity)
     }
     
-
+    
     
     struct DetailViewContent: View {
         @ObservedObject var device: BLEDevice
@@ -163,7 +163,7 @@ struct DeviceDetailView: View {
                             Divider()
                             
                             Text(self.device.osVersion!)
-                            .font(.callout)
+                                .font(.callout)
                         }
                         
                         
@@ -171,9 +171,9 @@ struct DeviceDetailView: View {
                             Divider()
                             
                             Text(self.device.wiFiOn! ? "WiFi: On" : "WiFi Off")
-                            .font(.callout)
+                                .font(.callout)
                         }
-                    
+                        
                         
                     }.frame(height: 20)
                 }
@@ -194,12 +194,16 @@ struct DeviceDetailView: View {
                 RoundedRectangle(cornerRadius: 2.5, style: .continuous)
                     .fill(Color(red: 0.5, green: 0.306, blue: 0.055))
                     .frame(width: 5.0)
-                    
-                VStack(alignment: .leading) {
+                
+                VStack(alignment: .leading, spacing: 0) {
                     Text(service.commonName)
-                    TextField("", text: Binding.constant(service.uuidString)).font(.system(.caption, design: .monospaced))
-//                    Text(service.uuidString).font(.system(.caption, design: .monospaced))
+                    GeometryReader {g in
+                        BytesTextView(text: service.uuidString, width: g.size.width, textStyle: .caption1)
+                    }
+                    .padding([.top,.bottom], 6.0)
+                    
                     ForEach(characteristics, id: \.self) { (characteristic: BLECharacteristic) in
+                        
                         self.generateCharacteristicsView(for: characteristic)
                     }
                 }
@@ -216,9 +220,9 @@ struct DeviceDetailView: View {
                         .foregroundColor(Color("Highlight"))
                     
                 }
-//                String(data: characteristic.value!, encoding: .utf8)?.map { value in
-//                    Text(value)
-//                }
+                //                String(data: characteristic.value!, encoding: .utf8)?.map { value in
+                //                    Text(value)
+                //                }
             }
         }
         

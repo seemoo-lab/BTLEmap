@@ -28,6 +28,9 @@
 		7874249F24378C7B00F06B90 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7874249E24378C7B00F06B90 /* ColorExtension.swift */; };
 		7879E3BB2417EB23003AA8DF /* AdvertisementTypeFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7879E3BA2417EB23003AA8DF /* AdvertisementTypeFilterView.swift */; };
 		7879E3C62418EF6C003AA8DF /* SharingBLEHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 7879E3C52418EF6C003AA8DF /* SharingBLEHandler.m */; };
+		787B3E052450892E006172BD /* NotificationNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787B3E042450892E006172BD /* NotificationNames.swift */; };
+		787B3E072450909B006172BD /* SelectableText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787B3E062450909B006172BD /* SelectableText.swift */; };
+		787B3E0924517DD9006172BD /* BytesTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787B3E0824517DD9006172BD /* BytesTextView.swift */; };
 		787D6F5B241BB8FD00AB7AB3 /* AWDLServiceDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787D6F5A241BB8FD00AB7AB3 /* AWDLServiceDetailView.swift */; };
 		787D6F76241BC91D00AB7AB3 /* DetailWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787D6F75241BC91D00AB7AB3 /* DetailWindowController.swift */; };
 		787D6F79241BD1D600AB7AB3 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787D6F78241BD1D600AB7AB3 /* Model.swift */; };
@@ -125,6 +128,9 @@
 		7879E3C42418EF6C003AA8DF /* SharingBLEHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SharingBLEHandler.h; sourceTree = "<group>"; };
 		7879E3C52418EF6C003AA8DF /* SharingBLEHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SharingBLEHandler.m; sourceTree = "<group>"; };
 		7879E3CA2418FF8B003AA8DF /* BluetoothDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BluetoothDevice.h; sourceTree = "<group>"; };
+		787B3E042450892E006172BD /* NotificationNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationNames.swift; sourceTree = "<group>"; };
+		787B3E062450909B006172BD /* SelectableText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectableText.swift; sourceTree = "<group>"; };
+		787B3E0824517DD9006172BD /* BytesTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BytesTextView.swift; sourceTree = "<group>"; };
 		787D6F5A241BB8FD00AB7AB3 /* AWDLServiceDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AWDLServiceDetailView.swift; sourceTree = "<group>"; };
 		787D6F75241BC91D00AB7AB3 /* DetailWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailWindowController.swift; sourceTree = "<group>"; };
 		787D6F78241BD1D600AB7AB3 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
@@ -205,6 +211,8 @@
 				7823682A241F885A00406CEE /* DocumentPickerView.swift */,
 				7888CFDD242DFAB900A2C971 /* ActivitySpinner.swift */,
 				7888CFE2242E04D600A2C971 /* BlurView.swift */,
+				787B3E062450909B006172BD /* SelectableText.swift */,
+				787B3E0824517DD9006172BD /* BytesTextView.swift */,
 			);
 			path = UIKitRepresentable;
 			sourceTree = "<group>";
@@ -275,6 +283,15 @@
 			path = PrivateHeaders;
 			sourceTree = "<group>";
 		};
+		787B3E03245088FE006172BD /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				7888CFDF242DFE3400A2C971 /* Extension */,
+				787B3E042450892E006172BD /* NotificationNames.swift */,
+			);
+			path = Utility;
+			sourceTree = "<group>";
+		};
 		7888CFDF242DFE3400A2C971 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
@@ -314,11 +331,11 @@
 				787D6F78241BD1D600AB7AB3 /* Model.swift */,
 				788D9886240D435C005FC745 /* SceneDelegate.swift */,
 				787D6F7A241BD63E00AB7AB3 /* ModelSceneDelegate.swift */,
-				7838954A241A55EF008248CA /* Views */,
+				787B3E03245088FE006172BD /* Utility */,
 				788D988A240D435E005FC745 /* Assets.xcassets */,
 				788D988F240D435E005FC745 /* LaunchScreen.storyboard */,
 				788D9892240D435E005FC745 /* Info.plist */,
-				7888CFDF242DFE3400A2C971 /* Extension */,
+				7838954A241A55EF008248CA /* Views */,
 				7879E3BD2418EE7A003AA8DF /* SFBLE */,
 				788D988C240D435E005FC745 /* Preview Content */,
 				788D98E5240D561E005FC745 /* Localizable.strings */,
@@ -563,8 +580,10 @@
 				78510A2A243B69FB00FCCF83 /* LineHStack.swift in Sources */,
 				78A7715924212A6200EF3E0C /* RSSIRecorderView.swift in Sources */,
 				78232034240E7D7B00D4FDE3 /* DeviceDetailView.swift in Sources */,
+				787B3E052450892E006172BD /* NotificationNames.swift in Sources */,
 				787D6F7B241BD63E00AB7AB3 /* ModelSceneDelegate.swift in Sources */,
 				7823682B241F885A00406CEE /* DocumentPickerView.swift in Sources */,
+				787B3E0924517DD9006172BD /* BytesTextView.swift in Sources */,
 				7879E3C62418EF6C003AA8DF /* SharingBLEHandler.m in Sources */,
 				7888CFE5242E550F00A2C971 /* ConnectingView.swift in Sources */,
 				782A3516244603020085C47B /* FilterSettings.swift in Sources */,
@@ -574,6 +593,7 @@
 				7823682E2420C29600406CEE /* PopoverSheet.swift in Sources */,
 				787D6F76241BC91D00AB7AB3 /* DetailWindowController.swift in Sources */,
 				787F50002424B2BD005861EE /* RSSIPlots.swift in Sources */,
+				787B3E072450909B006172BD /* SelectableText.swift in Sources */,
 				7888CFDE242DFAB900A2C971 /* ActivitySpinner.swift in Sources */,
 				786A383424339CAB00608FAB /* iPadActionSheet.swift in Sources */,
 				781B2DF6243F080F00C529A5 /* AngleCalculation.swift in Sources */,

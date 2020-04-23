@@ -31,3 +31,4 @@
 "Message_Select_BLE_Receiver" = "This app offers multiple ways of receiving BLE signals. For Raspberry Pis, make sure that you set them up correctly";
 "Empty_advertisement" = "No manufacturer data";
 "Channel" = "Channel";
+"XZX_Prefernces" = "Preferences"; 

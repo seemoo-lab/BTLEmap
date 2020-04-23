@@ -12,34 +12,27 @@ import CoreBluetooth
 
 struct DeviceListView: View {
     @EnvironmentObject var scanner: BLEScanner
+    
     @State var showRSSIScanner = false
-    @State var showSettings = false
+    
     
     var devices: [BLEDevice] {
         self.scanner.deviceList.sorted(by: {$0.id < $1.id})
     }
     
     var navigationBarItems: some View {
-        HStack {
-//            Button(action: {
-//                self.scanner.scanning.toggle()
-//            }, label:{Text(self.scanner.scanning ? "Btn_stop_scanning" : "Btn_start_scanning")})
-//
-//            Button(action: {
-//                self.showRSSIScanner.toggle()
-//            }, label: {Text("Record RSSIs")})
-//
-            Button(action: {
-                self.showSettings.toggle()
-            }, label: {
-                Image(systemName: "ellipsis.circle")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 25.0, height: 25.0)
-                    .padding([.top, .bottom])
-            })
-            
-        }
+                
+        Button(action: {
+            print("Show settings")
+            NotificationCenter.default.post(name: NSNotification.Name.App.showPreferences, object: nil)
+        }, label: {
+            Image(systemName: "ellipsis.circle")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 25.0, height: 25.0)
+                .padding([.top, .bottom])
+        })
+
     }
     
     var body: some View {
@@ -49,15 +42,12 @@ struct DeviceListView: View {
                     BLEDeviceRow(bleDevice: device)
                 }
             }
-            .navigationBarTitle(Text("Nav_Bar_Scanner_title"))
+            .navigationBarTitle(Text("Nav_Bar_Scanner_title"), displayMode: .inline)
             .navigationBarItems(trailing: self.navigationBarItems)
         }
         .onAppear {
             guard self.scanner.scanning == false else {return}
             self.scanner.scanning = true
-        }
-        .sheet(isPresented: self.$showSettings) {
-            SettingsView(isShown: self.$showSettings).environmentObject(self.scanner)
         }
     }
     

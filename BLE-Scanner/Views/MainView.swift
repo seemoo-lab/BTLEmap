@@ -20,9 +20,12 @@ struct MainView: View {
     @ObservedObject var rssiViewModel = RSSIGraphViewModel()
     
     @State var launched = false
+    @State var showSettings = false
+    
+    let notificationPublisher = NotificationCenter.default.publisher(for: Notification.Name.App.showPreferences)
     
     var catalystView: some View {
-        VStack {
+        VStack(spacing: 0) {
             ZStack(alignment: .center) {
                 Rectangle()
                     .fill(Color("SegmentedControlBackground"))
@@ -128,15 +131,19 @@ struct MainView: View {
                 .animation(Animation.easeIn(duration: 1.0))
             
         }
+        .sheet(isPresented: self.$showSettings) {
+            SettingsView().environmentObject(self.bleScanner)
+        }
         .onAppear {
-//            Timer.scheduledTimer(withTimeInterval: 3.0, repeats: false) { (t) in
-//                self.bleScanner.lastError = NSError(domain: "Test error", code: -1, userInfo: ["msg": "this is a test"])
-//            }
             guard !self.launched else {return}
             self.bleScanner.scanning = true
             self.awdlScanner.startSearching()
             self.launched = true
         }
+        .onReceive(self.notificationPublisher, perform: { _ in
+            self.showSettings = true
+        })
+
 
         
     }

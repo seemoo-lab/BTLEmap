@@ -11,7 +11,7 @@ import BLETools
 
 struct SettingsView: View {
     @EnvironmentObject var bleScanner: BLEScanner
-    @Binding var isShown: Bool
+    @Environment(\.presentationMode) var presentation
     
     @State var scanning = true {
         didSet {
@@ -64,66 +64,79 @@ struct SettingsView: View {
         )
     }
     
+    var settingsList: some View {
+        List {
+            Toggle(isOn: self.$scanning, label: {Text("Sts_ble_scanning")})
+            
+            Toggle(isOn: self.$filterDuplicates, label: {Text("Sts_filter_duplicates")})
+                .disabled(!self.scanning)
+            
+            Toggle(isOn: self.$timeoutDevices, label: {Text("Sts_devices_can_timeout")})
+                .disabled(!self.scanning)
+            
+            Toggle(isOn: $autoConnectToDevices, label: {Text("Sts_autoconnect")})
+                .disabled(!self.scanning)
+            
+            HStack {
+                Text("Sts_timeout_interval")
+                Spacer()
+                TextField("Sts_timeout_interval", text: self.$timeoutInterval)
+                    .multilineTextAlignment(.trailing)
+                    .keyboardType(.numberPad)
+                    .disabled(!self.scanning)
+                
+                Text("min")
+            }
+            
+            Button(action: {
+                self.showRSSIRecorder.toggle()
+            }, label: {
+                HStack {
+                    Text("Sts_showrssi")
+                }
+            })
+            
+            Button(action: {
+                self.showReceiverSelection.toggle()
+            }, label: {
+                HStack {
+                    Text("Sts_Receiver_Selection")
+                    Spacer()
+                    Text(self.bleScanner.receiverType.name)
+                        .multilineTextAlignment(.trailing)
+                        .lineLimit(2)
+                }
+            })
+            .popSheet(isPresented: self.$showReceiverSelection, content: {
+                       self.receiverActionsheet
+                   })
+            
+        }
+        .navigationBarTitle(Text("Ttl_settings"))
+        .sheet(isPresented: self.$showRSSIRecorder, content: {
+            RSSIRecorderView(isShown: self.$showRSSIRecorder).environmentObject(self.bleScanner)
+        })
+    }
+    
+    var dismissButton: some View {
+        Button("Btn_Dismiss") {
+            self.presentation.wrappedValue.dismiss()
+        }
+        .padding()
+    }
+    
     var body: some View {
         ZStack(alignment: .bottom) {
-            NavigationView {
-            
-                List {
-                    Toggle(isOn: self.$scanning, label: {Text("Sts_ble_scanning")})
-                    
-                    Toggle(isOn: self.$filterDuplicates, label: {Text("Sts_filter_duplicates")})
-                        .disabled(!self.scanning)
-                    
-                    Toggle(isOn: self.$timeoutDevices, label: {Text("Sts_devices_can_timeout")})
-                        .disabled(!self.scanning)
-                    
-                    Toggle(isOn: $autoConnectToDevices, label: {Text("Sts_autoconnect")})
-                        .disabled(!self.scanning)
-                    
-                    HStack {
-                        Text("Sts_timeout_interval")
-                        Spacer()
-                        TextField("Sts_timeout_interval", text: self.$timeoutInterval)
-                            .multilineTextAlignment(.trailing)
-                            .keyboardType(.numberPad)
-                            .disabled(!self.scanning)
-                        
-                        Text("min")
-                    }
-                    
-                    Button(action: {
-                        self.showRSSIRecorder.toggle()
-                    }, label: {
-                        HStack {
-                            Text("Sts_showrssi")
-                        }
-                    })
-                    
-                    Button(action: {
-                        self.showReceiverSelection.toggle()
-                    }, label: {
-                        HStack {
-                            Text("Sts_Receiver_Selection")
-                            Spacer()
-                            Text(self.bleScanner.receiverType.name)
-                                .multilineTextAlignment(.trailing)
-                                .lineLimit(2)
-                        }
-                    })
-                    .popSheet(isPresented: self.$showReceiverSelection, content: {
-                               self.receiverActionsheet
-                           })
-                    
+            VStack (spacing: 0) {
+                HStack {
+                    Spacer()
+                    self.dismissButton
                 }
-                .navigationBarTitle(Text("Ttl_settings"))
-                .navigationBarItems(trailing: Button("Btn_Dismiss") {
-                    self.isShown = false
-                })
-                .sheet(isPresented: self.$showRSSIRecorder, content: {
-                    RSSIRecorderView(isShown: self.$showRSSIRecorder).environmentObject(self.bleScanner)
-                })
+                
+                NavigationView {
+                    self.settingsList
+                }
             }
-        
             .navigationViewStyle(StackNavigationViewStyle())
             
             if !bleScanner.connectedToReceiver {
@@ -217,6 +230,6 @@ struct SettingsView_Previews: PreviewProvider {
     static var bleScanner = BLEScanner()
     
     static var previews: some View {
-        SettingsView(isShown: $isShown).environmentObject(bleScanner)
+        SettingsView().environmentObject(bleScanner)
     }
 }

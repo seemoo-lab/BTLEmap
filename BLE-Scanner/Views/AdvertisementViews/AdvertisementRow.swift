@@ -81,6 +81,7 @@ struct AdvertisementRow: View {
         var advertisement: BLEAdvertisment
 
         var byteArray: [UInt8]
+        let byteString: String
 
         init(advertisement: BLEAdvertisment) {
             self.advertisement = advertisement
@@ -89,19 +90,15 @@ struct AdvertisementRow: View {
             } else {
                 self.byteArray = Array()
             }
+            
+            self.byteString = self.byteArray.reduce("0x") { (result, byte) -> String in result + String(format: " %02X", byte)}
         }
 
         var body: some View {
-            Group {
+            VStack(alignment: .leading) {
                 if self.advertisement.manufacturerData != nil {
-                    HStack {
-
-                        self.byteArray.reduce(Text("0x")) { (result, byte) -> Text in
-                            result + Text(String(format: "%02X ", byte))
-                        }
-                        .multilineTextAlignment(.leading)
-
-                        Spacer()
+                    GeometryReader {g in
+                        BytesTextView(text: self.byteString, width: g.size.width, textStyle: .caption1)
                     }
                 }else {
                     Text("Empty_advertisement")

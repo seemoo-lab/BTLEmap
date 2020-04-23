@@ -36,9 +36,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //
 //        builder.insertChild(menu, atStartOfMenu: .file)
         
-        builder.replaceChildren(ofMenu: .file) { oldChildren in
-            var newChildren = oldChildren
+        
+        builder.replaceChildren(ofMenu: .application) { (oldchildren) -> [UIMenuElement] in
+            var newChildren = [UIMenuElement]()
             
+            let preferences = UIKeyCommand(title: NSLocalizedString("XZX_Prefernces", comment: "Menu bar item"), action: #selector(showPreferences(_:)), input: ",", modifierFlags: .command)
+            
+            newChildren.append(preferences)
+            return newChildren
+        }
+        
+        
+        builder.replaceChildren(ofMenu: .file) { oldChildren in
+            var newChildren = [UIMenuElement]()
+
             let showDevicesList = UIKeyCommand(
                 title: NSLocalizedString("Menu_Show_devices", comment: "Menu bar item"),
                 action: #selector(showSceneForDeviceList(_:)),
@@ -70,6 +81,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let userActivity = NSUserActivity(activityType: "de.tu-darmstadt.seemoo.live-analysis")
         
         UIApplication.shared.requestSceneSessionActivation(nil, userActivity: userActivity, options: nil)
+    }
+    
+    @objc func showPreferences(_ sender: AnyObject?) {
+        NotificationCenter.default.post(name: Notification.Name.App.showPreferences, object: nil)
     }
 
     // MARK: UISceneSession Lifecycle
