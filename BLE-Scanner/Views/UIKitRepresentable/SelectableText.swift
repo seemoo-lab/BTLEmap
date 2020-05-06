@@ -10,6 +10,18 @@ import Foundation
 import UIKit
 import SwiftUI
 
+//struct SelectableText: View {
+//    var text: String
+//    
+//    init(text: String, width: CGFloat, textColor: UIColor?=nil, font: UIFont?=nil) {
+//        self.text = text
+//    }
+//    
+//    var body: some View {
+//        return TextField("", text: Binding.constant(text))
+//    }
+//}
+
 struct SelectableText: UIViewRepresentable {
     @Environment(\.colorScheme) var colorScheme: ColorScheme
     var width: CGFloat
@@ -35,6 +47,7 @@ struct SelectableText: UIViewRepresentable {
         textView.text = self.text
         textView.translatesAutoresizingMaskIntoConstraints = false 
         textView.widthAnchor.constraint(equalToConstant: self.width).isActive = true
+        textView.backgroundColor = .clear
         
         
         if let textColor = self.textColor {

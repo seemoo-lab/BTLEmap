@@ -43,6 +43,8 @@ struct EnvironmentScanner: View {
     @State var currentScale: CGFloat = 0.0
     @State var dragAmount = CGSize.zero
     
+    @State var detailDevice: BLEDevice?
+    
     static var sheetTransition: AnyTransition {
         let insertion = AnyTransition.move(edge: .bottom)
             .combined(with: .opacity)
@@ -96,61 +98,59 @@ struct EnvironmentScanner: View {
     func environmentSize(for geometry: GeometryProxy) -> CGSize {
         let scale = (self.finalScale + self.currentScale)
         let size = geometry.size.width < geometry.size.height ? geometry.size.width : geometry.size.height
-        return CGSize(width: size * 0.8 * scale, height: size * 0.8 * scale)
+        return CGSize(width: size * 0.9 * scale, height: size * 0.9 * scale)
+    }
+    
+    func environmentScanner(geometry: GeometryProxy) -> some View {
+        //Scanner view
+        //                ScrollView([.horizontal, .vertical], showsIndicators: true) {
+        ZStack {
+            GeometryReader { geometry  in
+                ZStack {
+                    BackgroundView(minRSSI: self.filters.minRSSI)
+                    
+                    //Draw devices
+                    ForEach(self.presentedDevices) { device in
+                        Button(action: {
+                            withAnimation(.easeIn){
+                                self.detailDevice = device
+                                self.showDetail = true
+                                self.viewModel.detailDevice = device
+                            }
+                        }, label: {
+                            DeviceOnCircleView(device: device)
+                        })
+                        .buttonStyle(PlainButtonStyle())
+                        .position(self.position(for: device.lastRSSI, size: geometry.size, angle: self.angle(for: device)))
+                    }
+                }
+                .animation(.linear)
+                
+            }
+            .padding()
+            .frame(width: self.environmentSize(for: geometry).width, height: self.environmentSize(for: geometry).height, alignment: .top)
+            .offset(self.dragAmount)
+            .highPriorityGesture(self.zoomGesture)
+            .highPriorityGesture(self.dragGesture)
+            
+        }
     }
 
     var body: some View {
-        GeometryReader { geometry in
-            ZStack {
-                VStack {
-                    HStack {
-                        FilterSettings()
-                        .padding()
-                    }
-                    Spacer(minLength: 20.0)
-                }
-                
-                
-                //Scanner view
-//                ScrollView([.horizontal, .vertical], showsIndicators: true) {
-                ZStack {
-                    
-                        GeometryReader { geometry  in
-                            ZStack {
-                                BackgroundView(minRSSI: self.filters.minRSSI)
-
-                                //Draw devices
-
-                                ForEach(self.presentedDevices) { device in
-                                    Button(action: {
-                                        self.viewModel.detailDevice = device
-                                        self.showDetail = true
-                                    }, label: {
-                                        DeviceOnCircleView(device: device)
-                                    })
-                                    .buttonStyle(PlainButtonStyle())
-                                    .position(self.position(for: device.lastRSSI, size: geometry.size, angle: self.angle(for: device)))
-                                    .sheet(isPresented: self.$showDetail) {
-                                        DeviceDetailView(device: self.viewModel.detailDevice!, showInModal: true, isShown: self.$showDetail)
-                                    }
-
-                                }
-                            }
-                            .animation(.linear)
-                        }
-                        .padding()
-                        .frame(width: self.environmentSize(for: geometry).width, height: self.environmentSize(for: geometry).height, alignment: .top)
-                        .offset(self.dragAmount)
-                        .highPriorityGesture(self.zoomGesture)
-                        .highPriorityGesture(self.dragGesture)
-
-                }
-                Spacer()
+        VStack {
+            HStack {
+                FilterSettings()
+                .padding()
             }
-            
+            Spacer()
+            GeometryReader { geometry in
+                self.environmentScanner(geometry: geometry)
+            }
+            Spacer()
         }
-    
-        
+        .modalView(self.$showDetail, modal: {
+            DeviceDetailView(device: self.viewModel.detailDevice!, showInModal: true, isShown: self.$showDetail)
+        })
         
     }
     
@@ -299,43 +299,72 @@ struct DeviceOnCircleView: View {
         }
     }
     
+    var deviceName: String? {
+        if let name = self.device.name {
+            return String("\(name)  ")
+        }
+        
+        return nil
+    }
+    
+    var modelName: String? {
+        if let modelName = self.device.deviceModel?.modelDescription {
+            return String("\(modelName)  ")
+        }
+        return nil
+    }
+    
+    var manufacturer: String {
+        self.device.manufacturer.rawValue.capitalized + " " + NSLocalizedString("device", comment: "")
+    }
+    
+    
     var body: some View {
         VStack(alignment: .center) {
             
             if device.name != nil {
-                Text(device.name! + " ")
-                    .frame(width: 125.0)
-                    .multilineTextAlignment(.center)
-                    .animation(.none)
+                deviceName.map { (string) in
+                    Text(string)
+                        .font(.caption)
+                        .multilineTextAlignment(.center)
+                        .animation(.none)
+                        .padding([.leading, .trailing], 2.0)
+                }
+                
             }
             
-            if self.device.deviceModel?.deviceType != .other {
-                Text("\(device.deviceModel?.deviceType.string ?? BLEDeviceModel.DeviceType.other.string) ")
-                    .frame(width: 125.0)
-                    .multilineTextAlignment(.center)
-                    .animation(.none)
+            if self.device.deviceModel != nil {
+                modelName.map { (string) in
+                    Text(string)
+                        .font(.caption)
+                        .multilineTextAlignment(.center)
+                        .animation(.none)
+                        .padding([.leading, .trailing], 2.0)
+                }
                 
             }else {
-                Text(self.device.manufacturer.rawValue.capitalized + " " + NSLocalizedString("device", comment: ""))
-                    .frame(width: 125.0)
+                Text(self.manufacturer)
+                    .font(.caption)
                     .multilineTextAlignment(.center)
                     .animation(.none)
+                    .padding([.leading, .trailing], 2.0)
             }
             
             
             Image(self.imageName)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .frame(height: 45.0)
+                .frame(height: 35.0)
                 .foregroundColor(self.iconColor)
                 
                 
             Text(String(format: "RSSI: %0.0f dBm", Float(device.lastRSSI)))
-                .frame(width: 100.0)
                 .font(.footnote)
                 .animation(.none)
+                .padding([.leading, .trailing], 2.0)
 //                .background(DeviceOnCircleView.background)
         }
+        .frame(maxWidth: 130.0)
         .background(RoundedRectangle(cornerRadius: 10.0).fill(DeviceOnCircleView.background))
         .scaleEffect(self.scaling)
         

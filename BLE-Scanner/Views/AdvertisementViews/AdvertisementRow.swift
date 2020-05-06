@@ -9,6 +9,7 @@
 import AppleBLEDecoder
 import BLETools
 import SwiftUI
+import CoreBluetooth
 
 struct AdvertisementRow: View {
     @ObservedObject var advertisement: BLEAdvertisment
@@ -48,18 +49,68 @@ struct AdvertisementRow: View {
 
         return df
     }
+    
+    var manufacturerDataView: some View {
+        AccordeonView(title: Text("Manufacturer Data")) {
+            VStack {
+                RawManufacturerDataView(advertisement: self.advertisement)
+                
+                ForEach(self.decodedAdvertisements) { (decodedAdv) in
+                    Group {
+                        DecodedAdvertisementView(decodedAdv: decodedAdv)
+                    }
+                }
+            }
+        }
+    }
+    
+    var servicesUUIDView: some View {
+        self.advertisement.serviceUUIDs.map { (services) in
+            AccordeonView(title: Text("Services")) {
+                VStack {
+                    ForEach(0..<services.count) { (serviceIdx) in
+                        SelectableTextView(text: services[serviceIdx].description, presentationMode: .bytes)
+                    }
+                    
+                }
+            }
+        }
+    }
+    
+    var serviceData: [(CBUUID, Data)]? {
+        self.advertisement.serviceData?.map({($0.key, $0.value)})
+    }
+    
+    var serviceDataView: some View {
+        return self.serviceData.map { serviceData in
+            return AccordeonView(title: Text("Services_XZX")) {
+                VStack {
+                    ForEach(0..<serviceData.count) { (serviceIdx) in
+                        HStack {
+                            Text(serviceData[serviceIdx].0.description)
+                            SelectableTextView(text: serviceData[serviceIdx].1.hexadecimal, presentationMode: .bytes)
+                        }
+                        
+                    }
+                    
+                }
+            }
+        }
+    }
 
     var body: some View {
         VStack {
-
-            RawManufacturerDataView(advertisement: self.advertisement)
-                .padding([.top, .bottom])
-
-            ForEach(self.decodedAdvertisements) { (decodedAdv) in
-                Group {
-                    DecodedAdvertisementView(decodedAdv: decodedAdv)
-                }
+            
+            self.servicesUUIDView
+            
+            if self.serviceData != nil  {
+                self.serviceDataView
             }
+            
+            if self.advertisement.manufacturerData != nil {
+                self.manufacturerDataView
+            }
+            
 
             HStack {
                 Text("Channel: \(self.advChannel)")
@@ -74,6 +125,19 @@ struct AdvertisementRow: View {
                     "\(dateFormatter.string(from: advertisement.receptionDates.first!)) - \(dateFormatter.string(from: advertisement.receptionDates.last!))"
                 )
             }
+        }
+        .contextMenu {
+            Button(action: {
+                
+            }) {
+                Text("Copy Manufacturer Data")
+            }
+            
+            Button(action: {
+                   
+               }) {
+                   Text("Copy Manufacturer Data")
+               }
         }
     }
 
@@ -97,9 +161,7 @@ struct AdvertisementRow: View {
         var body: some View {
             VStack(alignment: .leading) {
                 if self.advertisement.manufacturerData != nil {
-                    GeometryReader {g in
-                        BytesTextView(text: self.byteString, width: g.size.width, textStyle: .caption1)
-                    }
+                    SelectableTextView(text: self.byteString, presentationMode: .bytes)
                 }else {
                     Text("Empty_advertisement")
                 }
@@ -248,52 +310,21 @@ struct AdvertisementRow: View {
         }
 
         var body: some View {
-            VStack(alignment: .leading) {
-                HStack {
-                    Button(
-                        action: {
-                            withAnimation {
-                                self.opened.toggle()
-                            }
-                        },
-                        label: {
-                            Image(systemName: "arrowtriangle.right.fill")
-                                .imageScale(.large)
-                                .padding(4.0)
-                                .rotationEffect(Angle(degrees: self.opened ? 90.0 : 0.0))
-                        }
-                    )
-                    .buttonStyle(PlainButtonStyle())
-                    .padding([.top, .bottom], 2.0)
-
-                    HStack {
-                        Text(decodedAdv.type.description)
-                            .padding(.leading, 4.0)
-                        Spacer()
+            
+            AccordeonView(title: Text(decodedAdv.type.description)) {
+                VStack {
+                    GeometryReader { g in
+                        self.rawDataView(geometry: g)
+                            .frame(width: g.size.width, height: nil, alignment: .topLeading)
                     }
-                    .padding([.top, .bottom], 2.0)
-                    .background(Rectangle().fill(Color.lightGray))
 
-                }
-                .padding(.trailing, 0)
-
-                if opened {
-                    VStack {
-                        GeometryReader { g in
-                            self.rawDataView(geometry: g)
-                                .frame(width: g.size.width, height: nil, alignment: .topLeading)
+                    if self.decodedAdv.description != nil {
+                        HStack {
+                            self.descriptionView(for: self.decodedAdv.description!)
+                            Spacer()
                         }
 
-                        if self.decodedAdv.description != nil {
-                            HStack {
-                                self.descriptionView(for: self.decodedAdv.description!)
-                                Spacer()
-                            }
-
-                        }
                     }
-                    .transition(self.rowTransition)
-
                 }
             }
         }

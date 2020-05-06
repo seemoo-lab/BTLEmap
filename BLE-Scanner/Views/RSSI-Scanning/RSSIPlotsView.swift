@@ -11,8 +11,14 @@ import BLETools
 
 class RSSIGraphViewModel: NSObject, ObservableObject {
     var deviceColors = [BLEDevice: Color]()
+    var selectedDevices = Set<BLEDevice>()
     
     func color(for device: BLEDevice) -> Color {
+        
+        guard selectedDevices.count == 0 || selectedDevices.contains(device) else {
+            return Color.gray.opacity(0.7)
+        }
+        
         if let color = self.deviceColors[device] {
             return color
         }
@@ -32,20 +38,27 @@ struct RSSIPlotsView: View {
     
     @State var scrollAutomatically: Bool = true
     @State var showFilterSettings = false
-    @State var selectedDevice: BLEDevice?
+    
+    #if TARGET_OS_MACCATALYST
+    static let updateInterval = 0.1
+    #else
+    static let updateInterval = 0.1
+    #endif
     
     /// Update timer. On every call the view should update. A direct update takes up too much energy
-    let updateTimer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
+    let updateTimer = Timer.publish(every: updateInterval, on: .main, in: .common).autoconnect()
     
     @State var devices: [BLEDevice] = []
+    @State var devicesPlotInfo: [RSSIMultiDevicePlot.DevicePlotInfo] = []
+    
     
     var deviceList: some View {
         List(self.devices) { device in
             Button(action: {
-                if self.selectedDevice == device {
-                    self.selectedDevice = nil
+                if self.viewModel.selectedDevices.contains(device) {
+                    self.viewModel.selectedDevices.remove(device)
                 }else {
-                    self.selectedDevice = device
+                    self.viewModel.selectedDevices.insert(device)
                 }
             }, label: {
                 BLEDeviceRow(bleDevice: device, fixedIconColor: self.viewModel.color(for: device))
@@ -55,9 +68,7 @@ struct RSSIPlotsView: View {
         
     }
     
-    @State var devicesPlotInfo: [RSSIMultiDevicePlot.DevicePlotInfo] = []
 
-    
     func settings(for width: CGFloat) -> some View {
         Group {
             if width < 500  {
@@ -96,13 +107,23 @@ struct RSSIPlotsView: View {
                         
                         Divider()
                         
-                        RSSIMultiDevicePlot(plotInfo: self.devicesPlotInfo, height: g2.size.height, width: g.size.width * 0.66, scroll: self.$scrollAutomatically)
+                        RSSIMultiDevicePlot(
+                            plotInfo: self.devicesPlotInfo,
+                            startDate: self.bleScanner.scanStartTime,
+                            height: g2.size.height,
+                            width: g.size.width * 0.66,
+                            scroll: self.$scrollAutomatically)
                             .frame(width: g2.size.width * 0.66, height: g2.size.height)
                     }
                 }
             }
             .frame(width: g.size.width, height: g.size.height)
         }
+        .onAppear(perform: {
+            DispatchQueue.main.async {
+                self.updateGraph()
+            }
+        })
         .onReceive(updateTimer) { (timer) in
             self.updateGraph()
         }
@@ -128,24 +149,22 @@ struct RSSIPlotsView: View {
     
     func applyFilters(to device: BLEDevice) -> Bool {
         guard self.filters.selectedManufacturers.contains(device.manufacturer.rawValue.capitalized) else {return false}
-        return device.lastRSSI > self.filters.minRSSI
+        
+        return self.filters.minRSSI == -100 ||  device.lastRSSI > self.filters.minRSSI
     }
     
     func updateGraph() {
-        
-        if let selectedDevice = self.selectedDevice {
-            self.devices = [selectedDevice]
-        }else {
-            self.devices = self.bleScanner.deviceList.filter({self.applyFilters(to: $0)}).sorted(by: {$0.id < $1.id})
-        }
-                   
-        self.devicesPlotInfo = self.devices.map({RSSIMultiDevicePlot.DevicePlotInfo(deviceId: $0.id, plotColor: self.viewModel.color(for: $0), rssis: self.rssis(for: $0))})
+            
+        self.devices = self.bleScanner.deviceList.filter({self.applyFilters(to: $0)})
+        self.devicesPlotInfo = self.devices.map({RSSIMultiDevicePlot.DevicePlotInfo(deviceId: $0.id, plotColor: self.viewModel.color(for: $0), rssis: $0.allRSSIs)})
     }
     
     struct RSSIDate {
         let rssi: Float
         let date: Date
     }
+    
+    typealias RSSITime = (time: TimeInterval, rssi: Float)
 }
 
 extension RSSIPlotsView {
@@ -165,7 +184,7 @@ extension RSSIPlotsView {
         /// The width of one time interval (1s) in the graph
         var scaleTimeInterval: CGFloat = 30
         
-        init(plotInfo: [DevicePlotInfo], height: CGFloat, width: CGFloat, scroll: Binding<Bool>) {
+        init(plotInfo: [DevicePlotInfo], startDate: Date, height: CGFloat, width: CGFloat, scroll: Binding<Bool>) {
             self.plotInfo = plotInfo
             //Padding on top
             self.height = height - 20
@@ -175,26 +194,8 @@ extension RSSIPlotsView {
             
             self._scrollAutomatically = scroll
             self.scaleTimeInterval = width / 20
-            var minDate = Date.distantFuture
-            var maxDate = Date.distantPast
             
-            if plotInfo.count == 0 {
-                dateRange = Date()...(Date().addingTimeInterval(10))
-                return
-            }
-            
-            plotInfo.forEach { (dpi) in
-                if let d = dpi.rssis.first?.date,
-                    d < minDate {
-                    minDate = d
-                }
-                if let d = dpi.rssis.last?.date,
-                    d > maxDate {
-                    maxDate = d
-                }
-            }
-            
-            dateRange = minDate...maxDate
+            dateRange = startDate...Date()
         }
         
         var scrollWidth: CGFloat {
@@ -215,9 +216,8 @@ extension RSSIPlotsView {
             return y
         }
         
-        func x(for date: Date) -> CGFloat {
-            let ti = date.timeIntervalSince( self.dateRange.lowerBound )
-            let x = CGFloat(ti) * self.scaleTimeInterval
+        func x(for time: TimeInterval) -> CGFloat {
+            let x = CGFloat(time) * self.scaleTimeInterval
             return x
         }
         
@@ -283,7 +283,7 @@ extension RSSIPlotsView {
                 ForEach(self.plotInfo, id: \.deviceId) { (devicePI) in
                     Path { path in
                         devicePI.rssis.enumerated().forEach({ rssiElement in
-                            let x = self.x(for: rssiElement.element.date)
+                            let x = self.x(for: rssiElement.element.time)
                             let y = self.y(for: rssiElement.element.rssi)
                             
                             if rssiElement.offset == 0 {
@@ -292,7 +292,8 @@ extension RSSIPlotsView {
                                 path.addLine(to: CGPoint(x: x, y: y))
                             }
                         })
-                    }.stroke(devicePI.plotColor)
+                    }
+                .stroke(devicePI.plotColor, style: StrokeStyle(lineWidth: 2.0, lineCap: .round, lineJoin: .round, miterLimit: 0, dash: [], dashPhase: 0))
                 }
             }
         }
@@ -322,7 +323,7 @@ extension RSSIPlotsView {
         struct DevicePlotInfo {
             let deviceId: String
             let plotColor: Color
-            let rssis: [RSSIDate]
+            let rssis: [RSSITime]
         }
     }
     

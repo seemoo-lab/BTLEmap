@@ -22,7 +22,12 @@ struct MainView: View {
     @State var launched = false
     @State var showSettings = false
     
-    let notificationPublisher = NotificationCenter.default.publisher(for: Notification.Name.App.showPreferences)
+    let settingsPublisher = NotificationCenter.default.publisher(for: Notification.Name.App.showPreferences)
+    
+    let environmentScannerPublisher = NotificationCenter.default.publisher(for: Notification.Name.App.showEnvironment)
+    let deviceListPublisher = NotificationCenter.default.publisher(for: Notification.Name.App.showDeviceList)
+    let rssiPublisher = NotificationCenter.default.publisher(for: Notification.Name.App.showRSSI)
+    let awdlPublisher = NotificationCenter.default.publisher(for: Notification.Name.App.showAWDL)
     
     var catalystView: some View {
         VStack(spacing: 0) {
@@ -38,7 +43,7 @@ struct MainView: View {
                     Text("AWDL Scanner").font(.title).tag(3)
                 }
                 .pickerStyle(SegmentedPickerStyle())
-                .frame(width: 450.0, height: 50.0)
+                .frame(width: 550.0, height: 50.0)
                 //                .background()
             }
             
@@ -75,7 +80,7 @@ struct MainView: View {
             EnvironmentScanner()
                 .environmentObject(bleScanner).environmentObject(viewModel)
                 .tabItem {
-                    Image(systemName:"dot.radiowaves.left.and.right")
+//                    Image(systemName:"dot.radiowaves.left.and.right")
                     Text("Environment Scanner")
             }
             
@@ -140,8 +145,20 @@ struct MainView: View {
             self.awdlScanner.startSearching()
             self.launched = true
         }
-        .onReceive(self.notificationPublisher, perform: { _ in
+        .onReceive(self.settingsPublisher, perform: { _ in
             self.showSettings = true
+        })
+        .onReceive(self.deviceListPublisher, perform: {_ in
+            self.currentViewSelected = 0
+        })
+        .onReceive(self.environmentScannerPublisher, perform: { _ in
+            self.currentViewSelected = 1
+        })
+        .onReceive(self.rssiPublisher, perform: { _ in
+            self.currentViewSelected = 2
+        })
+        .onReceive(self.awdlPublisher, perform: { _ in
+            self.currentViewSelected = 3
         })
 
 

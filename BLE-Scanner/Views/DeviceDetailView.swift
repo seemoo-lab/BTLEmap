@@ -152,7 +152,13 @@ struct DeviceDetailView: View {
         var deviceInformation: some View {
             Group {
                 VStack {
-                    Text(self.device.id)
+                    if self.device.name != nil {
+                        Text(self.device.id)
+                    }
+                    
+                    self.device.macAddress.map { (macAddress) in
+                        Text(macAddress.addressString) + Text(" (\(String(describing: macAddress.addressType)))")
+                    }
                     
                     HStack {
                         
@@ -197,9 +203,7 @@ struct DeviceDetailView: View {
                 
                 VStack(alignment: .leading, spacing: 0) {
                     Text(service.commonName)
-                    GeometryReader {g in
-                        BytesTextView(text: service.uuidString, width: g.size.width, textStyle: .caption1)
-                    }
+                    SelectableTextView(text: service.uuidString, presentationMode: .bytes)
                     .padding([.top,.bottom], 6.0)
                     
                     ForEach(characteristics, id: \.self) { (characteristic: BLECharacteristic) in
