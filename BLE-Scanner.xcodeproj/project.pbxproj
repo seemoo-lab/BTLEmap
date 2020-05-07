@@ -164,7 +164,6 @@
 		788D98E4240D561E005FC745 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		789BE5082451EF1700A1C54C /* MenuBarHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarHandler.swift; sourceTree = "<group>"; };
 		78A43B0A2437922100319BD8 /* AdvertisementManudfacturerDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvertisementManudfacturerDataView.swift; sourceTree = "<group>"; };
-		78A771322421272F00EF3E0C /* BLE-Scanner-JB.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "BLE-Scanner-JB.entitlements"; sourceTree = "<group>"; };
 		78A771562421274700EF3E0C /* BLE-Scanner JB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "BLE-Scanner JB.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		78A771572421274700EF3E0C /* BLE-Scanner copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "BLE-Scanner copy-Info.plist"; path = "/Users/seemoo/Work/Research/BLEScanner/Projects/BLE-Scanner/BLE-Scanner copy-Info.plist"; sourceTree = "<absolute>"; };
 		78A7715824212A6200EF3E0C /* RSSIRecorderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RSSIRecorderView.swift; sourceTree = "<group>"; };
@@ -347,7 +346,6 @@
 		788D9883240D435C005FC745 /* BLE-Scanner */ = {
 			isa = PBXGroup;
 			children = (
-				78A771322421272F00EF3E0C /* BLE-Scanner-JB.entitlements */,
 				7823202E240E771200D4FDE3 /* BLE-Scanner.entitlements */,
 				788D9884240D435C005FC745 /* AppDelegate.swift */,
 				789BE5082451EF1700A1C54C /* MenuBarHandler.swift */,
