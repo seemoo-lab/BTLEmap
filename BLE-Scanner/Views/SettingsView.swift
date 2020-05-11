@@ -49,7 +49,7 @@ struct SettingsView: View {
     
     /// When set to true the BLE receiver selection is shown
     @State var showReceiverSelection: Bool = false
-    @State var loading = true
+    @State var loading = false
     
     var receiverActionsheet: PopSheet {
         PopSheet(title: Text("Title_Select_BLE_receiver"), message: Text("Message_Select_BLE_Receiver"), buttons: BLEScanner.Receiver.allCases.map{ t in
@@ -142,12 +142,24 @@ struct SettingsView: View {
                 NavigationView {
                     self.settingsList
                 }
+                
             }
             .navigationViewStyle(StackNavigationViewStyle())
             
             if !bleScanner.connectedToReceiver {
                 ConnectingView().environmentObject(self.bleScanner)
             }
+            
+            if self.loading {
+                ZStack(alignment: .center) {
+                    Rectangle()
+                        .fill(Color.black.opacity(0.4))
+                     
+                    ActivitySpinner(animating: self.$loading, color: UIColor.white, style: .large)
+                        .frame(alignment: .center)
+                }
+             }
+             
         }
         .onAppear {
             self.scanning = self.bleScanner.scanning
@@ -174,9 +186,10 @@ struct SettingsView: View {
     }
     
     func pcapExport() {
-        
+        self.loading = true
         //Generate PCAP data
         DispatchQueue.global(qos: .userInitiated).async {
+            
             let pcapData = PcapExport.export(advertisements: self.bleScanner.advertisements)
             //Store in file
             let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .allDomainsMask).first!
@@ -185,10 +198,14 @@ struct SettingsView: View {
                 try pcapData.write(to: url)
             }catch {
                 //TODO: Show error
+                DispatchQueue.main.async {
+                    self.loading = false
+                }
                 return
             }
             
             DispatchQueue.main.async {
+                self.loading = false
                 guard let source = UIApplication.shared.windows.first?.rootViewController else {
                     return
                 }
