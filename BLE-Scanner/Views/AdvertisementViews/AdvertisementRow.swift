@@ -6,7 +6,7 @@
 //  Copyright © 2020 SEEMOO - TU Darmstadt. All rights reserved.
 //
 
-import AppleBLEDecoder
+import BLEDissector
 import BLETools
 import SwiftUI
 import CoreBluetooth

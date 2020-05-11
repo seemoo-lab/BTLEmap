@@ -9,7 +9,7 @@
 import Foundation
 import SwiftUI
 import BLETools
-import AppleBLEDecoder
+import BLEDissector
 
 struct DeviceDetailView: View {
     @ObservedObject var device: BLEDevice
