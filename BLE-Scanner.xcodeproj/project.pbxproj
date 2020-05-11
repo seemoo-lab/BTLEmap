@@ -20,7 +20,6 @@
 		782354EA241A534500F11D6B /* AWDLScanner in Frameworks */ = {isa = PBXBuildFile; productRef = 782354E9241A534500F11D6B /* AWDLScanner */; };
 		7823682B241F885A00406CEE /* DocumentPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7823682A241F885A00406CEE /* DocumentPickerView.swift */; };
 		7823682E2420C29600406CEE /* PopoverSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7823682D2420C29600406CEE /* PopoverSheet.swift */; };
-		7823683124210AEE00406CEE /* BLETools in Frameworks */ = {isa = PBXBuildFile; productRef = 7823683024210AEE00406CEE /* BLETools */; };
 		782A35142445B9260085C47B /* RSSIPlotsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 782A35132445B9260085C47B /* RSSIPlotsView.swift */; };
 		782A3516244603020085C47B /* FilterSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 782A3515244603020085C47B /* FilterSettings.swift */; };
 		7838954C241A5625008248CA /* AWDLScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7838954B241A5625008248CA /* AWDLScannerView.swift */; };
@@ -53,6 +52,7 @@
 		788D98E3240D561E005FC745 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 788D98E5240D561E005FC745 /* Localizable.strings */; };
 		789BE5092451EF1700A1C54C /* MenuBarHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789BE5082451EF1700A1C54C /* MenuBarHandler.swift */; };
 		78A43B0B2437922100319BD8 /* AdvertisementManudfacturerDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A43B0A2437922100319BD8 /* AdvertisementManudfacturerDataView.swift */; };
+		78A619A024646B96000F5712 /* BLETools in Frameworks */ = {isa = PBXBuildFile; productRef = 78A6199F24646B96000F5712 /* BLETools */; };
 		78A771392421274700EF3E0C /* AdvertisementTypeFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7879E3BA2417EB23003AA8DF /* AdvertisementTypeFilterView.swift */; };
 		78A7713A2421274700EF3E0C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788D9884240D435C005FC745 /* AppDelegate.swift */; };
 		78A7713B2421274700EF3E0C /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78232037240EA8B900D4FDE3 /* MainView.swift */; };
@@ -182,7 +182,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7823683124210AEE00406CEE /* BLETools in Frameworks */,
+				78A619A024646B96000F5712 /* BLETools in Frameworks */,
 				782354EA241A534500F11D6B /* AWDLScanner in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -329,6 +329,7 @@
 				788D98A5240D435E005FC745 /* BLE-ScannerUITests */,
 				788D9882240D435C005FC745 /* Products */,
 				78A771572421274700EF3E0C /* BLE-Scanner copy-Info.plist */,
+				78A6199E24646B96000F5712 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -397,6 +398,13 @@
 			path = "BLE-ScannerUITests";
 			sourceTree = "<group>";
 		};
+		78A6199E24646B96000F5712 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		78F5BBB1243CCD81002091CA /* RSSI-Scanning */ = {
 			isa = PBXGroup;
 			children = (
@@ -426,7 +434,7 @@
 			name = "BLE-Scanner";
 			packageProductDependencies = (
 				782354E9241A534500F11D6B /* AWDLScanner */,
-				7823683024210AEE00406CEE /* BLETools */,
+				78A6199F24646B96000F5712 /* BLETools */,
 			);
 			productName = "BLE-Scanner";
 			productReference = 788D9881240D435C005FC745 /* BLE-Scanner.app */;
@@ -1107,7 +1115,7 @@
 			package = 782354E8241A534500F11D6B /* XCRemoteSwiftPackageReference "awdlscanner" */;
 			productName = AWDLScanner;
 		};
-		7823683024210AEE00406CEE /* BLETools */ = {
+		78A6199F24646B96000F5712 /* BLETools */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 7823682F24210AEE00406CEE /* XCRemoteSwiftPackageReference "bletools" */;
 			productName = BLETools;

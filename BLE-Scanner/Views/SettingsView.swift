@@ -111,6 +111,12 @@ struct SettingsView: View {
                        self.receiverActionsheet
                    })
             
+            Button(action: {
+                self.pcapExport()
+            }, label: {
+                Text("Sts_export_to_pcap")
+            })
+            
         }
         .navigationBarTitle(Text("Ttl_settings"))
         .sheet(isPresented: self.$showRSSIRecorder, content: {
@@ -165,6 +171,48 @@ struct SettingsView: View {
             
             UserDefaults.standard.autoconnectToDevices = self.autoConnectToDevices
         }
+    }
+    
+    func pcapExport() {
+        
+        //Generate PCAP data
+        DispatchQueue.global(qos: .userInitiated).async {
+            let pcapData = PcapExport.export(advertisements: self.bleScanner.advertisements)
+            //Store in file
+            let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .allDomainsMask).first!
+            let url = documentsURL.appendingPathComponent("exported.pcap")
+            do {
+                try pcapData.write(to: url)
+            }catch {
+                //TODO: Show error
+                return
+            }
+            
+            DispatchQueue.main.async {
+                guard let source = UIApplication.shared.windows.first?.rootViewController else {
+                    return
+                }
+                
+                let controller = UIDocumentPickerViewController(url: url, in: .exportToService)
+                controller.shouldShowFileExtensions = true
+                
+                
+                if let userFolder = NSSearchPathForDirectoriesInDomains(.userDirectory, .userDomainMask, true).first {
+                    controller.directoryURL = URL(fileURLWithPath: userFolder)
+                }
+                
+                var presentationController = source
+                while presentationController.presentedViewController != nil {
+                    presentationController = presentationController.presentedViewController!
+                }
+                
+                
+                controller.popoverPresentationController?.sourceView = presentationController.view
+                presentationController.present(controller, animated: true)
+            }
+        
+        }
+        
     }
         
 }

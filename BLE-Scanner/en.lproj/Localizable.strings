@@ -23,6 +23,7 @@
 "Sts_devices_can_timeout" = "Timeout devices";
 "Sts_timeout_interval" = "Timeout interval";
 "Sts_autoconnect" = "Autoconnect to BLE devices";
+"Sts_export_to_pcap" = "Export to PCAP file";
 "min" = "min";
 "Ttl_settings" = "Settings";
 "Sts_showrssi" = "Scan for RSSI"; 

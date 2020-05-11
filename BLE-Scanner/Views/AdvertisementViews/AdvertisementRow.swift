@@ -6,7 +6,7 @@
 //  Copyright © 2020 SEEMOO - TU Darmstadt. All rights reserved.
 //
 
-import AppleBLEDecoder
+import BLEDissector
 import BLETools
 import SwiftUI
 import CoreBluetooth
@@ -77,23 +77,60 @@ struct AdvertisementRow: View {
         }
     }
     
-    var serviceData: [(CBUUID, Data)]? {
-        self.advertisement.serviceData?.map({($0.key, $0.value)})
+    var serviceData: [DissectedEntry]? {
+        self.advertisement.dissectedServiceData
     }
     
     var serviceDataView: some View {
         return self.serviceData.map { serviceData in
-            return AccordeonView(title: Text("Services_XZX")) {
-                VStack {
-                    ForEach(0..<serviceData.count) { (serviceIdx) in
-                        HStack {
-                            Text(serviceData[serviceIdx].0.description)
-                            SelectableTextView(text: serviceData[serviceIdx].1.hexadecimal, presentationMode: .bytes)
+            VStack(alignment:.leading) {
+                AccordeonView(title: Text("Service data")) {
+                    VStack {
+                        ForEach(0..<serviceData.count) { (serviceIdx) in
+                            self.viewForDissectedServiceData(serviceData: serviceData[serviceIdx])
                         }
-                        
                     }
-                    
+
                 }
+            }
+        }
+    }
+    
+    func viewForDissectedEntries(_ dissectedEntries: [DissectedEntry], with parentEntry: DissectedEntry) -> some View {
+        AccordeonView(title: Text(parentEntry.name)) {
+            SelectableTextView(text: parentEntry.data.hexadecimal.uppercased().separate(every: 2, with: " "), presentationMode: .bytes)
+            VStack(alignment: .leading) {
+                ForEach(0..<dissectedEntries.count) { (serviceIdx) in
+                    self.viewForDissectedServiceData(serviceData: dissectedEntries[serviceIdx])
+                }
+            }
+        }
+    }
+    
+    func viewForDissectedServiceData(serviceData: DissectedEntry) -> some View {
+        Group {
+            if serviceData.subEntries.count == 0 {
+                // List Data
+                AnyView(
+                    HStack {
+                        Text(serviceData.name + ": ")
+                        Text(serviceData.valueDescription)
+                        Spacer()
+                    }
+                )
+                serviceData.explanatoryText.map({
+                    Text($0)
+                        .italic()
+                        .multilineTextAlignment(.leading)
+                        .fixedSize(horizontal: false, vertical: true)
+                    
+                })
+                SelectableTextView(text: serviceData.data.hexadecimal.uppercased().separate(every: 2, with: " "), presentationMode: .bytes)
+                
+            }else {
+                AnyView(
+                    self.viewForDissectedEntries(serviceData.subEntries, with: serviceData)
+                )
             }
         }
     }
@@ -126,19 +163,19 @@ struct AdvertisementRow: View {
                 )
             }
         }
-        .contextMenu {
-            Button(action: {
-                
-            }) {
-                Text("Copy Manufacturer Data")
-            }
-            
-            Button(action: {
-                   
-               }) {
-                   Text("Copy Manufacturer Data")
-               }
-        }
+//        .contextMenu {
+//            Button(action: {
+//                
+//            }) {
+//                Text("Copy Manufacturer Data")
+//            }
+//            
+//            Button(action: {
+//                   
+//               }) {
+//                   Text("Copy Manufacturer Data")
+//               }
+//        }
     }
 
     struct RawManufacturerDataView: View {
@@ -354,7 +391,7 @@ struct AdvertisementRow_Previews: PreviewProvider {
             "kCBAdvDataChannel": 37,
             "kCBAdvDataIsConnectable": true,
             "kCBAdvDataManufacturerData": "0x4c0010054B1CC6E7E6".hexadecimal!,
-        ], rssi: NSNumber(value: -30.0))
+    ], rssi: NSNumber(value: -30.0), peripheralUUID: UUID())
 
     static var previews: some View {
         AdvertisementRow(advertisement: self.advertisementNearby)

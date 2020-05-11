@@ -31,8 +31,9 @@ fileprivate struct CustomUITextViewWrapper: UIViewRepresentable {
         textView.isScrollEnabled = false
         textView.contentInset = .zero
         textView.text = self.text
-        textView.translatesAutoresizingMaskIntoConstraints = false
+//        textView.translatesAutoresizingMaskIntoConstraints = false
         textView.backgroundColor = .clear
+        
         
         switch self.presentationMode {
         case .bytes:
@@ -56,9 +57,11 @@ fileprivate struct CustomUITextViewWrapper: UIViewRepresentable {
     
     fileprivate static func recalculateHeight(view: UIView, result: Binding<CGFloat>) {
         let newSize = view.sizeThatFits(CGSize(width: view.frame.size.width, height: CGFloat.greatestFiniteMagnitude))
-        if result.wrappedValue != newSize.height {
+        //TextViews are always 4 px to heigh
+        let height = newSize.height
+        if result.wrappedValue != height {
             DispatchQueue.main.async {
-                result.wrappedValue = newSize.height // !! must be called asynchronously
+                result.wrappedValue = height // !! must be called asynchronously
             }
         }
     }
@@ -89,6 +92,8 @@ struct SelectableTextView: View {
     var body: some View {
         CustomUITextViewWrapper(text: self.$text, calculatedHeight: self.$dynamicHeight, presentationMode: self.presentationMode)
             .frame(minHeight: self.dynamicHeight, maxHeight: self.dynamicHeight)
+            .padding([.top, .bottom], -10)
+            .padding(.leading, -4)
     }
     
     enum PresentationMode {
