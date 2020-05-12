@@ -9,6 +9,7 @@
 import SwiftUI
 import BLETools
 import ZIPFoundation
+import Combine
 
 struct SettingsView: View {
     @EnvironmentObject var bleScanner: BLEScanner
@@ -51,6 +52,8 @@ struct SettingsView: View {
     /// When set to true the BLE receiver selection is shown
     @State var showReceiverSelection: Bool = false
     @State var loading = false
+    
+    @State var pcapNotification: AnyCancellable?
     
     var receiverActionsheet: PopSheet {
         PopSheet(title: Text("Title_Select_BLE_receiver"), message: Text("Message_Select_BLE_Receiver"), buttons: BLEScanner.Receiver.allCases.map{ t in
@@ -118,6 +121,13 @@ struct SettingsView: View {
                 Text("Sts_export_to_pcap")
             })
             
+            Button(action: {
+                self.loading = true
+                UIKitBridge.shared.importPcapFile()
+            }) {
+                Text("Sts_import_from_pcap")
+            }
+            
         }
         .navigationBarTitle(Text("Ttl_settings"))
         .sheet(isPresented: self.$showRSSIRecorder, content: {
@@ -164,6 +174,21 @@ struct SettingsView: View {
         }
         .onAppear {
             self.scanning = self.bleScanner.scanning
+            
+            //Subscribe to notification publisher
+            self.pcapNotification = NotificationCenter.default.publisher(for: Notification.Name.App.importingPcapFinished).sink { (notification) in
+                self.loading = false
+                
+                if let error = notification.userInfo?["error"] {
+                    //Error on pcap import
+                }else {
+                    //Pcap import finished
+                    self.scanning = false
+                    self.presentation.wrappedValue.dismiss()
+                }
+                
+                
+            }
         }
         .onDisappear {
             self.bleScanner.autoconnect = self.autoConnectToDevices
@@ -183,6 +208,7 @@ struct SettingsView: View {
             UserDefaults.standard.BLEreceiverType = self.bleScanner.receiverType
             
             UserDefaults.standard.autoconnectToDevices = self.autoConnectToDevices
+            self.pcapNotification?.cancel()
         }
     }
     
@@ -244,6 +270,8 @@ struct SettingsView: View {
         }
         
     }
+    
+
         
 }
 

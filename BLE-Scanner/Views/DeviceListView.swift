@@ -47,8 +47,7 @@ struct DeviceListView: View {
             .navigationBarItems(trailing: self.navigationBarItems)
         }
         .onAppear {
-            guard self.scanner.scanning == false else {return}
-            self.scanner.scanning = true
+           
         }
     }
 

@@ -1,0 +1,24 @@
+//
+//  UIKitBridge.swift
+//  BLE-Scanner
+//
+//  Created by Alex - SEEMOO on 12.05.20.
+//  Copyright © 2020 SEEMOO - TU Darmstadt. All rights reserved.
+//
+
+import Foundation
+
+class UIKitBridge: NSObject {
+    static let shared = UIKitBridge()
+    private override init() {}
+    
+    private var pcapImporter: PcapImportController?
+    
+    func importPcapFile() {
+        if pcapImporter == nil {
+            pcapImporter = PcapImportController()
+        }
+        
+        pcapImporter?.pcapImport()
+    }
+}

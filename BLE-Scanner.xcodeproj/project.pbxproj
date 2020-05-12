@@ -28,6 +28,8 @@
 		7859DB64246A8D880079D19C /* CompressionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7859DB63246A8D880079D19C /* CompressionController.swift */; };
 		7859DB66246A8FBE0079D19C /* ZIPCompressionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7859DB65246A8FBE0079D19C /* ZIPCompressionTests.swift */; };
 		7859DB69246A9B5A0079D19C /* ZIPFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = 7859DB68246A9B5A0079D19C /* ZIPFoundation */; };
+		7859DB71246AF1010079D19C /* PcapImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7859DB70246AF1010079D19C /* PcapImporter.swift */; };
+		7859DB73246AF7A40079D19C /* UIKitBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7859DB72246AF7A40079D19C /* UIKitBridge.swift */; };
 		785B19D9245B15150018E17F /* CustomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785B19D8245B15150018E17F /* CustomSheet.swift */; };
 		786A383424339CAB00608FAB /* iPadActionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786A383324339CAB00608FAB /* iPadActionSheet.swift */; };
 		7874249C2437874D00F06B90 /* AdvertisementRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7874249B2437874D00F06B90 /* AdvertisementRow.swift */; };
@@ -129,6 +131,8 @@
 		7852D37E241BE20D00AA1B96 /* ActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityView.swift; sourceTree = "<group>"; };
 		7859DB63246A8D880079D19C /* CompressionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompressionController.swift; sourceTree = "<group>"; };
 		7859DB65246A8FBE0079D19C /* ZIPCompressionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZIPCompressionTests.swift; sourceTree = "<group>"; };
+		7859DB70246AF1010079D19C /* PcapImporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PcapImporter.swift; sourceTree = "<group>"; };
+		7859DB72246AF7A40079D19C /* UIKitBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitBridge.swift; sourceTree = "<group>"; };
 		785B19D8245B15150018E17F /* CustomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSheet.swift; sourceTree = "<group>"; };
 		786A383324339CAB00608FAB /* iPadActionSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iPadActionSheet.swift; sourceTree = "<group>"; };
 		7874249B2437874D00F06B90 /* AdvertisementRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvertisementRow.swift; sourceTree = "<group>"; };
@@ -270,6 +274,14 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		7859DB6F246AF0EF0079D19C /* Objects */ = {
+			isa = PBXGroup;
+			children = (
+				7859DB70246AF1010079D19C /* PcapImporter.swift */,
+			);
+			path = Objects;
+			sourceTree = "<group>";
+		};
 		785B19D7245B14D90018E17F /* Modifier */ = {
 			isa = PBXGroup;
 			children = (
@@ -360,6 +372,8 @@
 				787D6F78241BD1D600AB7AB3 /* Model.swift */,
 				788D9886240D435C005FC745 /* SceneDelegate.swift */,
 				787D6F7A241BD63E00AB7AB3 /* ModelSceneDelegate.swift */,
+				7859DB72246AF7A40079D19C /* UIKitBridge.swift */,
+				7859DB6F246AF0EF0079D19C /* Objects */,
 				787B3E03245088FE006172BD /* Utility */,
 				788D988A240D435E005FC745 /* Assets.xcassets */,
 				788D988F240D435E005FC745 /* LaunchScreen.storyboard */,
@@ -640,8 +654,10 @@
 				787B3E072450909B006172BD /* SelectableText.swift in Sources */,
 				7888CFDE242DFAB900A2C971 /* ActivitySpinner.swift in Sources */,
 				786A383424339CAB00608FAB /* iPadActionSheet.swift in Sources */,
+				7859DB71246AF1010079D19C /* PcapImporter.swift in Sources */,
 				781B2DF6243F080F00C529A5 /* AngleCalculation.swift in Sources */,
 				788D9889240D435C005FC745 /* DeviceListView.swift in Sources */,
+				7859DB73246AF7A40079D19C /* UIKitBridge.swift in Sources */,
 				7859DB64246A8D880079D19C /* CompressionController.swift in Sources */,
 				78EFB97C242277A000C4A6B8 /* SettingsView.swift in Sources */,
 				7874249F24378C7B00F06B90 /* ColorExtension.swift in Sources */,

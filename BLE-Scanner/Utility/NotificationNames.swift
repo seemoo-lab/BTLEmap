@@ -29,5 +29,9 @@ extension Notification.Name {
         static var showAWDL: Notification.Name {
             return Notification.Name("showAWDL")
         }
+        
+        static var importingPcapFinished: Notification.Name {
+            return Notification.Name("pcapimportfinished")
+        }
     }
 }
