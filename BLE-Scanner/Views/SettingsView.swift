@@ -8,6 +8,7 @@
 
 import SwiftUI
 import BLETools
+import ZIPFoundation
 
 struct SettingsView: View {
     @EnvironmentObject var bleScanner: BLEScanner
@@ -191,11 +192,23 @@ struct SettingsView: View {
         DispatchQueue.global(qos: .userInitiated).async {
             
             let pcapData = PcapExport.export(advertisements: self.bleScanner.advertisements)
-            //Store in file
+            
+            
             let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .allDomainsMask).first!
-            let url = documentsURL.appendingPathComponent("exported.pcap")
+            let pcapURL = documentsURL.appendingPathComponent("exported.pcap")
+            let zipURL = documentsURL.appendingPathComponent("exported.pcap.zip")
+            
             do {
-                try pcapData.write(to: url)
+                //Write pcap to file
+                try pcapData.write(to: pcapURL)
+                
+                //Compress pcap file
+                let fileManager = FileManager.default
+                try fileManager.zipItem(at: pcapURL, to: zipURL)
+                
+                //Delete pcap file
+                try fileManager.removeItem(at: pcapURL)
+                
             }catch {
                 //TODO: Show error
                 DispatchQueue.main.async {
@@ -210,7 +223,7 @@ struct SettingsView: View {
                     return
                 }
                 
-                let controller = UIDocumentPickerViewController(url: url, in: .exportToService)
+                let controller = UIDocumentPickerViewController(url: zipURL, in: .exportToService)
                 controller.shouldShowFileExtensions = true
                 
                 

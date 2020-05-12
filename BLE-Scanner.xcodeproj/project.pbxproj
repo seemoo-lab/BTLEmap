@@ -25,6 +25,9 @@
 		7838954C241A5625008248CA /* AWDLScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7838954B241A5625008248CA /* AWDLScannerView.swift */; };
 		78510A2A243B69FB00FCCF83 /* LineHStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78510A29243B69FB00FCCF83 /* LineHStack.swift */; };
 		7852D37F241BE20D00AA1B96 /* ActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7852D37E241BE20D00AA1B96 /* ActivityView.swift */; };
+		7859DB64246A8D880079D19C /* CompressionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7859DB63246A8D880079D19C /* CompressionController.swift */; };
+		7859DB66246A8FBE0079D19C /* ZIPCompressionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7859DB65246A8FBE0079D19C /* ZIPCompressionTests.swift */; };
+		7859DB69246A9B5A0079D19C /* ZIPFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = 7859DB68246A9B5A0079D19C /* ZIPFoundation */; };
 		785B19D9245B15150018E17F /* CustomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785B19D8245B15150018E17F /* CustomSheet.swift */; };
 		786A383424339CAB00608FAB /* iPadActionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786A383324339CAB00608FAB /* iPadActionSheet.swift */; };
 		7874249C2437874D00F06B90 /* AdvertisementRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7874249B2437874D00F06B90 /* AdvertisementRow.swift */; };
@@ -124,6 +127,8 @@
 		7838954B241A5625008248CA /* AWDLScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AWDLScannerView.swift; sourceTree = "<group>"; };
 		78510A29243B69FB00FCCF83 /* LineHStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineHStack.swift; sourceTree = "<group>"; };
 		7852D37E241BE20D00AA1B96 /* ActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityView.swift; sourceTree = "<group>"; };
+		7859DB63246A8D880079D19C /* CompressionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompressionController.swift; sourceTree = "<group>"; };
+		7859DB65246A8FBE0079D19C /* ZIPCompressionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZIPCompressionTests.swift; sourceTree = "<group>"; };
 		785B19D8245B15150018E17F /* CustomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSheet.swift; sourceTree = "<group>"; };
 		786A383324339CAB00608FAB /* iPadActionSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iPadActionSheet.swift; sourceTree = "<group>"; };
 		7874249B2437874D00F06B90 /* AdvertisementRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvertisementRow.swift; sourceTree = "<group>"; };
@@ -184,6 +189,7 @@
 			files = (
 				78A619A024646B96000F5712 /* BLETools in Frameworks */,
 				782354EA241A534500F11D6B /* AWDLScanner in Frameworks */,
+				7859DB69246A9B5A0079D19C /* ZIPFoundation in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -309,6 +315,7 @@
 			children = (
 				7888CFDF242DFE3400A2C971 /* Extension */,
 				787B3E042450892E006172BD /* NotificationNames.swift */,
+				7859DB63246A8D880079D19C /* CompressionController.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -385,6 +392,7 @@
 				78D86E45240D81D400E718BF /* CoreBluetoothTests.swift */,
 				788D989D240D435E005FC745 /* Info.plist */,
 				78AE2D872446F0A6002D28D9 /* RSSIGraphTests.swift */,
+				7859DB65246A8FBE0079D19C /* ZIPCompressionTests.swift */,
 			);
 			path = "BLE-ScannerTests";
 			sourceTree = "<group>";
@@ -435,6 +443,7 @@
 			packageProductDependencies = (
 				782354E9241A534500F11D6B /* AWDLScanner */,
 				78A6199F24646B96000F5712 /* BLETools */,
+				7859DB68246A9B5A0079D19C /* ZIPFoundation */,
 			);
 			productName = "BLE-Scanner";
 			productReference = 788D9881240D435C005FC745 /* BLE-Scanner.app */;
@@ -533,6 +542,7 @@
 			packageReferences = (
 				782354E8241A534500F11D6B /* XCRemoteSwiftPackageReference "awdlscanner" */,
 				7823682F24210AEE00406CEE /* XCRemoteSwiftPackageReference "bletools" */,
+				7859DB67246A9B5A0079D19C /* XCRemoteSwiftPackageReference "ZIPFoundation" */,
 			);
 			productRefGroup = 788D9882240D435C005FC745 /* Products */;
 			projectDirPath = "";
@@ -632,6 +642,7 @@
 				786A383424339CAB00608FAB /* iPadActionSheet.swift in Sources */,
 				781B2DF6243F080F00C529A5 /* AngleCalculation.swift in Sources */,
 				788D9889240D435C005FC745 /* DeviceListView.swift in Sources */,
+				7859DB64246A8D880079D19C /* CompressionController.swift in Sources */,
 				78EFB97C242277A000C4A6B8 /* SettingsView.swift in Sources */,
 				7874249F24378C7B00F06B90 /* ColorExtension.swift in Sources */,
 				78A43B0B2437922100319BD8 /* AdvertisementManudfacturerDataView.swift in Sources */,
@@ -642,6 +653,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7859DB66246A8FBE0079D19C /* ZIPCompressionTests.swift in Sources */,
 				781B2DF8243F0AD100C529A5 /* RSSI_AngleCalculation_Tests.swift in Sources */,
 				78AE2D882446F0A6002D28D9 /* RSSIGraphTests.swift in Sources */,
 				788D989C240D435E005FC745 /* BLE_ScannerTests.swift in Sources */,
@@ -1091,6 +1103,14 @@
 				kind = branch;
 			};
 		};
+		7859DB67246A9B5A0079D19C /* XCRemoteSwiftPackageReference "ZIPFoundation" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/weichsel/ZIPFoundation.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.9.11;
+			};
+		};
 		78A771352421274700EF3E0C /* XCRemoteSwiftPackageReference "awdlscanner" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://dev.seemoo.tu-darmstadt.de/aheinrich/awdlscanner.git";
@@ -1114,6 +1134,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 782354E8241A534500F11D6B /* XCRemoteSwiftPackageReference "awdlscanner" */;
 			productName = AWDLScanner;
+		};
+		7859DB68246A9B5A0079D19C /* ZIPFoundation */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7859DB67246A9B5A0079D19C /* XCRemoteSwiftPackageReference "ZIPFoundation" */;
+			productName = ZIPFoundation;
 		};
 		78A6199F24646B96000F5712 /* BLETools */ = {
 			isa = XCSwiftPackageProductDependency;
