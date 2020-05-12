@@ -9,6 +9,8 @@
 import Foundation
 import UIKit
 import BLETools
+import MobileCoreServices
+import ZIPFoundation
 
 class PcapImportController: NSObject, ObservableObject, UIDocumentPickerDelegate {
     
@@ -24,34 +26,50 @@ class PcapImportController: NSObject, ObservableObject, UIDocumentPickerDelegate
         
         //Read the file
         do {
-            let data = try Data(contentsOf: fileURL)
+            let data: Data
+            
+            if fileURL.pathExtension == "zip" {
+                data = try self.unzip(zipURL: fileURL)
+            }else {
+                data = try Data(contentsOf: fileURL)
+            }
+            
             //Import the pcap data
             bleScanner.importPcap(from: data) { (result) in
                 switch result {
                 case .success(_):
                     NotificationCenter.default.post(name: Notification.Name.App.importingPcapFinished, object: self)
-                    break
+                    
                 case .failure(let pcapError):
                     NotificationCenter.default.post(name: Notification.Name.App.importingPcapFinished, object: self, userInfo: ["error": pcapError])
-                    break 
+                    
                 }
             }
         }catch let error {
-            print(error)
+            NotificationCenter.default.post(name: Notification.Name.App.importingPcapFinished, object: self, userInfo: ["error": error])
+        }
+        
+    }
+    
+    func unzip(zipURL: URL) throws -> Data {
+        let documentURL = FileManager.default.urls(for: .documentDirectory, in: .allDomainsMask).first!
+        let destinationURL = documentURL.appendingPathComponent("unzip")
+            
+        try? FileManager.default.removeItem(at: destinationURL)
+        try? FileManager.default.createDirectory(at: destinationURL, withIntermediateDirectories: false, attributes: nil)
+        try FileManager.default.unzipItem(at: zipURL, to: destinationURL)
+        
+        //Files
+        let files = try FileManager.default.contentsOfDirectory(at: destinationURL, includingPropertiesForKeys: nil, options: .includesDirectoriesPostOrder)
+        
+        if let pcapURL = files.first {
+            let pcapData = try Data(contentsOf: pcapURL)
+            return pcapData
         }
         
         
-//        let fileCoordinator = NSFileCoordinator()
-//        let error: NSErrorPointer
-//        fileCoordinator.coordinate(readingItemAt: fileURL, options: .withoutChanges, error: error) { (url) in
-//            do {
-//                //Read the data
-//                let fileData = try Data(contentsOf: url)
-//
-//            }catch let error {
-//
-//            }
-//        }
+        throw NSError(domain: "ZIP Failed", code: -1, userInfo: ["message": "Failed"])
+        
     }
     
     func pcapImport() {

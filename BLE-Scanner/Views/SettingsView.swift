@@ -55,6 +55,9 @@ struct SettingsView: View {
     
     @State var pcapNotification: AnyCancellable?
     
+    @State var errorInfo: ErrorInfo?
+    
+    
     var receiverActionsheet: PopSheet {
         PopSheet(title: Text("Title_Select_BLE_receiver"), message: Text("Message_Select_BLE_Receiver"), buttons: BLEScanner.Receiver.allCases.map{ t in
             PopSheet.Button.default(Text(t.name), action: {
@@ -172,6 +175,9 @@ struct SettingsView: View {
              }
              
         }
+        .alert(item: self.$errorInfo, content: { (errorInfo) -> Alert in
+            Alert(title: Text(errorInfo.errorTitle), message: Text(errorInfo.errorMessage), dismissButton: Alert.Button.cancel())
+        })
         .onAppear {
             self.scanning = self.bleScanner.scanning
             
@@ -181,6 +187,7 @@ struct SettingsView: View {
                 
                 if let error = notification.userInfo?["error"] {
                     //Error on pcap import
+                    self.errorInfo = ErrorInfo(errorMessage: String(describing: error), errorTitle: "Import failed")
                 }else {
                     //Pcap import finished
                     self.scanning = false
@@ -271,7 +278,14 @@ struct SettingsView: View {
         
     }
     
-
+    struct ErrorInfo: Identifiable {
+        var id: String {
+            return errorMessage
+        }
+        
+        let errorMessage: String
+        let errorTitle: String
+    }
         
 }
 
