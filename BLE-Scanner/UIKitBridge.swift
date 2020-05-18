@@ -12,13 +12,21 @@ class UIKitBridge: NSObject {
     static let shared = UIKitBridge()
     private override init() {}
     
-    private var pcapImporter: PcapImportController?
+    private var pcapImporter: PcapController?
     
     func importPcapFile() {
         if pcapImporter == nil {
-            pcapImporter = PcapImportController()
+            pcapImporter = PcapController()
         }
         
         pcapImporter?.pcapImport()
+    }
+    
+    func exportPcapFile(_ finished: @escaping (Result<Void, Error>)->()) {
+        if pcapImporter == nil {
+            pcapImporter = PcapController()
+        }
+        
+        pcapImporter?.pcapExport(finished)
     }
 }

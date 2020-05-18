@@ -15,6 +15,13 @@ struct DeviceListView: View {
     
     @State var showRSSIScanner = false
     
+    init() {
+//        #if DEBUG
+//        let df = DateFormatter()
+//        df.dateFormat = "mm:ss.SSS"
+//        print("\(df.string(from: Date() )) Redrawing list")
+//        #endif
+    }
     
     var devices: [BLEDevice] {
 //        self.scanner.deviceList.sorted(by: {$0.id < $1.id})
@@ -47,7 +54,7 @@ struct DeviceListView: View {
             .navigationBarItems(trailing: self.navigationBarItems)
         }
         .onAppear {
-           
+            print("Device list appeared")
         }
     }
 

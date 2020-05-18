@@ -315,7 +315,9 @@ extension RSSIPlotsView {
                     .disabled(self.scrollAutomatically)
                     
                     self.yAxisText
-                }.frame(width: self.width, height: self.height)
+                }
+                .frame(width: self.width, height: self.height)
+                
             }
 
         }

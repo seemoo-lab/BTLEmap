@@ -26,6 +26,8 @@ struct BLEDeviceRow: View {
             return fixedIconColor!
         }
         
+//        return Color("notSendingColor")
+        
         if self.bleDevice.isActive {
             return Color("isSendingColor")
         }else {

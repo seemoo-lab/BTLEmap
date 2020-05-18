@@ -221,61 +221,15 @@ struct SettingsView: View {
     
     func pcapExport() {
         self.loading = true
-        //Generate PCAP data
-        DispatchQueue.global(qos: .userInitiated).async {
-            
-            let pcapData = PcapExport.export(advertisements: self.bleScanner.advertisements)
-            
-            
-            let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .allDomainsMask).first!
-            let pcapURL = documentsURL.appendingPathComponent("exported.pcap")
-            let zipURL = documentsURL.appendingPathComponent("exported.pcap.zip")
-            
-            do {
-                //Write pcap to file
-                try pcapData.write(to: pcapURL)
-                
-                //Compress pcap file
-                let fileManager = FileManager.default
-                try fileManager.zipItem(at: pcapURL, to: zipURL)
-                
-                //Delete pcap file
-                try fileManager.removeItem(at: pcapURL)
-                
-            }catch {
-                //TODO: Show error
-                DispatchQueue.main.async {
-                    self.loading = false
-                }
+        UIKitBridge.shared.exportPcapFile { (result) in
+            self.loading = false
+            switch result {
+            case .failure(let error):
+                self.errorInfo = ErrorInfo(errorMessage: String(describing: error), errorTitle: NSLocalizedString("pcap_export_failed_title", comment: "Error title"))
+            case .success(_):
                 return
             }
-            
-            DispatchQueue.main.async {
-                self.loading = false
-                guard let source = UIApplication.shared.windows.first?.rootViewController else {
-                    return
-                }
-                
-                let controller = UIDocumentPickerViewController(url: zipURL, in: .exportToService)
-                controller.shouldShowFileExtensions = true
-                
-                
-                if let userFolder = NSSearchPathForDirectoriesInDomains(.userDirectory, .userDomainMask, true).first {
-                    controller.directoryURL = URL(fileURLWithPath: userFolder)
-                }
-                
-                var presentationController = source
-                while presentationController.presentedViewController != nil {
-                    presentationController = presentationController.presentedViewController!
-                }
-                
-                
-                controller.popoverPresentationController?.sourceView = presentationController.view
-                presentationController.present(controller, animated: true)
-            }
-        
         }
-        
     }
     
     struct ErrorInfo: Identifiable {
