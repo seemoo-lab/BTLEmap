@@ -7,6 +7,7 @@
 //
 
 import Compression
+import Foundation
 
 struct CompressionController {
     
