@@ -71,8 +71,8 @@ struct SettingsView: View {
         )
     }
     
-    var settingsList: some View {
-        List {
+    var settingsSection: some View {
+        Section(header: Text("Scan settings")) {
             Toggle(isOn: self.$scanning, label: {Text("Sts_ble_scanning")})
             
             Toggle(isOn: self.$filterDuplicates, label: {Text("Sts_filter_duplicates")})
@@ -96,14 +96,6 @@ struct SettingsView: View {
             }
             
             Button(action: {
-                self.showRSSIRecorder.toggle()
-            }, label: {
-                HStack {
-                    Text("Sts_showrssi")
-                }
-            })
-            
-            Button(action: {
                 self.showReceiverSelection.toggle()
             }, label: {
                 HStack {
@@ -114,10 +106,11 @@ struct SettingsView: View {
                         .lineLimit(2)
                 }
             })
-            .popSheet(isPresented: self.$showReceiverSelection, content: {
-                       self.receiverActionsheet
-                   })
-            
+        }
+    }
+    
+    var importExportSection: some View {
+        Section(header: Text("Import/Export")) {
             Button(action: {
                 self.pcapExport()
             }, label: {
@@ -130,8 +123,36 @@ struct SettingsView: View {
             }) {
                 Text("Sts_import_from_pcap")
             }
+        }
+    }
+    
+    var additionalFeaturesSections: some View {
+        Section(header: Text("Additional features")) {
+            Button(action: {
+                self.showRSSIRecorder.toggle()
+            }, label: {
+                HStack {
+                    Text("Sts_showrssi")
+                }
+            })
+            .popSheet(isPresented: self.$showReceiverSelection, content: {
+                self.receiverActionsheet
+            })
+        }
+    }
+    
+    var settingsList: some View {
+        List {
+            
+            self.settingsSection
+
+            self.importExportSection
+                
+            self.additionalFeaturesSections
             
         }
+        .listStyle(GroupedListStyle())
+        .environment(\.horizontalSizeClass, .regular)
         .navigationBarTitle(Text("Ttl_settings"))
         .sheet(isPresented: self.$showRSSIRecorder, content: {
             RSSIRecorderView(isShown: self.$showRSSIRecorder).environmentObject(self.bleScanner)
@@ -148,13 +169,9 @@ struct SettingsView: View {
     var body: some View {
         ZStack(alignment: .bottom) {
             VStack (spacing: 0) {
-                HStack {
-                    Spacer()
-                    self.dismissButton
-                }
-                
                 NavigationView {
                     self.settingsList
+                        .navigationBarItems(trailing: self.dismissButton)
                 }
                 
             }

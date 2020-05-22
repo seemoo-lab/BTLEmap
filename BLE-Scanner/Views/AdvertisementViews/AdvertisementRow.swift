@@ -386,7 +386,7 @@ struct AdvertisementRow: View {
 }
 
 struct AdvertisementRow_Previews: PreviewProvider {
-    static var advertisementNearby = try! BLEAdvertisment(
+    static var advertisementNearby = BLEAdvertisment(
         advertisementData: [
             "kCBAdvDataChannel": 37,
             "kCBAdvDataIsConnectable": true,

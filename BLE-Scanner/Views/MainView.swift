@@ -40,7 +40,7 @@ struct MainView: View {
                     Text("BLE Devices").font(.title).tag(0)
                     Text("Environment Scanner").font(.title).tag(1)
                     Text("RSSI Graph").font(.title).tag(2)
-                    Text("AWDL Scanner").font(.title).tag(3)
+//                    Text("AWDL Scanner").font(.title).tag(3)
                 }
                 .pickerStyle(SegmentedPickerStyle())
                 .frame(width: 550.0, height: 50.0)
@@ -80,7 +80,7 @@ struct MainView: View {
             EnvironmentScanner()
                 .environmentObject(bleScanner).environmentObject(viewModel)
                 .tabItem {
-//                    Image(systemName:"dot.radiowaves.left.and.right")
+                    Image(systemName:"dot.radiowaves.left.and.right")
                     Text("Environment Scanner")
             }
             
@@ -92,11 +92,11 @@ struct MainView: View {
                     Text("RSSI Graph")
                 })
             
-            AWDLScannerView().environmentObject(awdlScanner)
-                .tabItem {
-                    Image(systemName:"wifi")
-                    Text("AWDL Scanner")
-            }
+//            AWDLScannerView().environmentObject(awdlScanner)
+//                .tabItem {
+//                    Image(systemName:"wifi")
+//                    Text("AWDL Scanner")
+//            }
             
         }
     }
