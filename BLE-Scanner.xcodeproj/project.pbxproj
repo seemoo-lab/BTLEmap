@@ -35,7 +35,6 @@
 		7874249C2437874D00F06B90 /* AdvertisementRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7874249B2437874D00F06B90 /* AdvertisementRow.swift */; };
 		7874249F24378C7B00F06B90 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7874249E24378C7B00F06B90 /* ColorExtension.swift */; };
 		7879E3BB2417EB23003AA8DF /* AdvertisementTypeFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7879E3BA2417EB23003AA8DF /* AdvertisementTypeFilterView.swift */; };
-		7879E3C62418EF6C003AA8DF /* SharingBLEHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 7879E3C52418EF6C003AA8DF /* SharingBLEHandler.m */; };
 		787B3E052450892E006172BD /* NotificationNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787B3E042450892E006172BD /* NotificationNames.swift */; };
 		787B3E072450909B006172BD /* SelectableText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787B3E062450909B006172BD /* SelectableText.swift */; };
 		787D6F5B241BB8FD00AB7AB3 /* AWDLServiceDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787D6F5A241BB8FD00AB7AB3 /* AWDLServiceDetailView.swift */; };
@@ -70,7 +69,6 @@
 		78A771422421274700EF3E0C /* DeviceDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78232033240E7D7B00D4FDE3 /* DeviceDetailView.swift */; };
 		78A771432421274700EF3E0C /* ModelSceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787D6F7A241BD63E00AB7AB3 /* ModelSceneDelegate.swift */; };
 		78A771442421274700EF3E0C /* DocumentPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7823682A241F885A00406CEE /* DocumentPickerView.swift */; };
-		78A771452421274700EF3E0C /* SharingBLEHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 7879E3C52418EF6C003AA8DF /* SharingBLEHandler.m */; };
 		78A771462421274700EF3E0C /* ManfucaturerSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B8661F24123C80003761D0 /* ManfucaturerSelection.swift */; };
 		78A771472421274700EF3E0C /* PopoverSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7823682D2420C29600406CEE /* PopoverSheet.swift */; };
 		78A771482421274700EF3E0C /* DetailWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787D6F75241BC91D00AB7AB3 /* DetailWindowController.swift */; };
@@ -138,14 +136,6 @@
 		7874249B2437874D00F06B90 /* AdvertisementRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvertisementRow.swift; sourceTree = "<group>"; };
 		7874249E24378C7B00F06B90 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		7879E3BA2417EB23003AA8DF /* AdvertisementTypeFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvertisementTypeFilterView.swift; sourceTree = "<group>"; };
-		7879E3BF2418EF40003AA8DF /* SFBLEScanner.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFBLEScanner.h; sourceTree = "<group>"; };
-		7879E3C02418EF40003AA8DF /* SFBLEDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFBLEDevice.h; sourceTree = "<group>"; };
-		7879E3C12418EF41003AA8DF /* SFBLEData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFBLEData.h; sourceTree = "<group>"; };
-		7879E3C22418EF41003AA8DF /* SFBLEClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFBLEClient.h; sourceTree = "<group>"; };
-		7879E3C32418EF6C003AA8DF /* BLE-Scanner-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BLE-Scanner-Bridging-Header.h"; sourceTree = "<group>"; };
-		7879E3C42418EF6C003AA8DF /* SharingBLEHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SharingBLEHandler.h; sourceTree = "<group>"; };
-		7879E3C52418EF6C003AA8DF /* SharingBLEHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SharingBLEHandler.m; sourceTree = "<group>"; };
-		7879E3CA2418FF8B003AA8DF /* BluetoothDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BluetoothDevice.h; sourceTree = "<group>"; };
 		787B3E042450892E006172BD /* NotificationNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationNames.swift; sourceTree = "<group>"; };
 		787B3E062450909B006172BD /* SelectableText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectableText.swift; sourceTree = "<group>"; };
 		787D6F5A241BB8FD00AB7AB3 /* AWDLServiceDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AWDLServiceDetailView.swift; sourceTree = "<group>"; };
@@ -299,29 +289,6 @@
 			path = AdvertisementViews;
 			sourceTree = "<group>";
 		};
-		7879E3BD2418EE7A003AA8DF /* SFBLE */ = {
-			isa = PBXGroup;
-			children = (
-				7879E3BE2418EF05003AA8DF /* PrivateHeaders */,
-				7879E3C42418EF6C003AA8DF /* SharingBLEHandler.h */,
-				7879E3C52418EF6C003AA8DF /* SharingBLEHandler.m */,
-				7879E3C32418EF6C003AA8DF /* BLE-Scanner-Bridging-Header.h */,
-			);
-			path = SFBLE;
-			sourceTree = "<group>";
-		};
-		7879E3BE2418EF05003AA8DF /* PrivateHeaders */ = {
-			isa = PBXGroup;
-			children = (
-				7879E3CA2418FF8B003AA8DF /* BluetoothDevice.h */,
-				7879E3C22418EF41003AA8DF /* SFBLEClient.h */,
-				7879E3C12418EF41003AA8DF /* SFBLEData.h */,
-				7879E3C02418EF40003AA8DF /* SFBLEDevice.h */,
-				7879E3BF2418EF40003AA8DF /* SFBLEScanner.h */,
-			);
-			path = PrivateHeaders;
-			sourceTree = "<group>";
-		};
 		787B3E03245088FE006172BD /* Utility */ = {
 			isa = PBXGroup;
 			children = (
@@ -379,7 +346,6 @@
 				788D988F240D435E005FC745 /* LaunchScreen.storyboard */,
 				788D9892240D435E005FC745 /* Info.plist */,
 				7838954A241A55EF008248CA /* Views */,
-				7879E3BD2418EE7A003AA8DF /* SFBLE */,
 				788D988C240D435E005FC745 /* Preview Content */,
 				788D98E5240D561E005FC745 /* Localizable.strings */,
 			);
@@ -637,7 +603,6 @@
 				787B3E052450892E006172BD /* NotificationNames.swift in Sources */,
 				787D6F7B241BD63E00AB7AB3 /* ModelSceneDelegate.swift in Sources */,
 				7823682B241F885A00406CEE /* DocumentPickerView.swift in Sources */,
-				7879E3C62418EF6C003AA8DF /* SharingBLEHandler.m in Sources */,
 				7888CFE5242E550F00A2C971 /* ConnectingView.swift in Sources */,
 				782A3516244603020085C47B /* FilterSettings.swift in Sources */,
 				785B19D9245B15150018E17F /* CustomSheet.swift in Sources */,
@@ -701,7 +666,6 @@
 				78A771422421274700EF3E0C /* DeviceDetailView.swift in Sources */,
 				78A771432421274700EF3E0C /* ModelSceneDelegate.swift in Sources */,
 				78A771442421274700EF3E0C /* DocumentPickerView.swift in Sources */,
-				78A771452421274700EF3E0C /* SharingBLEHandler.m in Sources */,
 				78A771462421274700EF3E0C /* ManfucaturerSelection.swift in Sources */,
 				78A771472421274700EF3E0C /* PopoverSheet.swift in Sources */,
 				78A771482421274700EF3E0C /* DetailWindowController.swift in Sources */,
