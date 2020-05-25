@@ -8,7 +8,7 @@
 
 import Foundation
 import BLETools
-import AWDLScanner
+//import AWDLScanner
 
 /// Stores static singleton instances for environment objects
 struct Model {
@@ -19,5 +19,5 @@ struct Model {
         receiverType: UserDefaults.standard.BLEreceiverType,
         autoconnect: UserDefaults.standard.autoconnectToDevices)
     static let viewModel = EnvironmentViewModel()
-    static let awdlScanner = AWDLNetServiceBrowser()
+//    static let awdlScanner = AWDLNetServiceBrowser()
 }

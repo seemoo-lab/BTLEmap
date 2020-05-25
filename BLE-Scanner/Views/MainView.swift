@@ -7,15 +7,14 @@
 //
 
 import SwiftUI
-import AWDLScanner
 import BLETools
-import AWDLScanner
+//import AWDLScanner
 
 struct MainView: View {
     @State var currentViewSelected: Int = 0
     @EnvironmentObject var bleScanner: BLEScanner
     @EnvironmentObject var viewModel: EnvironmentViewModel
-    @EnvironmentObject var awdlScanner: AWDLNetServiceBrowser
+//    @EnvironmentObject var awdlScanner: AWDLNetServiceBrowser
     @EnvironmentObject var appliedFilters: AppliedFilters
     @ObservedObject var rssiViewModel = RSSIGraphViewModel()
     
@@ -59,7 +58,7 @@ struct MainView: View {
                 }
                 
                 else if currentViewSelected == 3 {
-                    AWDLScannerView().environmentObject(awdlScanner)
+//                    AWDLScannerView().environmentObject(awdlScanner)
                     
                 }else {
                     DeviceListView().environmentObject(bleScanner).environmentObject(viewModel)
@@ -142,7 +141,7 @@ struct MainView: View {
         .onAppear {
             guard !self.launched else {return}
             self.bleScanner.scanning = true
-            self.awdlScanner.startSearching()
+//            self.awdlScanner.startSearching()
             self.launched = true
         }
         .onReceive(self.settingsPublisher, perform: { _ in
@@ -168,6 +167,9 @@ struct MainView: View {
 
 struct MainTabbarView_Previews: PreviewProvider {
     static var previews: some View {
-        MainView().environmentObject(BLEScanner()).environmentObject(AWDLNetServiceBrowser()).environmentObject(EnvironmentViewModel())
+        MainView()
+            .environmentObject(BLEScanner())
+//            .environmentObject(AWDLNetServiceBrowser())
+            .environmentObject(EnvironmentViewModel())
     }
 }

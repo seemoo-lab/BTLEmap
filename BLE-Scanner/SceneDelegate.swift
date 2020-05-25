@@ -9,14 +9,13 @@
 import UIKit
 import SwiftUI
 import BLETools
-import AWDLScanner
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
      
     var window: UIWindow?
     let bleScanner = Model.bleScanner
     let viewModel = Model.viewModel
-    let awdlScanner = Model.awdlScanner
+//    let awdlScanner = Model.awdlScanner
     let filters = AppliedFilters()
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
@@ -27,7 +26,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let contentView = MainView()
             .environmentObject(bleScanner)
             .environmentObject(viewModel)
-            .environmentObject(awdlScanner)
+//            .environmentObject(awdlScanner)
             .environmentObject(filters)
         
         // Use a UIHostingController as window root view controller.

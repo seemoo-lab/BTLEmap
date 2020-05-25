@@ -17,7 +17,6 @@
 		78232034240E7D7B00D4FDE3 /* DeviceDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78232033240E7D7B00D4FDE3 /* DeviceDetailView.swift */; };
 		78232038240EA8BA00D4FDE3 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78232037240EA8B900D4FDE3 /* MainView.swift */; };
 		7823203A240EBB4500D4FDE3 /* EnvironmentScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78232039240EBB4500D4FDE3 /* EnvironmentScanner.swift */; };
-		782354EA241A534500F11D6B /* AWDLScanner in Frameworks */ = {isa = PBXBuildFile; productRef = 782354E9241A534500F11D6B /* AWDLScanner */; };
 		7823682B241F885A00406CEE /* DocumentPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7823682A241F885A00406CEE /* DocumentPickerView.swift */; };
 		7823682E2420C29600406CEE /* PopoverSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7823682D2420C29600406CEE /* PopoverSheet.swift */; };
 		782A35142445B9260085C47B /* RSSIPlotsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 782A35132445B9260085C47B /* RSSIPlotsView.swift */; };
@@ -40,7 +39,6 @@
 		787D6F5B241BB8FD00AB7AB3 /* AWDLServiceDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787D6F5A241BB8FD00AB7AB3 /* AWDLServiceDetailView.swift */; };
 		787D6F76241BC91D00AB7AB3 /* DetailWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787D6F75241BC91D00AB7AB3 /* DetailWindowController.swift */; };
 		787D6F79241BD1D600AB7AB3 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787D6F78241BD1D600AB7AB3 /* Model.swift */; };
-		787D6F7B241BD63E00AB7AB3 /* ModelSceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787D6F7A241BD63E00AB7AB3 /* ModelSceneDelegate.swift */; };
 		787F50002424B2BD005861EE /* RSSIPlots.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787F4FFF2424B2BD005861EE /* RSSIPlots.swift */; };
 		7888CFDE242DFAB900A2C971 /* ActivitySpinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7888CFDD242DFAB900A2C971 /* ActivitySpinner.swift */; };
 		7888CFE3242E04D600A2C971 /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7888CFE2242E04D600A2C971 /* BlurView.swift */; };
@@ -118,7 +116,6 @@
 		787D6F5A241BB8FD00AB7AB3 /* AWDLServiceDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AWDLServiceDetailView.swift; sourceTree = "<group>"; };
 		787D6F75241BC91D00AB7AB3 /* DetailWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailWindowController.swift; sourceTree = "<group>"; };
 		787D6F78241BD1D600AB7AB3 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
-		787D6F7A241BD63E00AB7AB3 /* ModelSceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelSceneDelegate.swift; sourceTree = "<group>"; };
 		787F4FFF2424B2BD005861EE /* RSSIPlots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RSSIPlots.swift; sourceTree = "<group>"; };
 		7888CFDD242DFAB900A2C971 /* ActivitySpinner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivitySpinner.swift; sourceTree = "<group>"; };
 		7888CFE2242E04D600A2C971 /* BlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurView.swift; sourceTree = "<group>"; };
@@ -158,7 +155,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				78A619A024646B96000F5712 /* BLETools in Frameworks */,
-				782354EA241A534500F11D6B /* AWDLScanner in Frameworks */,
 				7859DB69246A9B5A0079D19C /* ZIPFoundation in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -304,7 +300,6 @@
 				789BE5082451EF1700A1C54C /* MenuBarHandler.swift */,
 				787D6F78241BD1D600AB7AB3 /* Model.swift */,
 				788D9886240D435C005FC745 /* SceneDelegate.swift */,
-				787D6F7A241BD63E00AB7AB3 /* ModelSceneDelegate.swift */,
 				7859DB72246AF7A40079D19C /* UIKitBridge.swift */,
 				7859DB6F246AF0EF0079D19C /* Objects */,
 				787B3E03245088FE006172BD /* Utility */,
@@ -387,7 +382,6 @@
 			);
 			name = "BLE-Scanner";
 			packageProductDependencies = (
-				782354E9241A534500F11D6B /* AWDLScanner */,
 				78A6199F24646B96000F5712 /* BLETools */,
 				7859DB68246A9B5A0079D19C /* ZIPFoundation */,
 			);
@@ -465,7 +459,6 @@
 			);
 			mainGroup = 788D9878240D435C005FC745;
 			packageReferences = (
-				782354E8241A534500F11D6B /* XCRemoteSwiftPackageReference "awdlscanner" */,
 				7823682F24210AEE00406CEE /* XCRemoteSwiftPackageReference "bletools" */,
 				7859DB67246A9B5A0079D19C /* XCRemoteSwiftPackageReference "ZIPFoundation" */,
 			);
@@ -533,7 +526,6 @@
 				78A7715924212A6200EF3E0C /* RSSIRecorderView.swift in Sources */,
 				78232034240E7D7B00D4FDE3 /* DeviceDetailView.swift in Sources */,
 				787B3E052450892E006172BD /* NotificationNames.swift in Sources */,
-				787D6F7B241BD63E00AB7AB3 /* ModelSceneDelegate.swift in Sources */,
 				7823682B241F885A00406CEE /* DocumentPickerView.swift in Sources */,
 				7888CFE5242E550F00A2C971 /* ConnectingView.swift in Sources */,
 				782A3516244603020085C47B /* FilterSettings.swift in Sources */,
@@ -910,19 +902,11 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		782354E8241A534500F11D6B /* XCRemoteSwiftPackageReference "awdlscanner" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://dev.seemoo.tu-darmstadt.de/aheinrich/awdlscanner.git";
-			requirement = {
-				branch = master;
-				kind = branch;
-			};
-		};
 		7823682F24210AEE00406CEE /* XCRemoteSwiftPackageReference "bletools" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://dev.seemoo.tu-darmstadt.de/aheinrich/bletools.git";
 			requirement = {
-				branch = master;
+				branch = develop;
 				kind = branch;
 			};
 		};
@@ -937,11 +921,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		782354E9241A534500F11D6B /* AWDLScanner */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 782354E8241A534500F11D6B /* XCRemoteSwiftPackageReference "awdlscanner" */;
-			productName = AWDLScanner;
-		};
 		7859DB68246A9B5A0079D19C /* ZIPFoundation */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 7859DB67246A9B5A0079D19C /* XCRemoteSwiftPackageReference "ZIPFoundation" */;
