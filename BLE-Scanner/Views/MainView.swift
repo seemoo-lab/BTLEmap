@@ -37,7 +37,7 @@ struct MainView: View {
                 
                 Picker(selection: $currentViewSelected, label: Text("Select Mode")) {
                     Text("BLE Devices").font(.title).tag(0)
-                    Text("Environment Scanner").font(.title).tag(1)
+                    Text("Proximity View").font(.title).tag(1)
                     Text("RSSI Graph").font(.title).tag(2)
 //                    Text("AWDL Scanner").font(.title).tag(3)
                 }
@@ -80,7 +80,7 @@ struct MainView: View {
                 .environmentObject(bleScanner).environmentObject(viewModel)
                 .tabItem {
                     Image(systemName:"dot.radiowaves.left.and.right")
-                    Text("Environment Scanner")
+                    Text("Proximity View")
             }
             
             RSSIPlotsView()

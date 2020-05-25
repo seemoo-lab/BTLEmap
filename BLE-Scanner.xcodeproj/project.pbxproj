@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7805225D247BDE8000586F36 /* BLETools in Frameworks */ = {isa = PBXBuildFile; productRef = 7805225C247BDE8000586F36 /* BLETools */; };
 		780BE11D24606DC9001F2D2D /* AccordeonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780BE11C24606DC9001F2D2D /* AccordeonView.swift */; };
 		780BE11F2461904A001F2D2D /* MultilineTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780BE11E2461904A001F2D2D /* MultilineTextField.swift */; };
 		780BE12124619140001F2D2D /* SelectableTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780BE12024619140001F2D2D /* SelectableTextView.swift */; };
@@ -54,7 +55,6 @@
 		788D98E3240D561E005FC745 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 788D98E5240D561E005FC745 /* Localizable.strings */; };
 		789BE5092451EF1700A1C54C /* MenuBarHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789BE5082451EF1700A1C54C /* MenuBarHandler.swift */; };
 		78A43B0B2437922100319BD8 /* AdvertisementManudfacturerDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A43B0A2437922100319BD8 /* AdvertisementManudfacturerDataView.swift */; };
-		78A619A024646B96000F5712 /* BLETools in Frameworks */ = {isa = PBXBuildFile; productRef = 78A6199F24646B96000F5712 /* BLETools */; };
 		78A7715924212A6200EF3E0C /* RSSIRecorderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A7715824212A6200EF3E0C /* RSSIRecorderView.swift */; };
 		78AE2D882446F0A6002D28D9 /* RSSIGraphTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78AE2D872446F0A6002D28D9 /* RSSIGraphTests.swift */; };
 		78B8661C240FE43F003761D0 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 78B8661B240FE43F003761D0 /* README.md */; };
@@ -154,7 +154,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				78A619A024646B96000F5712 /* BLETools in Frameworks */,
+				7805225D247BDE8000586F36 /* BLETools in Frameworks */,
 				7859DB69246A9B5A0079D19C /* ZIPFoundation in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -382,8 +382,8 @@
 			);
 			name = "BLE-Scanner";
 			packageProductDependencies = (
-				78A6199F24646B96000F5712 /* BLETools */,
 				7859DB68246A9B5A0079D19C /* ZIPFoundation */,
+				7805225C247BDE8000586F36 /* BLETools */,
 			);
 			productName = "BLE-Scanner";
 			productReference = 788D9881240D435C005FC745 /* BLE-Scanner.app */;
@@ -459,8 +459,8 @@
 			);
 			mainGroup = 788D9878240D435C005FC745;
 			packageReferences = (
-				7823682F24210AEE00406CEE /* XCRemoteSwiftPackageReference "bletools" */,
 				7859DB67246A9B5A0079D19C /* XCRemoteSwiftPackageReference "ZIPFoundation" */,
+				7805225B247BDE8000586F36 /* XCRemoteSwiftPackageReference "BTLEmap-Framework" */,
 			);
 			productRefGroup = 788D9882240D435C005FC745 /* Products */;
 			projectDirPath = "";
@@ -902,11 +902,11 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		7823682F24210AEE00406CEE /* XCRemoteSwiftPackageReference "bletools" */ = {
+		7805225B247BDE8000586F36 /* XCRemoteSwiftPackageReference "BTLEmap-Framework" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://dev.seemoo.tu-darmstadt.de/aheinrich/bletools.git";
+			repositoryURL = "https://github.com/seemoo-lab/BTLEmap-Framework.git";
 			requirement = {
-				branch = develop;
+				branch = master;
 				kind = branch;
 			};
 		};
@@ -921,15 +921,15 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		7805225C247BDE8000586F36 /* BLETools */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7805225B247BDE8000586F36 /* XCRemoteSwiftPackageReference "BTLEmap-Framework" */;
+			productName = BLETools;
+		};
 		7859DB68246A9B5A0079D19C /* ZIPFoundation */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 7859DB67246A9B5A0079D19C /* XCRemoteSwiftPackageReference "ZIPFoundation" */;
 			productName = ZIPFoundation;
-		};
-		78A6199F24646B96000F5712 /* BLETools */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 7823682F24210AEE00406CEE /* XCRemoteSwiftPackageReference "bletools" */;
-			productName = BLETools;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

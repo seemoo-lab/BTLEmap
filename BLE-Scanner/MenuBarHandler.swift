@@ -24,7 +24,7 @@ class MenuBarHandler {
     
     func buildApplicationMenu(builder: UIMenuBuilder) {
         builder.replaceChildren(ofMenu: .application) { (oldchildren) -> [UIMenuElement] in
-            var newChildren = [UIMenuElement]()
+            var newChildren = oldchildren
             
             let preferences = UIKeyCommand(
                 title: NSLocalizedString("XZX_Prefernces",
@@ -33,7 +33,8 @@ class MenuBarHandler {
                 input: ",",
                 modifierFlags: .command)
             
-            newChildren.append(preferences)
+            newChildren.insert(preferences, at: 2)
+            
             return newChildren
         }
     }

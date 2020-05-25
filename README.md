@@ -1,5 +1,13 @@
 # BLE Scanner 
 
+## Installation 
+
+Pull the GitHub repository, open it in Xcode and run it on iOS or macOS. The linked libraries should be fetched automatically with the Swift Package Manager integration of Xcode. 
+
+## Features 
+
+The main app is divided in three parts: (1) BLE Devices, (2) Proximity View, (3) RSSI Graph. 
+
 
 
 ## Icons 
