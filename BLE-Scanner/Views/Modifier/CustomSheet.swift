@@ -32,18 +32,19 @@ extension View {
                 
                 if isShown.wrappedValue {
                     Rectangle()
-                        .fill(Color.black.opacity(0.25))
-                        .onTapGesture {
-                            withAnimation(.easeOut) {
-                                isShown.wrappedValue.toggle()
-                            }
-                        }
+                        .fill(Color.black.opacity(0.1))
+//                        .onTapGesture {
+//                            withAnimation(.easeOut) {
+//                                isShown.wrappedValue.toggle()
+//                            }
+//                        }
                         .transition(AnyTransition.opacity)
                     
                     modal()
                         .edgesIgnoringSafeArea(.all)
                         .frame(width: g.size.smaller * 0.7, height: g.size.smaller * 0.9)
                         .cornerRadius(10.0)
+                        .shadow(radius: 30.0)
                         .transition(AnyTransition.move(edge: .bottom))
                         
                 }
