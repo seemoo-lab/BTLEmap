@@ -73,16 +73,14 @@ struct SettingsView: View {
     
     var settingsSection: some View {
         Section(header: Text("Scan settings")) {
-            Toggle(isOn: self.$scanning, label: {Text("Sts_ble_scanning")})
             
-            Toggle(isOn: self.$filterDuplicates, label: {Text("Sts_filter_duplicates")})
-                .disabled(!self.scanning)
+
+            SettingsToggleRow(value: self.$scanning, title: "Sts_ble_scanning", description: "If off BTLEmap will no longer scan for advertisements")
             
-            Toggle(isOn: self.$timeoutDevices, label: {Text("Sts_devices_can_timeout")})
-                .disabled(!self.scanning)
+            SettingsToggleRow(value: self.$filterDuplicates, title: "Sts_filter_duplicates", description: "Uses less energy if on. RSSI readings will be updated less often.")
             
-            Toggle(isOn: $autoConnectToDevices, label: {Text("Sts_autoconnect")})
-                .disabled(!self.scanning)
+            
+            SettingsToggleRow(value: self.$timeoutDevices, title: "Sts_devices_can_timeout", description: "If on, the devices will be removed from the list after the number of minutes defined")
             
             HStack {
                 Text("Sts_timeout_interval")
@@ -95,17 +93,28 @@ struct SettingsView: View {
                 Text("min")
             }
             
-            Button(action: {
-                self.showReceiverSelection.toggle()
-            }, label: {
-                HStack {
-                    Text("Sts_Receiver_Selection")
-                    Spacer()
-                    Text(self.bleScanner.receiverType.name)
-                        .multilineTextAlignment(.trailing)
-                        .lineLimit(2)
-                }
-            })
+            SettingsToggleRow(value: self.$autoConnectToDevices, title: "Sts_autoconnect", description: "Connect automatically to every BLE device in range to perform device identification. Will reduce scanning speed if on. Might cause undefined behavior on nearby BLE devices")
+            
+
+            
+            VStack(alignment: .leading) {
+                Button(action: {
+                    self.showReceiverSelection.toggle()
+                }, label: {
+                    HStack {
+                        Text("Sts_Receiver_Selection")
+                        Spacer()
+                        Text(self.bleScanner.receiverType.name)
+                            .multilineTextAlignment(.trailing)
+                            .lineLimit(2)
+                    }
+                })
+                
+                Text("Select which input for BLE messages should be used")
+                    .foregroundColor(.gray)
+                    .font(.footnote)
+            }
+
         }
     }
     
@@ -258,6 +267,21 @@ struct SettingsView: View {
         let errorTitle: String
     }
         
+}
+
+struct SettingsToggleRow: View {
+    @Binding var value: Bool
+    var title: LocalizedStringKey
+    var description: LocalizedStringKey
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 2) {
+            Toggle(isOn: self.$value, label: {Text(self.title)})
+            Text(self.description)
+                .foregroundColor(Color.gray)
+                .font(.footnote)
+        }
+    }
 }
 
 extension UserDefaults {

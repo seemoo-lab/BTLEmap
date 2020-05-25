@@ -362,7 +362,6 @@ struct DeviceOnCircleView: View {
                 .font(.footnote)
                 .animation(.none)
                 .padding([.leading, .trailing], 2.0)
-//                .background(DeviceOnCircleView.background)
         }
         .frame(maxWidth: 130.0)
         .background(RoundedRectangle(cornerRadius: 10.0).fill(DeviceOnCircleView.background))

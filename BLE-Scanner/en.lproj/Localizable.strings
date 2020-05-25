@@ -20,7 +20,7 @@
 "Title_advertisementTypes" = "Advertisement types";
 "Sts_ble_scanning" = "BLE Scanning On";
 "Sts_filter_duplicates" = "Filter duplicates";
-"Sts_devices_can_timeout" = "Timeout devices";
+"Sts_devices_can_timeout" = "Devices can timeout";
 "Sts_timeout_interval" = "Timeout interval";
 "Sts_autoconnect" = "Autoconnect to BLE devices";
 "Sts_export_to_pcap" = "Export to PCAP file";
