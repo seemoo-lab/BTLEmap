@@ -56,7 +56,7 @@ struct FilterSettings:View {
             
         })
             .popoverSheet(isPresented: self.$showManufacturerSelection, content: {
-                ManfucaturerSelection(selectedManufacturers: self.appliedFilters.manufacturerBinding, isShown: self.$showManufacturerSelection)
+                ManfucaturerSelection(filters: self.appliedFilters)
             })
     }
     

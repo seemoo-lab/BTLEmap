@@ -13,6 +13,7 @@ import CoreMotion
 
 struct RSSIRecorderView: View {
     @EnvironmentObject var bleScanner: BLEScanner
+    @ObservedObject var filters = AppliedFilters()
     @Binding var isShown: Bool
     
     @State var isRecording: Bool = false
@@ -91,7 +92,7 @@ struct RSSIRecorderView: View {
                 .padding()
         })
         .popoverSheet(isPresented: self.$showManufacturerSelection, content: {
-            ManfucaturerSelection(selectedManufacturers: self.$selectedManufacturers, isShown: self.$showManufacturerSelection)
+            ManfucaturerSelection(filters: self.filters)
         })
     }
     
