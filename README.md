@@ -55,7 +55,8 @@ Certain Apple daemons and apps have full access to all Bluetooth data, e.g. the 
 
 ## Raspberry Pi Setup
 
-The app supports a Raspberry pi (Rpi) as an external scanner. If the app 
+The app supports a Raspberry pi (Rpi) as an external scanner. 
+We created a shell script that allows setup the raspberry pi as a scanner as easy as possible. We are currently tweaking some last things before this will be released. 
 
 
 ## Icons 

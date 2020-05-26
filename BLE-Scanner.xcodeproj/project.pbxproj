@@ -7,10 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7805225D247BDE8000586F36 /* BLETools in Frameworks */ = {isa = PBXBuildFile; productRef = 7805225C247BDE8000586F36 /* BLETools */; };
 		780BE11D24606DC9001F2D2D /* AccordeonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780BE11C24606DC9001F2D2D /* AccordeonView.swift */; };
 		780BE11F2461904A001F2D2D /* MultilineTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780BE11E2461904A001F2D2D /* MultilineTextField.swift */; };
 		780BE12124619140001F2D2D /* SelectableTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780BE12024619140001F2D2D /* SelectableTextView.swift */; };
+		780DA906247D6CB400E50F90 /* BLETools in Frameworks */ = {isa = PBXBuildFile; productRef = 780DA905247D6CB400E50F90 /* BLETools */; };
 		781B2DF6243F080F00C529A5 /* AngleCalculation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781B2DF5243F080F00C529A5 /* AngleCalculation.swift */; };
 		781B2DF8243F0AD100C529A5 /* RSSI_AngleCalculation_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781B2DF7243F0AD100C529A5 /* RSSI_AngleCalculation_Tests.swift */; };
 		781B2DFA243F0AE600C529A5 /* rssi_measurement_1.csv in Resources */ = {isa = PBXBuildFile; fileRef = 781B2DF9243F0AE600C529A5 /* rssi_measurement_1.csv */; };
@@ -154,7 +154,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7805225D247BDE8000586F36 /* BLETools in Frameworks */,
+				780DA906247D6CB400E50F90 /* BLETools in Frameworks */,
 				7859DB69246A9B5A0079D19C /* ZIPFoundation in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -383,7 +383,7 @@
 			name = "BLE-Scanner";
 			packageProductDependencies = (
 				7859DB68246A9B5A0079D19C /* ZIPFoundation */,
-				7805225C247BDE8000586F36 /* BLETools */,
+				780DA905247D6CB400E50F90 /* BLETools */,
 			);
 			productName = "BLE-Scanner";
 			productReference = 788D9881240D435C005FC745 /* BLE-Scanner.app */;
@@ -460,7 +460,7 @@
 			mainGroup = 788D9878240D435C005FC745;
 			packageReferences = (
 				7859DB67246A9B5A0079D19C /* XCRemoteSwiftPackageReference "ZIPFoundation" */,
-				7805225B247BDE8000586F36 /* XCRemoteSwiftPackageReference "BTLEmap-Framework" */,
+				780DA904247D6CB400E50F90 /* XCRemoteSwiftPackageReference "BTLEmap-Framework" */,
 			);
 			productRefGroup = 788D9882240D435C005FC745 /* Products */;
 			projectDirPath = "";
@@ -902,11 +902,11 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		7805225B247BDE8000586F36 /* XCRemoteSwiftPackageReference "BTLEmap-Framework" */ = {
+		780DA904247D6CB400E50F90 /* XCRemoteSwiftPackageReference "BTLEmap-Framework" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/seemoo-lab/BTLEmap-Framework.git";
 			requirement = {
-				branch = master;
+				branch = develop;
 				kind = branch;
 			};
 		};
@@ -921,9 +921,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		7805225C247BDE8000586F36 /* BLETools */ = {
+		780DA905247D6CB400E50F90 /* BLETools */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 7805225B247BDE8000586F36 /* XCRemoteSwiftPackageReference "BTLEmap-Framework" */;
+			package = 780DA904247D6CB400E50F90 /* XCRemoteSwiftPackageReference "BTLEmap-Framework" */;
 			productName = BLETools;
 		};
 		7859DB68246A9B5A0079D19C /* ZIPFoundation */ = {

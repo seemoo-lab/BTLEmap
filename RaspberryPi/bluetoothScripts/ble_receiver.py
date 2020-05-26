@@ -398,8 +398,45 @@ class BLERelay( DefaultDelegate):
             "addressType": scanEntry.addrType,
             "connectable": scanEntry.connectable, 
             "rawData": raw_data_hex, 
-            "scanData": {tag: scanEntry.getValueText(k) for k, tag in scanEntry.dataTags.items()}
+            #"scanData": {tag: scanEntry.getValueText(k) for k, tag in scanEntry.dataTags.items()}
         }
+
+        # Check for additional content in this advertisement 
+
+        # Get service UUIDs 
+        serviceUUIDs = list()
+        if scanEntry.getValueText(ScanEntry.INCOMPLETE_16B_SERVICES):
+            serviceUUIDs.append(scanEntry.getValueText(ScanEntry.INCOMPLETE_16B_SERVICES))
+
+        if scanEntry.getValueText(ScanEntry.INCOMPLETE_32B_SERVICES):
+            serviceUUIDs.append(scanEntry.getValueText(ScanEntry.INCOMPLETE_32B_SERVICES))
+        
+        if scanEntry.getValueText(ScanEntry.INCOMPLETE_128B_SERVICES):
+            serviceUUIDs.append(scanEntry.getValueText(ScanEntry.INCOMPLETE_128B_SERVICES))
+
+        if scanEntry.getValueText(ScanEntry.COMPLETE_16B_SERVICES):
+            serviceUUIDs.append(scanEntry.getValueText(ScanEntry.COMPLETE_16B_SERVICES))
+
+        if scanEntry.getValueText(ScanEntry.COMPLETE_32B_SERVICES):
+            serviceUUIDs.append(scanEntry.getValueText(ScanEntry.COMPLETE_32B_SERVICES))
+
+        if scanEntry.getValueText(ScanEntry.COMPLETE_128B_SERVICES):
+            serviceUUIDs.append(scanEntry.getValueText(ScanEntry.COMPLETE_128B_SERVICES))
+
+        if len(serviceUUIDs) > 0: 
+            packet_content["serviceUUIDs"] = serviceUUIDs 
+
+        # Get service data 
+        if scanEntry.getValueText(ScanEntry.SERVICE_DATA_16B): 
+            packet_content["serviceData16Bit"] = scanEntry.getValueText(ScanEntry.SERVICE_DATA_16B)
+        
+        if scanEntry.getValueText(ScanEntry.SERVICE_DATA_32B): 
+            packet_content["serviceData32Bit"] = scanEntry.getValueText(ScanEntry.SERVICE_DATA_32B)
+        
+        if scanEntry.getValueText(ScanEntry.SERVICE_DATA_128B): 
+            packet_content["serviceData128Bit"] = scanEntry.getValueText(ScanEntry.SERVICE_DATA_128B)
+
+        
         DBG("Encoding json: ", packet_content)
         json_packet = json.dumps(packet_content).encode() 
         
