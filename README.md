@@ -1,6 +1,8 @@
 # BTLEmap 
 
-![AppIcon](./BLE-Scanner/Assets.xcassets/AppIcon.appiconset/Icon\ Mac-512pt.png)
+<div style="text-align:center">
+<img src="./BLE-Scanner/Assets.xcassets/AppIcon.appiconset/Icon Mac-512pt.png" width=256px>
+</div>
 
 ## Installation 
 
