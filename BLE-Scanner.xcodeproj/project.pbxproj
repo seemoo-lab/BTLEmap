@@ -120,7 +120,7 @@
 		7888CFDD242DFAB900A2C971 /* ActivitySpinner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivitySpinner.swift; sourceTree = "<group>"; };
 		7888CFE2242E04D600A2C971 /* BlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurView.swift; sourceTree = "<group>"; };
 		7888CFE4242E550F00A2C971 /* ConnectingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectingView.swift; sourceTree = "<group>"; };
-		788D9881240D435C005FC745 /* BLE-Scanner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "BLE-Scanner.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		788D9881240D435C005FC745 /* BTLEmap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BTLEmap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		788D9884240D435C005FC745 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		788D9886240D435C005FC745 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		788D9888240D435C005FC745 /* DeviceListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceListView.swift; sourceTree = "<group>"; };
@@ -285,7 +285,7 @@
 		788D9882240D435C005FC745 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				788D9881240D435C005FC745 /* BLE-Scanner.app */,
+				788D9881240D435C005FC745 /* BTLEmap.app */,
 				788D9897240D435E005FC745 /* BLE-ScannerTests.xctest */,
 				788D98A2240D435E005FC745 /* BLE-ScannerUITests.xctest */,
 			);
@@ -386,7 +386,7 @@
 				780DA905247D6CB400E50F90 /* BLETools */,
 			);
 			productName = "BLE-Scanner";
-			productReference = 788D9881240D435C005FC745 /* BLE-Scanner.app */;
+			productReference = 788D9881240D435C005FC745 /* BTLEmap.app */;
 			productType = "com.apple.product-type.application";
 		};
 		788D9896240D435E005FC745 /* BLE-ScannerTests */ = {
@@ -741,7 +741,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "de.tu-darmstadt.seemoo.BTLEmap";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = BTLEmap;
 				SUPPORTS_MACCATALYST = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -768,7 +768,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "de.tu-darmstadt.seemoo.BTLEmap";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = BTLEmap;
 				SUPPORTS_MACCATALYST = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;

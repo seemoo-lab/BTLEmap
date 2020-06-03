@@ -1,4 +1,6 @@
-# BLE Scanner 
+# BTLEmap 
+
+![AppIcon](./BLE-Scanner/Assets.xcassets/AppIcon.appiconset/Icon\ Mac-512pt.png)
 
 ## Installation 
 
