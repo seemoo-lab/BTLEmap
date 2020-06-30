@@ -56,14 +56,11 @@ struct EnvironmentScanner: View {
     
 
     var presentedDevices: [BLEDevice] {
-        var devices = self.bleScanner.deviceList.sorted(by: {$0.id < $1.id})
+        var devices = self.bleScanner.deviceList
         
         //Filter out all unselected devices
-        devices = devices.filter {self.filters.selectedManufacturers.contains($0.manufacturer.rawValue.capitalized)}
-        
-        devices = devices.filter { self.filters.minRSSI <= -100 ? true : $0.lastRSSI >= self.filters.minRSSI}
-        
-//
+        devices = devices.filter(with: self.filters)
+
         return devices
     }
     
@@ -138,11 +135,6 @@ struct EnvironmentScanner: View {
 
     var body: some View {
         VStack {
-            HStack {
-                FilterSettings()
-                .padding()
-            }
-            Spacer()
             GeometryReader { geometry in
                 self.environmentScanner(geometry: geometry)
             }

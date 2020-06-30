@@ -12,6 +12,7 @@ import CoreBluetooth
 
 struct DeviceListView: View {
     @EnvironmentObject var scanner: BLEScanner
+    @EnvironmentObject var filters: AppliedFilters
     
     @State var showRSSIScanner = false
     
@@ -25,7 +26,7 @@ struct DeviceListView: View {
     
     var devices: [BLEDevice] {
 //        self.scanner.deviceList.sorted(by: {$0.id < $1.id})
-        return self.scanner.deviceList
+        return self.scanner.deviceList.filter(with: self.filters)
     }
     
     var navigationBarItems: some View {

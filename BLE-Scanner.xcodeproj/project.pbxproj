@@ -60,6 +60,7 @@
 		78B8661C240FE43F003761D0 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 78B8661B240FE43F003761D0 /* README.md */; };
 		78B8662024123C80003761D0 /* ManfucaturerSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B8661F24123C80003761D0 /* ManfucaturerSelection.swift */; };
 		78CB98F12462C0420097B947 /* BLEDeviceRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CB98F02462C0420097B947 /* BLEDeviceRow.swift */; };
+		78D7CCD524AA296C00BF0E48 /* KeyboardResponsive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D7CCD424AA296C00BF0E48 /* KeyboardResponsive.swift */; };
 		78D86E46240D81D400E718BF /* CoreBluetoothTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D86E45240D81D400E718BF /* CoreBluetoothTests.swift */; };
 		78EFB97C242277A000C4A6B8 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EFB97B242277A000C4A6B8 /* SettingsView.swift */; };
 		78F0E161243F4B9200002906 /* rssi_measurement_3.csv in Resources */ = {isa = PBXBuildFile; fileRef = 78F0E160243F4B9200002906 /* rssi_measurement_3.csv */; };
@@ -143,6 +144,7 @@
 		78B8661B240FE43F003761D0 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		78B8661F24123C80003761D0 /* ManfucaturerSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManfucaturerSelection.swift; sourceTree = "<group>"; };
 		78CB98F02462C0420097B947 /* BLEDeviceRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEDeviceRow.swift; sourceTree = "<group>"; };
+		78D7CCD424AA296C00BF0E48 /* KeyboardResponsive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardResponsive.swift; sourceTree = "<group>"; };
 		78D86E45240D81D400E718BF /* CoreBluetoothTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreBluetoothTests.swift; sourceTree = "<group>"; };
 		78EFB97B242277A000C4A6B8 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		78F0E160243F4B9200002906 /* rssi_measurement_3.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = rssi_measurement_3.csv; sourceTree = "<group>"; };
@@ -255,18 +257,11 @@
 		787B3E03245088FE006172BD /* Utility */ = {
 			isa = PBXGroup;
 			children = (
-				7888CFDF242DFE3400A2C971 /* Extension */,
 				787B3E042450892E006172BD /* NotificationNames.swift */,
 				7859DB63246A8D880079D19C /* CompressionController.swift */,
+				78D7CCD424AA296C00BF0E48 /* KeyboardResponsive.swift */,
 			);
 			path = Utility;
-			sourceTree = "<group>";
-		};
-		7888CFDF242DFE3400A2C971 /* Extension */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Extension;
 			sourceTree = "<group>";
 		};
 		788D9878240D435C005FC745 = {
@@ -531,6 +526,7 @@
 				782A3516244603020085C47B /* FilterSettings.swift in Sources */,
 				785B19D9245B15150018E17F /* CustomSheet.swift in Sources */,
 				78CB98F12462C0420097B947 /* BLEDeviceRow.swift in Sources */,
+				78D7CCD524AA296C00BF0E48 /* KeyboardResponsive.swift in Sources */,
 				78B8662024123C80003761D0 /* ManfucaturerSelection.swift in Sources */,
 				789BE5092451EF1700A1C54C /* MenuBarHandler.swift in Sources */,
 				7888CFE3242E04D600A2C971 /* BlurView.swift in Sources */,

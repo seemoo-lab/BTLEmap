@@ -14,12 +14,13 @@ struct MainView: View {
     @State var currentViewSelected: Int = 0
     @EnvironmentObject var bleScanner: BLEScanner
     @EnvironmentObject var viewModel: EnvironmentViewModel
-//    @EnvironmentObject var awdlScanner: AWDLNetServiceBrowser
+    //    @EnvironmentObject var awdlScanner: AWDLNetServiceBrowser
     @EnvironmentObject var appliedFilters: AppliedFilters
     @ObservedObject var rssiViewModel = RSSIGraphViewModel()
     
     @State var launched = false
     @State var showSettings = false
+    @State var filtersShown = false
     
     let settingsPublisher = NotificationCenter.default.publisher(for: Notification.Name.App.showPreferences)
     
@@ -30,21 +31,26 @@ struct MainView: View {
     
     var catalystView: some View {
         VStack(spacing: 0) {
-            ZStack(alignment: .center) {
-                Rectangle()
-                    .fill(Color("SegmentedControlBackground"))
-                    .frame(minWidth: 0, maxWidth: .infinity, maxHeight: 50.0)
-                
+            
+            Spacer()
+            
+            VStack {
                 Picker(selection: $currentViewSelected, label: Text("Select Mode")) {
                     Text("BLE Devices").font(.title).tag(0)
                     Text("Proximity View").font(.title).tag(1)
                     Text("RSSI Graph").font(.title).tag(2)
-//                    Text("AWDL Scanner").font(.title).tag(3)
+                    //                    Text("AWDL Scanner").font(.title).tag(3)
                 }
                 .pickerStyle(SegmentedPickerStyle())
                 .frame(width: 550.0, height: 50.0)
-                //                .background()
+                
+                FilterSettings()
             }
+            .background(Rectangle()
+            .fill(Color("SegmentedControlBackground"))
+            .frame(minWidth: 0, maxWidth: .infinity))
+            
+            
             
             Group {
                 if currentViewSelected == 1 {
@@ -56,9 +62,9 @@ struct MainView: View {
                     RSSIPlotsView()
                         .environmentObject(self.rssiViewModel)
                 }
-                
+                    
                 else if currentViewSelected == 3 {
-//                    AWDLScannerView().environmentObject(awdlScanner)
+                    //                    AWDLScannerView().environmentObject(awdlScanner)
                     
                 }else {
                     DeviceListView().environmentObject(bleScanner).environmentObject(viewModel)
@@ -69,35 +75,57 @@ struct MainView: View {
     }
     
     var iOSView: some View {
-        TabView {
-            DeviceListView().environmentObject(bleScanner).environmentObject(viewModel)
-                .tabItem {
-                    Image(systemName:"list.dash")
-                    Text("BLE Devices")
+        ZStack {
+            Color.lightGray
+                        .edgesIgnoringSafeArea(.all)
+            
+            VStack {
+                TabView {
+                    DeviceListView().environmentObject(bleScanner).environmentObject(viewModel)
+                        .tabItem {
+                            Image(systemName:"list.dash")
+                            Text("BLE Devices")
+                    }
+                    
+                    EnvironmentScanner()
+                        .environmentObject(bleScanner).environmentObject(viewModel)
+                        .tabItem {
+                            Image(systemName:"dot.radiowaves.left.and.right")
+                            Text("Proximity View")
+                    }
+                    
+                    RSSIPlotsView()
+                        .environmentObject(self.rssiViewModel)
+                        .tabItem({
+                            Image("GraphIcon")
+                                .imageScale(.small)
+                            Text("RSSI Graph")
+                        })
+                    
+                }
+                .font(.headline)
+
+                
+                    VStack {
+                        Button(action: {
+                            withAnimation {
+                                self.filtersShown.toggle()
+                            }
+                        }, label: {
+                            Image(systemName: "line.horizontal.3.decrease.circle.fill")
+                                .font(.title)
+                        })
+                        
+                        if filtersShown {
+                            FilterSettings()
+                        }
+                    }
+                    .edgesIgnoringSafeArea(.bottom)
+                
             }
-            
-            EnvironmentScanner()
-                .environmentObject(bleScanner).environmentObject(viewModel)
-                .tabItem {
-                    Image(systemName:"dot.radiowaves.left.and.right")
-                    Text("Proximity View")
-            }
-            
-            RSSIPlotsView()
-                .environmentObject(self.rssiViewModel)
-                .tabItem({
-                    Image("GraphIcon")
-                        .imageScale(.small)
-                    Text("RSSI Graph")
-                })
-            
-//            AWDLScannerView().environmentObject(awdlScanner)
-//                .tabItem {
-//                    Image(systemName:"wifi")
-//                    Text("AWDL Scanner")
-//            }
             
         }
+        
     }
     
     var errorView: some View {
@@ -115,7 +143,7 @@ struct MainView: View {
         }
         
     }
-
+    
     
     var body: some View {
         
@@ -141,26 +169,26 @@ struct MainView: View {
         .onAppear {
             guard !self.launched else {return}
             self.bleScanner.scanning = true
-//            self.awdlScanner.startSearching()
+            //            self.awdlScanner.startSearching()
             self.launched = true
         }
         .onReceive(self.settingsPublisher, perform: { _ in
             self.showSettings = true
         })
-        .onReceive(self.deviceListPublisher, perform: {_ in
-            self.currentViewSelected = 0
-        })
-        .onReceive(self.environmentScannerPublisher, perform: { _ in
-            self.currentViewSelected = 1
-        })
-        .onReceive(self.rssiPublisher, perform: { _ in
-            self.currentViewSelected = 2
-        })
-        .onReceive(self.awdlPublisher, perform: { _ in
-            self.currentViewSelected = 3
-        })
-
-
+            .onReceive(self.deviceListPublisher, perform: {_ in
+                self.currentViewSelected = 0
+            })
+            .onReceive(self.environmentScannerPublisher, perform: { _ in
+                self.currentViewSelected = 1
+            })
+            .onReceive(self.rssiPublisher, perform: { _ in
+                self.currentViewSelected = 2
+            })
+            .onReceive(self.awdlPublisher, perform: { _ in
+                self.currentViewSelected = 3
+            })
+        
+        
         
     }
 }
@@ -169,7 +197,7 @@ struct MainTabbarView_Previews: PreviewProvider {
     static var previews: some View {
         MainView()
             .environmentObject(BLEScanner())
-//            .environmentObject(AWDLNetServiceBrowser())
             .environmentObject(EnvironmentViewModel())
+            .previewDevice(PreviewDevice(rawValue: "Mac Catalyst"))
     }
 }

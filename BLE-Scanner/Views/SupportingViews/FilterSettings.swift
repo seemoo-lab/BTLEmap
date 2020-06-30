@@ -7,14 +7,19 @@
 //
 
 import SwiftUI
+import BLETools
 
 //Use as environment object
+/// Applied filters contain all user set filters to reduce the amount of advertisements received.
 class AppliedFilters: ObservableObject {
     @Published var selectedManufacturers: [String] = BLEManufacturer.allCases.map{$0.rawValue.capitalized}
     @Published var minRSSI: Float = -100
     
+    @Published var filterText: String = ""
+    
     var manufacturerBinding: Binding<[String]>!
     var rssiBinding: Binding<Float>!
+    var filterTextBinding: Binding<String>!
     
     init() {
         self.manufacturerBinding = Binding<[String]>.init(get: { () -> [String] in
@@ -28,9 +33,35 @@ class AppliedFilters: ObservableObject {
         },set: { (v) in
             self.minRSSI = v
         })
+        
+        self.filterTextBinding = Binding<String>.init(get: { () -> String in
+            return self.filterText
+        }, set: { (s) in
+            self.filterText = s
+        })
     }
     
-   
+}
+
+/// An extension that allows filtering a collection of BLEDevices by using the Applied Filters class
+extension Collection where Element == BLEDevice  {
+    func filter(with filters: AppliedFilters) -> [BLEDevice] {
+        var filtered = self.filter {filters.selectedManufacturers.contains($0.manufacturer.rawValue.capitalized)}
+        
+        filtered = filtered.filter {
+            filters.minRSSI <= -100 ? true : $0.lastRSSI >= filters.minRSSI
+        }
+        
+        if !filters.filterText.isEmpty,
+            let filterData = filters.filterText.hexadecimal {
+            
+            filtered = filtered.filter {
+                $0.advertisements.contains {$0.manufacturerData?.range(of: filterData) != nil}
+            }
+        }
+        
+        return filtered
+    }
 }
 
 struct FilterSettings:View {
@@ -38,6 +69,7 @@ struct FilterSettings:View {
     @EnvironmentObject var appliedFilters: AppliedFilters
     @State var showManufacturerSelection = false
     @State var devicesCanTimeout = true
+    
     
     var filterButton: some View {
         Button(action: {
@@ -62,29 +94,57 @@ struct FilterSettings:View {
     
     var sliderRange = Float(-100.0)...Float(0.0)
     
-    
-    var body: some View {
+    var simpleFilters: some View {
         Group {
             self.filterButton
                 .padding([.leading, .trailing])
             
             Slider(value: self.appliedFilters.rssiBinding, in: self.sliderRange)
-                .frame(maxWidth: 200.0)
+                .frame(minWidth: 100, maxWidth: 200.0)
             
             if self.appliedFilters.minRSSI <= -100 {
-                Text(String("Minimum RSSI -∞"))
+                Text(String("Min RSSI -∞"))
             }else {
-                Text(String(format: "Minimum RSSI %0.fdBm", Float(self.appliedFilters.minRSSI)))
+                Text(String(format: "Min RSSI %0.fdBm", Float(self.appliedFilters.minRSSI)))
             }
             
-            //                Slider(value: self.$minimumRSSI, in: Float(-100.0)...Float(0.0))
-            ////                    .frame(maxWidth: CGFloat(200.0))
-            //                if self.minimumRSSI == -Float.infinity {
-            //                    Text(String("Minimum RSSI -∞"))
-            //                }else {
-            //                    Text(String(format: "Minimum RSSI %.0fdBm", self.minimumRSSI))
-            //                }
+            
         }
+    }
+    
+    var textFilters: some View {
+        HStack {
+            Button(action: {
+                //
+            }, label: {
+                Text("Data")
+            })
+                .padding(7)
+                .background(RoundedRectangle(cornerRadius: 5.0, style: .continuous)
+                    .fill(Color.lightGray))
+            
+            TextField("Filter by data (hex encoded)", text: self.appliedFilters.filterTextBinding)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .keyboardType(.numberPad)
+                .font(.system(.body, design: .monospaced))
+        }
+        .keyboardResponsive()
+//        .padding(.trailing)
+    }
+    
+    var body: some View {
+        VStack {
+            HStack {
+                self.textFilters
+                if self.sizeClass == UserInterfaceSizeClass.regular {
+                    self.simpleFilters
+                }
+            }
+            if self.sizeClass == UserInterfaceSizeClass.compact {
+                self.simpleFilters
+            }
+        }
+        .padding()
     }
 }
 
@@ -94,6 +154,16 @@ struct FilterSettings_Previews: PreviewProvider {
     
     
     static var previews: some View {
-        FilterSettings()
+        Group {
+            HStack {
+                FilterSettings()
+            }
+            .previewDevice(PreviewDevice(rawValue: "iPhone 11 Pro"))
+            
+            HStack {
+                FilterSettings()
+            }
+            .previewDevice(PreviewDevice(rawValue: "iPad Pro (12.9-inch) (4th generation)"))
+        }.environmentObject(AppliedFilters())
     }
 }

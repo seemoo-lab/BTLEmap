@@ -76,15 +76,12 @@ struct RSSIPlotsView: View {
                     Toggle("Ttl_Scroll_automatically", isOn: self.$scrollAutomatically)
                         .frame(maxWidth: 250)
                         .padding([.leading, .trailing])
-                    FilterSettings()
-                        .environmentObject(self.filters)
                 }
             }else {
                 HStack {
                     Toggle("Ttl_Scroll_automatically", isOn: self.$scrollAutomatically)
                                            .frame(maxWidth: 250)
                                            .padding([.leading, .trailing])
-                    FilterSettings()
                         .environmentObject(self.filters)
                     
                     Spacer()
@@ -155,7 +152,7 @@ struct RSSIPlotsView: View {
     
     func updateGraph() {
             
-        self.devices = self.bleScanner.deviceList.filter({self.applyFilters(to: $0)})
+        self.devices = self.bleScanner.deviceList.filter(with: self.filters)
         self.devicesPlotInfo = self.devices.map({RSSIMultiDevicePlot.DevicePlotInfo(deviceId: $0.id, plotColor: self.viewModel.color(for: $0), rssis: $0.allRSSIs)})
     }
     
