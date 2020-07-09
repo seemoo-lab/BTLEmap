@@ -35,9 +35,12 @@ fileprivate struct CustomUITextViewWrapper: UIViewRepresentable {
         textView.isEditable = false
         textView.isScrollEnabled = false
         textView.contentInset = .zero
-        textView.text = self.text
-        textView.attributedText = self.attributedString
-//        textView.translatesAutoresizingMaskIntoConstraints = false
+        if self.text != nil {
+            textView.text = self.text
+        }else if self.attributedString != nil {
+            textView.attributedText = self.attributedString
+        }
+        
         textView.backgroundColor = .clear
         
         
@@ -57,22 +60,20 @@ fileprivate struct CustomUITextViewWrapper: UIViewRepresentable {
     }
     
     func updateUIView(_ textView: UITextView, context: UIViewRepresentableContext<CustomUITextViewWrapper>) {
-        if textView.text != self.text {
+        if let text = self.text, textView.text != text {
             textView.text = self.text
         }
-        
-        
-        if let attributes = self.attributedString {
+        if let attributes = self.attributedString, textView.attributedText != attributes {
             textView.attributedText = attributes
         }
         
-        if let selectedRange = self.selectedRange {
-            textView.selectedRange = selectedRange
-        }else {
-            DispatchQueue.main.async {
-                self.selectedRange = textView.selectedRange
-            }
-        }
+//        if let selectedRange = self.selectedRange {
+//            textView.selectedRange = selectedRange
+//        }else {
+//            DispatchQueue.main.async {
+//                self.selectedRange = textView.selectedRange
+//            }
+//        }
         
         
         CustomUITextViewWrapper.recalculateHeight(view: textView, result: $calculatedHeight)
