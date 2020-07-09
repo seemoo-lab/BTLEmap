@@ -21,6 +21,8 @@ extension Color {
     
     static var lightGray: Color {Color("LightGray")}
     
+    static var textColor: Color {Color("TextColor")}
+    
     static func highlightColor(at index: Int) -> Color {
         let color: Color = {
             if index >= 10 {

@@ -13,6 +13,7 @@ import CoreBluetooth
 struct DeviceListView: View {
     @EnvironmentObject var scanner: BLEScanner
     @EnvironmentObject var filters: AppliedFilters
+//    @Environment(\.) var navigationStyle
     
     @State var showRSSIScanner = false
     
@@ -45,18 +46,21 @@ struct DeviceListView: View {
     }
     
     var body: some View {
-        NavigationView {
-            List(self.devices) { device in
-                NavigationLink(destination: DeviceDetailView(device: device)) {
-                    BLEDeviceRow(bleDevice: device)
+        GeometryReader {geo in
+            NavigationView {
+                List(self.devices) { device in
+                    NavigationLink(destination: DeviceDetailView(device: device)) {
+                        BLEDeviceRow(bleDevice: device)
+                    }
                 }
+                .navigationBarTitle(Text("Nav_Bar_Scanner_title"), displayMode: .inline)
+                .navigationBarItems(trailing: self.navigationBarItems)
             }
-            .navigationBarTitle(Text("Nav_Bar_Scanner_title"), displayMode: .inline)
-            .navigationBarItems(trailing: self.navigationBarItems)
+            
+            
         }
-        .onAppear {
-            print("Device list appeared")
-        }
+        
+
     }
 
 }

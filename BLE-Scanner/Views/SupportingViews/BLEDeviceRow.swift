@@ -8,6 +8,7 @@
 
 import Foundation
 import SwiftUI
+import CoreBluetooth
 
 struct BLEDeviceRow: View {
     @ObservedObject var bleDevice: BLEDevice
@@ -15,10 +16,7 @@ struct BLEDeviceRow: View {
     var fixedIconColor: Color?
     
     var imageName: String {
-        if self.bleDevice.manufacturer == .seemoo {
-            return "seemoo"
-        }
-        return self.bleDevice.deviceModel?.deviceType.string ?? BLEDeviceModel.DeviceType.other.string
+        return self.bleDevice.imageName() 
     }
     
     var iconColor: Color {

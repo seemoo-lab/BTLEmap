@@ -92,7 +92,7 @@ struct RSSIRecorderView: View {
                 .padding()
         })
         .popoverSheet(isPresented: self.$showManufacturerSelection, content: {
-            ManfucaturerSelection(filters: self.filters)
+            ManfucaturerSelection(selectedManufacturers: self.$selectedManufacturers)
         })
     }
     

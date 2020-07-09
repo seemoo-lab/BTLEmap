@@ -13,7 +13,7 @@ struct ManfucaturerSelection: View {
     @Environment(\.presentationMode) var presentation
     
     var allManufacturers: [String] = BLEManufacturer.allCases.map{$0.rawValue.capitalized}.sorted()
-    @ObservedObject var filters: AppliedFilters
+    @Binding var selectedManufacturers: [String]
 //
 //    @State var selectedManufacturers: [String] = BLEManufacturer.allCases.map{$0.rawValue.capitalized}.sorted()
     
@@ -30,18 +30,19 @@ struct ManfucaturerSelection: View {
                         HStack {
                             Text(manufacturerString)
                             Spacer()
-                            Image(systemName: self.filters.selectedManufacturers.contains(manufacturerString) ? "checkmark.circle.fill" : "circle")
+                            Image(systemName: self.selectedManufacturers.contains(manufacturerString) ? "checkmark.circle.fill" : "circle")
                         }
                         Divider()
                     }
                     .padding([.leading, .trailing])
                     .contentShape(Rectangle())
                     .onTapGesture {
-                        if let idx = self.filters.selectedManufacturers.firstIndex(of: manufacturerString) {
-                            self.filters.selectedManufacturers.remove(at: idx)
+                        if let idx = self.selectedManufacturers.firstIndex(of: manufacturerString) {
+                            self.selectedManufacturers.remove(at: idx)
                         }else {
-                            self.filters.selectedManufacturers.append(manufacturerString)
+                            self.selectedManufacturers.append(manufacturerString)
                         }
+                        print("Selected manufacturers changed: \(self.selectedManufacturers)")
                     }
                 }
             }
@@ -56,14 +57,14 @@ struct ManfucaturerSelection: View {
             .navigationBarItems(trailing: Button(action: {self.presentation.wrappedValue.dismiss()}, label: {Text("Btn_Dismiss")}))
             .navigationBarItems(leading:
                 Button(action: {
-                    if self.filters.selectedManufacturers.count == self.allManufacturers.count {
-                        self.filters.selectedManufacturers = []
+                    if self.selectedManufacturers.count == self.allManufacturers.count {
+                        self.selectedManufacturers = []
                     }else {
-                        self.filters.selectedManufacturers = self.allManufacturers
+                        self.selectedManufacturers = self.allManufacturers
                     }
                     
                 }, label: {
-                    if self.filters.selectedManufacturers.count == self.allManufacturers.count {
+                    if self.selectedManufacturers.count == self.allManufacturers.count {
                         Image(systemName: "minus.circle.fill")
                     }else {
                         Image(systemName: "plus.circle.fill")
@@ -82,14 +83,14 @@ struct ManfucaturerSelection: View {
         VStack {
             HStack {
                 Button(action: {
-                    if self.filters.selectedManufacturers.count == self.allManufacturers.count {
-                        self.filters.selectedManufacturers = []
+                    if self.selectedManufacturers.count == self.allManufacturers.count {
+                        self.selectedManufacturers = []
                     }else {
-                        self.filters.selectedManufacturers = self.allManufacturers
+                        self.selectedManufacturers = self.allManufacturers
                     }
                     
                 }, label: {
-                    if self.filters.selectedManufacturers.count == self.allManufacturers.count {
+                    if self.selectedManufacturers.count == self.allManufacturers.count {
                         Image(systemName: "minus.circle.fill")
                     }else {
                         Image(systemName: "plus.circle.fill")
@@ -118,7 +119,8 @@ struct ManfucaturerSelection_Previews: PreviewProvider {
     @State static var selected: [String] = BLEManufacturer.allCases.map{$0.rawValue.capitalized}
     @State static var isShown = true
     
+    
     static var previews: some View {
-        ManfucaturerSelection(filters: AppliedFilters())
+        ManfucaturerSelection(selectedManufacturers: $selected)
     }
 }

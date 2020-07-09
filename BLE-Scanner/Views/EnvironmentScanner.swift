@@ -268,11 +268,7 @@ struct DeviceOnCircleView: View {
     
     
     var imageName: String {
-        if self.device.manufacturer == .seemoo {
-            return "seemoo"
-        }
-        
-        return self.device.deviceModel?.deviceType.string ?? BLEDeviceModel.DeviceType.other.string
+        return self.device.imageName()
     }
     
     var scaling: CGFloat {

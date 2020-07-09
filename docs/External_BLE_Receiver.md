@@ -45,28 +45,10 @@ Every time the external receiver receives an advertisement it should send the ad
     "addressType": "random" | "public", 
     "connectable": true | false, 
     "rawData": "Hex formatted raw data", 
-    "scanData": {
-        "Flags": "Hex formatted flags" | null, 
-        "Incomplete 16b Services": "Hex formatted flags" | null, 
-        "Complete 16b Services" : "Hex formatted flags" | null, 
-        "Incomplete 32b Services": "Hex formatted flags" | null, 
-        "Complete 32b Services": "Hex formatted flags" | null, 
-        "Incomplete 128b Services": "Hex formatted flags" | null, 
-        "Complete 128b Services": "Hex formatted flags" | null, 
-        "Short Local Name": "Hex formatted flags" | null, 
-        "Complete Local Name": "Hex formatted flags" | null, 
-        "Tx Power": "Hex formatted flags" | null, 
-        "16b Service Solicitation": "Hex formatted flags" | null, 
-        "32b Service Solicitation": "Hex formatted flags" | null, 
-        "128b Service Solicitation": "Hex formatted flags" | null, 
-        "16b Service Data": "Hex formatted flags" | null, 
-        "32b Service Data": "Hex formatted flags" | null, 
-        "128b Service Data": "Hex formatted flags" | null, 
-        "Public Target Address": "Hex formatted flags" | null, 
-        "Random Target Address":  "Hex formatted flags" | null,
-        "Appearance": "Hex formatted flags" | null,
-        "Advertising Interval": "Hex formatted flags" | null,
-        "Manufacturer": "Hex formatted flags" | null,
+    "serviceUUIDs": ["UUID1", "UUID2"], //Strings for service UUIDs advertised  
+    "serviceData16Bit": "UUID+UUID_Data" // hex encoded
+    "serviceData32Bit": "UUID+UUID_Data"  // hex encoded
+    "serviceData128Bit": "UUID+UUID_Data" // hex encoded
     }   
 }
 ```

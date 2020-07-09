@@ -8,38 +8,15 @@
 
 import SwiftUI
 import BLETools
+import CoreBluetooth
 
 //Use as environment object
 /// Applied filters contain all user set filters to reduce the amount of advertisements received.
 class AppliedFilters: ObservableObject {
     @Published var selectedManufacturers: [String] = BLEManufacturer.allCases.map{$0.rawValue.capitalized}
     @Published var minRSSI: Float = -100
-    
     @Published var filterText: String = ""
     
-    var manufacturerBinding: Binding<[String]>!
-    var rssiBinding: Binding<Float>!
-    var filterTextBinding: Binding<String>!
-    
-    init() {
-        self.manufacturerBinding = Binding<[String]>.init(get: { () -> [String] in
-            return self.selectedManufacturers
-        },set: { (v) in
-            self.selectedManufacturers = v
-        })
-        
-        self.rssiBinding = Binding<Float>.init(get: { () -> Float in
-            return self.minRSSI
-        },set: { (v) in
-            self.minRSSI = v
-        })
-        
-        self.filterTextBinding = Binding<String>.init(get: { () -> String in
-            return self.filterText
-        }, set: { (s) in
-            self.filterText = s
-        })
-    }
     
 }
 
@@ -55,9 +32,32 @@ extension Collection where Element == BLEDevice  {
         if !filters.filterText.isEmpty,
             let filterData = filters.filterText.hexadecimal {
             
+            let notFiltered = filtered
+            
+            // OR filters
             filtered = filtered.filter {
-                $0.advertisements.contains {$0.manufacturerData?.range(of: filterData) != nil}
+                
+                //Filter for manufacturer data OR service UUID
+                 let filterBool = $0.advertisements.contains {
+                    let mData = $0.manufacturerData?.range(of: filterData) != nil
+                    
+                    let service: Bool
+                    
+                    if filterData.count == 2 || filterData.count == 4 || filterData.count == 16 {
+                        service = $0.serviceUUIDs?.contains(CBUUID(data: filterData)) == true
+                    }else {
+                        service = false
+                    }
+                    
+                    
+                    return mData || service
+                }
+                
+                return filterBool
             }
+            
+            
+            
         }
         
         return filtered
@@ -88,7 +88,7 @@ struct FilterSettings:View {
             
         })
             .popoverSheet(isPresented: self.$showManufacturerSelection, content: {
-                ManfucaturerSelection(filters: self.appliedFilters)
+                ManfucaturerSelection(selectedManufacturers: self.$appliedFilters.selectedManufacturers)
             })
     }
     
@@ -99,7 +99,7 @@ struct FilterSettings:View {
             self.filterButton
                 .padding([.leading, .trailing])
             
-            Slider(value: self.appliedFilters.rssiBinding, in: self.sliderRange)
+            Slider(value: self.$appliedFilters.minRSSI, in: self.sliderRange)
                 .frame(minWidth: 100, maxWidth: 200.0)
             
             if self.appliedFilters.minRSSI <= -100 {
@@ -123,7 +123,7 @@ struct FilterSettings:View {
                 .background(RoundedRectangle(cornerRadius: 5.0, style: .continuous)
                     .fill(Color.lightGray))
             
-            TextField("Filter by data (hex encoded)", text: self.appliedFilters.filterTextBinding)
+            TextField("Filter by data (hex encoded)", text: self.$appliedFilters.filterText)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .keyboardType(.numberPad)
                 .font(.system(.body, design: .monospaced))

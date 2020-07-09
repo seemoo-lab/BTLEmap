@@ -11,9 +11,12 @@ import SwiftUI
 import UIKit
 
 fileprivate struct CustomUITextViewWrapper: UIViewRepresentable {
-    @Binding var text: String
+    var text: String?
+    var attributedString: NSAttributedString?
     @Binding var calculatedHeight: CGFloat
     var presentationMode: SelectableTextView.PresentationMode
+    
+    @State var selectedRange: NSRange?
     
     func makeUIView(context: Context) -> UITextView {
         
@@ -23,6 +26,8 @@ fileprivate struct CustomUITextViewWrapper: UIViewRepresentable {
                 return BytesUITextView()
             case .text:
                 return UITextView()
+            case .attributedString:
+                return UITextView()
             }
         }()
         
@@ -31,6 +36,7 @@ fileprivate struct CustomUITextViewWrapper: UIViewRepresentable {
         textView.isScrollEnabled = false
         textView.contentInset = .zero
         textView.text = self.text
+        textView.attributedText = self.attributedString
 //        textView.translatesAutoresizingMaskIntoConstraints = false
         textView.backgroundColor = .clear
         
@@ -40,9 +46,12 @@ fileprivate struct CustomUITextViewWrapper: UIViewRepresentable {
             textView.font = UIFont.monospacedSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize, weight: .regular)
         case .text:
             textView.font = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize, weight: .regular)
+        case .attributedString:
+            break
         }
         
         textView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        
         
         return textView
     }
@@ -51,6 +60,20 @@ fileprivate struct CustomUITextViewWrapper: UIViewRepresentable {
         if textView.text != self.text {
             textView.text = self.text
         }
+        
+        
+        if let attributes = self.attributedString {
+            textView.attributedText = attributes
+        }
+        
+        if let selectedRange = self.selectedRange {
+            textView.selectedRange = selectedRange
+        }else {
+            DispatchQueue.main.async {
+                self.selectedRange = textView.selectedRange
+            }
+        }
+        
         
         CustomUITextViewWrapper.recalculateHeight(view: textView, result: $calculatedHeight)
     }
@@ -85,20 +108,30 @@ fileprivate class BytesUITextView: UITextView {
 }
 
 struct SelectableTextView: View {
-    @State var text: String
+    var text: String?
+    var attributedString: NSAttributedString?
     @State private var dynamicHeight: CGFloat = 100
     var presentationMode: PresentationMode
     
     var body: some View {
-        CustomUITextViewWrapper(text: self.$text, calculatedHeight: self.$dynamicHeight, presentationMode: self.presentationMode)
-            .frame(minHeight: self.dynamicHeight, maxHeight: self.dynamicHeight)
-            .padding([.top, .bottom], -10)
-            .padding(.leading, -4)
+        Group {
+        if self.presentationMode == .attributedString {
+            CustomUITextViewWrapper(text: nil, attributedString: self.attributedString!, calculatedHeight: self.$dynamicHeight, presentationMode: self.presentationMode)
+            
+        }else {
+            CustomUITextViewWrapper(text: self.text!, attributedString: nil, calculatedHeight: self.$dynamicHeight, presentationMode: self.presentationMode)
+            }
+        }
+        .frame(minHeight: self.dynamicHeight, maxHeight: self.dynamicHeight)
+                       .padding([.top, .bottom], -10)
+                       .padding(.leading, -4)
+
     }
     
     enum PresentationMode {
         case bytes
         case text
+        case attributedString
     }
 }
 

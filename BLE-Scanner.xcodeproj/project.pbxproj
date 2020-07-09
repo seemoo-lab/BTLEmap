@@ -15,6 +15,8 @@
 		781B2DF8243F0AD100C529A5 /* RSSI_AngleCalculation_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781B2DF7243F0AD100C529A5 /* RSSI_AngleCalculation_Tests.swift */; };
 		781B2DFA243F0AE600C529A5 /* rssi_measurement_1.csv in Resources */ = {isa = PBXBuildFile; fileRef = 781B2DF9243F0AE600C529A5 /* rssi_measurement_1.csv */; };
 		781B2DFC243F0B0500C529A5 /* rssi_measurement_2.csv in Resources */ = {isa = PBXBuildFile; fileRef = 781B2DFB243F0B0500C529A5 /* rssi_measurement_2.csv */; };
+		78203F5424ADE42700D12170 /* DecodedAdvertisementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78203F5324ADE42700D12170 /* DecodedAdvertisementView.swift */; };
+		78203F5624ADE80200D12170 /* BLEDeviceUIExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78203F5524ADE80200D12170 /* BLEDeviceUIExtension.swift */; };
 		78232034240E7D7B00D4FDE3 /* DeviceDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78232033240E7D7B00D4FDE3 /* DeviceDetailView.swift */; };
 		78232038240EA8BA00D4FDE3 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78232037240EA8B900D4FDE3 /* MainView.swift */; };
 		7823203A240EBB4500D4FDE3 /* EnvironmentScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78232039240EBB4500D4FDE3 /* EnvironmentScanner.swift */; };
@@ -92,6 +94,8 @@
 		781B2DF7243F0AD100C529A5 /* RSSI_AngleCalculation_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RSSI_AngleCalculation_Tests.swift; sourceTree = "<group>"; };
 		781B2DF9243F0AE600C529A5 /* rssi_measurement_1.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = rssi_measurement_1.csv; sourceTree = "<group>"; };
 		781B2DFB243F0B0500C529A5 /* rssi_measurement_2.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = rssi_measurement_2.csv; sourceTree = "<group>"; };
+		78203F5324ADE42700D12170 /* DecodedAdvertisementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodedAdvertisementView.swift; sourceTree = "<group>"; };
+		78203F5524ADE80200D12170 /* BLEDeviceUIExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEDeviceUIExtension.swift; sourceTree = "<group>"; };
 		7823202E240E771200D4FDE3 /* BLE-Scanner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "BLE-Scanner.entitlements"; sourceTree = "<group>"; };
 		78232033240E7D7B00D4FDE3 /* DeviceDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceDetailView.swift; sourceTree = "<group>"; };
 		78232037240EA8B900D4FDE3 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -202,6 +206,7 @@
 				780BE11C24606DC9001F2D2D /* AccordeonView.swift */,
 				780BE11E2461904A001F2D2D /* MultilineTextField.swift */,
 				78CB98F02462C0420097B947 /* BLEDeviceRow.swift */,
+				78203F5324ADE42700D12170 /* DecodedAdvertisementView.swift */,
 			);
 			path = SupportingViews;
 			sourceTree = "<group>";
@@ -260,6 +265,7 @@
 				787B3E042450892E006172BD /* NotificationNames.swift */,
 				7859DB63246A8D880079D19C /* CompressionController.swift */,
 				78D7CCD424AA296C00BF0E48 /* KeyboardResponsive.swift */,
+				78203F5524ADE80200D12170 /* BLEDeviceUIExtension.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -521,12 +527,14 @@
 				78A7715924212A6200EF3E0C /* RSSIRecorderView.swift in Sources */,
 				78232034240E7D7B00D4FDE3 /* DeviceDetailView.swift in Sources */,
 				787B3E052450892E006172BD /* NotificationNames.swift in Sources */,
+				78203F5624ADE80200D12170 /* BLEDeviceUIExtension.swift in Sources */,
 				7823682B241F885A00406CEE /* DocumentPickerView.swift in Sources */,
 				7888CFE5242E550F00A2C971 /* ConnectingView.swift in Sources */,
 				782A3516244603020085C47B /* FilterSettings.swift in Sources */,
 				785B19D9245B15150018E17F /* CustomSheet.swift in Sources */,
 				78CB98F12462C0420097B947 /* BLEDeviceRow.swift in Sources */,
 				78D7CCD524AA296C00BF0E48 /* KeyboardResponsive.swift in Sources */,
+				78203F5424ADE42700D12170 /* DecodedAdvertisementView.swift in Sources */,
 				78B8662024123C80003761D0 /* ManfucaturerSelection.swift in Sources */,
 				789BE5092451EF1700A1C54C /* MenuBarHandler.swift in Sources */,
 				7888CFE3242E04D600A2C971 /* BlurView.swift in Sources */,

@@ -17,6 +17,8 @@ struct AdvertisementRow: View {
     var isDecodedAdvertisement: Bool {
         self.advertisement.advertisementTLV != nil
     }
+    
+    @State var highlightedRange: ClosedRange<Int>?
 
     var decodedAdvertisements: [DecodedAdvType] {
         let types = self.advertisement.advertisementTypes
@@ -50,20 +52,6 @@ struct AdvertisementRow: View {
         return df
     }
     
-    var manufacturerDataView: some View {
-        AccordeonView(title: Text("Manufacturer Data")) {
-            VStack {
-                RawManufacturerDataView(advertisement: self.advertisement)
-                
-                ForEach(self.decodedAdvertisements) { (decodedAdv) in
-                    Group {
-                        DecodedAdvertisementView(decodedAdv: decodedAdv)
-                    }
-                }
-            }
-        }
-    }
-    
     var servicesUUIDView: some View {
         self.advertisement.serviceUUIDs.map { (services) in
             AccordeonView(title: Text("Services")) {
@@ -81,13 +69,31 @@ struct AdvertisementRow: View {
         self.advertisement.dissectedServiceData
     }
     
+
+    
+    var dissectedManufacturerDataView: some View {
+        Group {
+            self.advertisement.dissectedManufacturerData.map { entry in
+                AccordeonView(title: Text(entry.name)) {
+                    VStack {
+                        RawDataView(data: entry.data, highlightedRange: self.highlightedRange)
+                        
+                        ForEach(0..<entry.subEntries.count) { idx in
+                            self.viewForDissectedServiceData(serviceData: entry.subEntries[idx], parent: nil)
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
     var serviceDataView: some View {
         return self.serviceData.map { serviceData in
             VStack(alignment:.leading) {
                 AccordeonView(title: Text("Service data")) {
                     VStack {
                         ForEach(0..<serviceData.count) { (serviceIdx) in
-                            self.viewForDissectedServiceData(serviceData: serviceData[serviceIdx])
+                            self.viewForDissectedServiceData(serviceData: serviceData[serviceIdx], parent: nil)
                         }
                     }
 
@@ -96,36 +102,51 @@ struct AdvertisementRow: View {
         }
     }
     
+    
+    
     func viewForDissectedEntries(_ dissectedEntries: [DissectedEntry], with parentEntry: DissectedEntry) -> some View {
         AccordeonView(title: Text(parentEntry.name)) {
-            SelectableTextView(text: parentEntry.data.hexadecimal.uppercased().separate(every: 2, with: " "), presentationMode: .bytes)
+            
+            RawDataView(data: parentEntry.data, highlightedRange: self.highlightedRange)
+            
             VStack(alignment: .leading) {
                 ForEach(0..<dissectedEntries.count) { (serviceIdx) in
-                    self.viewForDissectedServiceData(serviceData: dissectedEntries[serviceIdx])
+                    self.viewForDissectedServiceData(serviceData: dissectedEntries[serviceIdx], parent: parentEntry, coloredBackground: (serviceIdx%2)==0)
                 }
             }
         }
     }
     
-    func viewForDissectedServiceData(serviceData: DissectedEntry) -> some View {
+    func viewForDissectedServiceData(serviceData: DissectedEntry, parent: DissectedEntry?, coloredBackground: Bool = false) -> some View {
         Group {
             if serviceData.subEntries.count == 0 {
-                // List Data
-                AnyView(
-                    HStack {
-                        Text(serviceData.name + ": ")
-                        Text(serviceData.valueDescription)
-                        Spacer()
-                    }
-                )
-                serviceData.explanatoryText.map({
-                    Text($0)
-                        .italic()
-                        .multilineTextAlignment(.leading)
-                        .fixedSize(horizontal: false, vertical: true)
+                Group {
+                    // List Data
+                    AnyView(
+                        HStack {
+                            Text(serviceData.name + ": ")
+                            Text(serviceData.valueDescription)
+                            Spacer()
+                        }
+                    )
+                    serviceData.explanatoryText.map({
+                        Text($0)
+                            .italic()
+                            .multilineTextAlignment(.leading)
+                            .fixedSize(horizontal: false, vertical: true)
+                        
+                    })
                     
-                })
-                SelectableTextView(text: serviceData.data.hexadecimal.uppercased().separate(every: 2, with: " "), presentationMode: .bytes)
+                    
+                }
+                .padding([.bottom, .top], 4)
+                .contentShape(Rectangle())
+                .background( coloredBackground ? Color.lightGray : nil)
+                .onTapGesture {
+//                    let lowerBound = (parent?.byteRange.lowerBound ?? 0) + serviceData.byteRange.lowerBound
+                    let lowerBound = serviceData.byteRange.lowerBound
+                    self.highlightedRange = lowerBound...(lowerBound + serviceData.byteRange.count - 1)
+                }
                 
             }else {
                 AnyView(
@@ -144,9 +165,7 @@ struct AdvertisementRow: View {
                 self.serviceDataView
             }
             
-            if self.advertisement.manufacturerData != nil {
-                self.manufacturerDataView
-            }
+            self.dissectedManufacturerDataView
             
 
             HStack {
@@ -163,224 +182,38 @@ struct AdvertisementRow: View {
                 )
             }
         }
-//        .contextMenu {
-//            Button(action: {
-//                
-//            }) {
-//                Text("Copy Manufacturer Data")
-//            }
-//            
-//            Button(action: {
-//                   
-//               }) {
-//                   Text("Copy Manufacturer Data")
-//               }
-//        }
     }
 
-    struct RawManufacturerDataView: View {
-        var advertisement: BLEAdvertisment
-
+    struct RawDataView: View {
         var byteArray: [UInt8]
-        let byteString: String
+        let byteString: NSMutableAttributedString
 
-        init(advertisement: BLEAdvertisment) {
-            self.advertisement = advertisement
-            if let mfD = advertisement.manufacturerData {
-                self.byteArray = Array(mfD)
-            } else {
-                self.byteArray = Array()
-            }
+        init(data: Data, highlightedRange: ClosedRange<Int>?) {
             
-            self.byteString = self.byteArray.reduce("0x") { (result, byte) -> String in result + String(format: " %02X", byte)}
+            self.byteArray = Array(data)
+            
+            let bytes = self.byteArray.reduce("0x") { (result, byte) -> String in result + String(format: " %02X", byte)}
+            
+            self.byteString = NSMutableAttributedString(string: bytes, attributes:
+                [NSAttributedString.Key.font : UIFont.monospacedSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize, weight: .regular),
+                 NSAttributedString.Key.foregroundColor: UIColor(named: "TextColor") ?? UIColor.white
+            ])
+            
+            if let highlighted = highlightedRange {
+                let start = 2 + highlighted.lowerBound * 3
+                let length = highlighted.count * 3
+                let textRange =  NSMakeRange(start, length)
+                self.byteString
+                    .addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.green, range: textRange)
+            }
+           
         }
 
         var body: some View {
             VStack(alignment: .leading) {
-                if self.advertisement.manufacturerData != nil {
-                    SelectableTextView(text: self.byteString, presentationMode: .bytes)
-                }else {
-                    Text("Empty_advertisement")
-                }
+                SelectableTextView(text: nil, attributedString: self.byteString, presentationMode: .attributedString)
             }
 
-        }
-    }
-
-    struct DecodedAdvertisementView: View {
-        var decodedAdv: DecodedAdvType
-        @State var opened = false
-
-        @State var hoveredRange: ClosedRange<UInt>?
-
-        /// Showing the decoded advertisement description with highlighting for the decoded values
-        /// - Parameter advDict:Decoded advertisement data
-        /// - Returns: SwiftUI View
-        func descriptionView(for advDict: [String: AppleBLEDecoding.DecodedEntry]) -> some View {
-
-            //Map to tuple of (String, DecodedEntry) and sort it by the bytes
-            let advDescription = advDict.map { ($0.0, $0.1) }.sorted { (lhs, rhs) -> Bool in
-                if lhs.1.byteRange.lowerBound < rhs.1.byteRange.lowerBound {
-                    return true
-                }
-                
-                return lhs.1.byteRange.lowerBound == rhs.1.byteRange.lowerBound && lhs.1.description.lowercased() < rhs.1.description.lowercased()
-            }
-
-            let keyValues: [(String, String)] = advDescription.map({
-                (key: String, value: Any) -> (String, String) in
-                if let data = value as? Data {
-                    return (key, (data.hexadecimal.separate(every: 2, with: " ")))
-                }
-
-                if let array = value as? [Any] {
-                    return (key, array.map { String(describing: $0) }.joined(separator: ", "))
-                }
-
-                return (key, String(describing: value))
-            })
-
-
-            return HStack {
-                VStack(alignment: .leading) {
-                    ForEach(
-                        0..<keyValues.count,
-                        content: { idx in
-                            Text("\(keyValues[idx].0): ")
-                                .font(.system(.body, design: .monospaced))
-                                .onTapGesture {
-                                    self.hoveredRange = advDescription[idx].1.byteRange
-                                }
-                        })
-                }
-
-                VStack(alignment: .leading) {
-                    ForEach(
-                        0..<keyValues.count,
-                        content: { idx in
-                            Text("\(keyValues[idx].1)")
-                                .font(.system(.body, design: .monospaced))
-                                .foregroundColor(Color.highlightColor(at: idx))
-                                .onTapGesture {
-                                    self.hoveredRange = advDescription[idx].1.byteRange
-                                }
-                        })
-                }
-            }
-        }
-
-        /// Get the highloghtcolor for a byte at index. Used for highlighting raw data
-        /// - Parameters:
-        ///   - index: The index of the byte in the data
-        ///   - advDescription: The advertisement description
-        /// - Returns: A color or nil
-        func highlightColorForByte(
-            at index: UInt, with advDescription: [(String, AppleBLEDecoding.DecodedEntry)]?
-        ) -> Color? {
-
-            //Get the index of the DecodedEntry to get the color for it
-            if let idx = advDescription?.enumerated().first(where: {
-                $0.element.1.byteRange.contains(index)
-            })?.offset {
-                return Color.highlightColor(at: idx)
-            }
-
-            return nil
-        }
-
-        /// Shows the raw bytes of the decrypted advertisement. Uses highlighting for visual clues
-        /// - Returns: A view that contais the raw data of the advertisement
-        func rawDataView(geometry g: GeometryProxy) -> some View {
-            //Map to tuple of (String, DecodedEntry) and sort it by the bytes
-            //Used to get the color index
-            let advDescription = self.decodedAdv.description?.map { ($0.0, $0.1) }.sorted {
-                (lhs, rhs) -> Bool in
-                return lhs.1.byteRange.lowerBound < rhs.1.byteRange.lowerBound
-            }
-
-            let byteArray = Array(self.decodedAdv.data)
-
-            var width = CGFloat.zero
-            var height = CGFloat.zero
-
-            return ZStack(alignment: .topLeading) {
-                ForEach(0..<byteArray.count) { (idx) in
-                    Text(String(format: "%02X", byteArray[idx]))
-                        .foregroundColor(
-                            self.highlightColorForByte(at: UInt(idx), with: advDescription)
-                        )
-                        .background(
-                            self.hoveredRange?.contains(UInt(idx)) == true ? Color.gray : nil
-                        )
-                        .padding([.leading, .trailing], 2.0)
-                        .alignmentGuide(.leading) { (d) -> CGFloat in
-                            if abs(width - d.width) > g.size.width {
-                                width = 0
-                                height -= d.height
-                            }
-                            let result = width
-                            if idx == byteArray.count - 1 {
-                                //Last item
-                                width = 0
-                            } else {
-                                width -= d.width
-                            }
-                            return result
-                        }
-                        .alignmentGuide(.top) { (d) -> CGFloat in
-                            let result = height
-                            if idx == byteArray.count - 1 {
-                                height = 0  // last item
-                            }
-
-                            return result
-                        }
-                }
-            }
-        }
-
-        var rowTransition: AnyTransition {
-            let insertion = AnyTransition.move(edge: .top).combined(with: .opacity)
-            let removal = AnyTransition.move(edge: .top).combined(with: .opacity)
-
-            return .asymmetric(insertion: insertion, removal: removal)
-        }
-
-        var body: some View {
-            
-            AccordeonView(title: Text(decodedAdv.type.description)) {
-                VStack {
-                    GeometryReader { g in
-                        self.rawDataView(geometry: g)
-                            .frame(width: g.size.width, height: nil, alignment: .topLeading)
-                    }
-
-                    if self.decodedAdv.description != nil {
-                        HStack {
-                            self.descriptionView(for: self.decodedAdv.description!)
-                            Spacer()
-                        }
-
-                    }
-                }
-            }
-        }
-    }
-
-    struct DecodedAdvType: Identifiable {
-        var id: UInt
-        var type: BLEAdvertisment.AppleAdvertisementType
-        var data: Data
-        var description: [String: AppleBLEDecoding.DecodedEntry]?
-
-        init(
-            type: BLEAdvertisment.AppleAdvertisementType, data: Data,
-            description: [String: AppleBLEDecoding.DecodedEntry]?
-        ) {
-            self.type = type
-            self.data = data
-            self.description = description
-            self.id = type.rawValue
         }
     }
 }

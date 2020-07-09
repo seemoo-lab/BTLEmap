@@ -43,7 +43,7 @@ This communication could be handled over WiFi or Ethernet.
 
 ## WiSec Demo Paper 
 
-This project has been accepted as a Demo on WiSec 2020. The link to the demo and the paper will be published here soon.
+This project has been accepted as a demo on WiSec 2020. You can find the demo paper on (arxiv)[https://arxiv.org/abs/2007.00349]. 
 
 ## Limits 
 
