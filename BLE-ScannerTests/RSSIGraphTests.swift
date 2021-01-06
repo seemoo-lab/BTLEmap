@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import BLE_Scanner
+@testable import BTLEmap
 import BLETools
 import SwiftUI
 

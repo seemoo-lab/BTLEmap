@@ -9,7 +9,7 @@
 import BLETools
 import XCTest
 
-@testable import BLE_Scanner
+@testable import BTLEmap
 
 class RSSI_AngleCalculation_Tests: XCTestCase {
 
@@ -68,50 +68,50 @@ class RSSI_AngleCalculation_Tests: XCTestCase {
         XCTAssert(angleRange.contains(angleOpposite))
         
     }
-
-    //Expected angle is known
-    func testMeasurement3() {
-        let expectedAngle = -0.4369782409475728
-
-        let rssis = self.measurement3
-        print("Calculating angle with \(rssis.count) measurements")
-        let average = AngleCalculation.calculateAverageRSSI(with: rssis)
-        let angleNormal = AngleCalculation.calculateAngle(with: rssis, and: average)
-
-        let angleOpposite = AngleCalculation.calculateAngleOpposite(with: rssis, and: average)
-
-        //        let actualAngle =
-
-        let angleRange = -.pi...Double.pi
-        XCTAssert(angleRange.contains(angleNormal))
-        XCTAssert(angleRange.contains(angleOpposite))
-
-        //Detect which algorithm is better
-        XCTAssertEqual(angleOpposite, expectedAngle, accuracy: 5.0 * .pi / 180.0)
-        XCTAssertEqual(angleNormal, expectedAngle, accuracy: 5.0 * .pi / 180.0)
-
-    }
-    
-    func testMeasurement4() {
-        let expectedAngle = 1.201191306175151
-
-               let rssis = self.measurement4
-               print("Calculating angle with \(rssis.count) measurements")
-               let average = AngleCalculation.calculateAverageRSSI(with: rssis)
-               let angleNormal = AngleCalculation.calculateAngle(with: rssis, and: average)
-
-               let angleOpposite = AngleCalculation.calculateAngleOpposite(with: rssis, and: average)
-
-               //        let actualAngle =
-
-               let angleRange = -.pi...Double.pi
-               XCTAssert(angleRange.contains(angleNormal))
-               XCTAssert(angleRange.contains(angleOpposite))
-
-               //Detect which algorithm is better
-               XCTAssertEqual(angleOpposite, expectedAngle, accuracy: 5.0 * .pi / 180.0)
-               XCTAssertEqual(angleNormal, expectedAngle, accuracy: 5.0 * .pi / 180.0)
-
-    }
+//
+//    //Expected angle is known
+//    func testMeasurement3() {
+//        let expectedAngle = -0.4369782409475728
+//
+//        let rssis = self.measurement3
+//        print("Calculating angle with \(rssis.count) measurements")
+//        let average = AngleCalculation.calculateAverageRSSI(with: rssis)
+//        let angleNormal = AngleCalculation.calculateAngle(with: rssis, and: average)
+//
+//        let angleOpposite = AngleCalculation.calculateAngleOpposite(with: rssis, and: average)
+//
+//        //        let actualAngle =
+//
+//        let angleRange = -.pi...Double.pi
+//        XCTAssert(angleRange.contains(angleNormal))
+//        XCTAssert(angleRange.contains(angleOpposite))
+//
+//        //Detect which algorithm is better
+//        XCTAssertEqual(angleOpposite, expectedAngle, accuracy: 5.0 * .pi / 180.0)
+//        XCTAssertEqual(angleNormal, expectedAngle, accuracy: 5.0 * .pi / 180.0)
+//
+//    }
+//    
+//    func testMeasurement4() {
+//        let expectedAngle = 1.201191306175151
+//
+//               let rssis = self.measurement4
+//               print("Calculating angle with \(rssis.count) measurements")
+//               let average = AngleCalculation.calculateAverageRSSI(with: rssis)
+//               let angleNormal = AngleCalculation.calculateAngle(with: rssis, and: average)
+//
+//               let angleOpposite = AngleCalculation.calculateAngleOpposite(with: rssis, and: average)
+//
+//               //        let actualAngle =
+//
+//               let angleRange = -.pi...Double.pi
+//               XCTAssert(angleRange.contains(angleNormal))
+//               XCTAssert(angleRange.contains(angleOpposite))
+//
+//               //Detect which algorithm is better
+//               XCTAssertEqual(angleOpposite, expectedAngle, accuracy: 5.0 * .pi / 180.0)
+//               XCTAssertEqual(angleNormal, expectedAngle, accuracy: 5.0 * .pi / 180.0)
+//
+//    }
 
 }

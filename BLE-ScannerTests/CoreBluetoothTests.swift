@@ -9,7 +9,7 @@
 import Foundation
 import XCTest
 import CoreBluetooth
-@testable import BLE_Scanner
+@testable import BTLEmap
 
 class CoreBluetoothTests: XCTestCase {
     let cManager: CBCentralManager = CBCentralManager()
