@@ -46,7 +46,7 @@ struct RSSIPlotsView: View {
     #endif
     
     /// Update timer. On every call the view should update. A direct update takes up too much energy
-    let updateTimer = Timer.publish(every: updateInterval, on: .main, in: .common).autoconnect()
+    @State var updateTimer = Timer.publish(every: updateInterval, on: .main, in: .common).autoconnect()
     
     @State var devices: [BLEDevice] = []
     @State var devicesPlotInfo: [RSSIMultiDevicePlot.DevicePlotInfo] = []

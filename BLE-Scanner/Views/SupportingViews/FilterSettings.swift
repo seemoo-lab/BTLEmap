@@ -32,7 +32,7 @@ extension Collection where Element == BLEDevice  {
         if !filters.filterText.isEmpty,
             let filterData = filters.filterText.hexadecimal {
             
-            let notFiltered = filtered
+//            let notFiltered = filtered
             
             // OR filters
             filtered = filtered.filter {

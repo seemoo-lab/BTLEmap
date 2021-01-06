@@ -94,13 +94,13 @@ struct MainView: View {
                             Text("Proximity View")
                     }
                     
-                    RSSIPlotsView()
-                        .environmentObject(self.rssiViewModel)
-                        .tabItem({
-                            Image("GraphIcon")
-                                .imageScale(.small)
-                            Text("RSSI Graph")
-                        })
+//                    RSSIPlotsView()
+//                        .environmentObject(self.rssiViewModel)
+//                        .tabItem({
+//                            Image("GraphIcon")
+//                                .imageScale(.small)
+//                            Text("RSSI Graph")
+//                        })
                     
                 }
                 .font(.headline)

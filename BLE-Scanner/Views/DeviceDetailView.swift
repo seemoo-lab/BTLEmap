@@ -98,7 +98,20 @@ struct DeviceDetailView: View {
     var body: some View {
         VStack {
             if showInModal {
-                NavigationView {
+                VStack {
+                    HStack {
+                        Spacer()
+                        
+                        Button("Dismiss") {
+                            withAnimation {
+                                self.isShown.toggle()
+                            }
+                        }
+                        .padding()
+                        
+                    }
+//                    .background(RoundedRectangle(cornerRadius: 10.0).strokeBorder(Color.lightGray).background(Color.background))
+                    
                     DetailViewContent(device: device, isShown: $isShown, filteredAdvertisements: self.advertisements)
                         .environmentObject(RowColors())
                         .navigationBarTitle(Text(device.name ?? device.id), displayMode: .inline)
@@ -106,9 +119,9 @@ struct DeviceDetailView: View {
                             self.exportButton
                             self.dismissButton
                         })
+
                 }
-                .navigationViewStyle(StackNavigationViewStyle())
-                
+                .background(Color.background)
             }else {
                 DetailViewContent(device: device, isShown: $isShown, filteredAdvertisements: self.advertisements)
                     .environmentObject(RowColors())

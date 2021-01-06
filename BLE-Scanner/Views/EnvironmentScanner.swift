@@ -42,6 +42,7 @@ struct EnvironmentScanner: View {
     @State var finalScale: CGFloat = 1.0
     @State var currentScale: CGFloat = 0.0
     @State var dragAmount = CGSize.zero
+    @State var lastOffset = CGSize.zero
     
     @State var detailDevice: BLEDevice?
     
@@ -54,15 +55,15 @@ struct EnvironmentScanner: View {
         return .asymmetric(insertion: insertion, removal: removal)
     }
     
-
-    var presentedDevices: [BLEDevice] {
-        var devices = self.bleScanner.deviceList
-        
-        //Filter out all unselected devices
-        devices = devices.filter(with: self.filters)
-
-        return devices
-    }
+    @State var presentedDevices: [BLEDevice] = []
+    
+    #if TARGET_OS_MACCATALYST
+    static let updateInterval = 0.3
+    #else
+    static let updateInterval = 0.3
+    #endif
+    /// Update timer. On every call the view should update. A direct update takes up too much energy
+    @State var updateTimer = Timer.publish(every: updateInterval, on: .main, in: .common).autoconnect()
     
     var zoomGesture: some Gesture {
         MagnificationGesture()
@@ -72,6 +73,7 @@ struct EnvironmentScanner: View {
             .onEnded { amount in
                 if self.finalScale + self.currentScale < 1.0 {
                     self.finalScale = 1.0
+                    self.dragAmount = CGSize.zero
                 }else {
                     self.finalScale += self.currentScale
                 }
@@ -84,11 +86,11 @@ struct EnvironmentScanner: View {
         DragGesture()
             .onChanged { (dragValue) in
                 if self.finalScale > 1.0 {
-                    self.dragAmount = dragValue.translation
+                    self.dragAmount = CGSize(width: self.lastOffset.width + dragValue.translation.width, height: self.lastOffset.height + dragValue.translation.height)
                 }
             }
             .onEnded { (dragValue) in
-            
+                self.lastOffset = self.dragAmount
             }
     }
     
@@ -101,7 +103,8 @@ struct EnvironmentScanner: View {
     func environmentScanner(geometry: GeometryProxy) -> some View {
         //Scanner view
         //                ScrollView([.horizontal, .vertical], showsIndicators: true) {
-        ZStack {
+        
+        return 
             GeometryReader { geometry  in
                 ZStack {
                     BackgroundView(minRSSI: self.filters.minRSSI)
@@ -111,8 +114,8 @@ struct EnvironmentScanner: View {
                         Button(action: {
                             withAnimation(.easeIn){
                                 self.detailDevice = device
-                                self.showDetail = true
                                 self.viewModel.detailDevice = device
+                                self.showDetail = true
                             }
                         }, label: {
                             DeviceOnCircleView(device: device)
@@ -123,27 +126,59 @@ struct EnvironmentScanner: View {
                 }
                 .animation(.linear)
                 
+                
             }
-            .padding()
-            .frame(width: self.environmentSize(for: geometry).width, height: self.environmentSize(for: geometry).height, alignment: .top)
+            .padding(50)
             .offset(self.dragAmount)
+            .scaleEffect(self.finalScale + self.currentScale)
             .highPriorityGesture(self.zoomGesture)
             .highPriorityGesture(self.dragGesture)
-            
-        }
+            .clipped()
+        
     }
 
     var body: some View {
-        VStack {
-            GeometryReader { geometry in
-                self.environmentScanner(geometry: geometry)
+        GeometryReader { geometry  in
+            ZStack {
+                BackgroundView(minRSSI: self.filters.minRSSI)
+                
+                //Draw devices
+                ForEach(self.presentedDevices) { device in
+                    Button(action: {
+//                            withAnimation(.easeIn){
+                        self.detailDevice = device
+                        self.viewModel.detailDevice = device
+                        self.showDetail = true
+                        
+//                            }
+                    }, label: {
+                        DeviceOnCircleView(device: device)
+                    })
+                    .buttonStyle(PlainButtonStyle())
+                    .position(self.position(for: device.lastRSSI, size: geometry.size, angle: self.angle(for: device)))
+                }
             }
-            Spacer()
+            .animation(.linear)
+            
+            
+        }
+        .padding(50)
+        .offset(self.dragAmount)
+        .scaleEffect(self.finalScale + self.currentScale)
+        .highPriorityGesture(self.zoomGesture)
+        .highPriorityGesture(self.dragGesture)
+        .clipped()
+        .onReceive(self.updateTimer) { (timer) in
+            self.update()
         }
         .modalView(self.$showDetail, modal: {
             DeviceDetailView(device: self.viewModel.detailDevice!, showInModal: true, isShown: self.$showDetail)
         })
         
+    }
+    
+    func update() {
+        self.presentedDevices = self.bleScanner.deviceList.filter(with: self.filters)
     }
     
     func angle(for device: BLEDevice) -> CGFloat {
@@ -188,11 +223,11 @@ struct EnvironmentScanner: View {
 
 struct EnvironmentScanner_Previews: PreviewProvider {
     @State static var filters = AppliedFilters()
+    static var bleScanner = BLEScanner()
     
     static var previews: some View {
-        EnvironmentScanner(
-//            filters: $filters
-        )
+        EnvironmentScanner(presentedDevices: [])
+            .environmentObject(bleScanner)
     }
 }
 

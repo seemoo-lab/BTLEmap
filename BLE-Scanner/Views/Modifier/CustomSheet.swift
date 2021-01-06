@@ -25,32 +25,38 @@ struct CustomSheet: ViewModifier {
 
 extension View {
     public func modalView<T: View>(_ isShown: Binding<Bool>,modal: @escaping  ()->T) -> some View {
+        
         #if targetEnvironment(macCatalyst)
-        return GeometryReader { g in
-            ZStack {
-                self
-                
-                if isShown.wrappedValue {
-                    Rectangle()
-                        .fill(Color.black.opacity(0.1))
-//                        .onTapGesture {
-//                            withAnimation(.easeOut) {
-//                                isShown.wrappedValue.toggle()
-//                            }
-//                        }
-                        .transition(AnyTransition.opacity)
+
+        return
+            GeometryReader { g in
+                ZStack {
+                    self
                     
-                    modal()
-                        .edgesIgnoringSafeArea(.all)
-                        .frame(width: g.size.smaller * 0.7, height: g.size.smaller * 0.9)
-                        .cornerRadius(10.0)
-                        .shadow(radius: 30.0)
-                        .transition(AnyTransition.move(edge: .bottom))
+                    if isShown.wrappedValue {
+                        Rectangle()
+                            .fill(Color.black.opacity(0.1))
+                            .onTapGesture {
+                                withAnimation(.easeIn) {
+                                    isShown.wrappedValue = false
+                                }
+                            }
+                            .transition(AnyTransition.opacity)
                         
+                        modal()
+                            .edgesIgnoringSafeArea(.all)
+                            .frame(width: g.size.smaller * 0.7, height: g.size.smaller * 0.9)
+                            .cornerRadius(10.0)
+                            .shadow(radius: 30.0)
+                            .transition(AnyTransition.move(edge: .bottom))
+                        
+                    }
                 }
+                .edgesIgnoringSafeArea(.all)
             }
-            .edgesIgnoringSafeArea(.all)
-        }
+        
+        
+        
         #else
         return self.sheet(isPresented: isShown, content: modal)
         #endif

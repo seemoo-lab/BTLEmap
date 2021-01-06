@@ -104,6 +104,7 @@
 		7823682D2420C29600406CEE /* PopoverSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopoverSheet.swift; sourceTree = "<group>"; };
 		782A35132445B9260085C47B /* RSSIPlotsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RSSIPlotsView.swift; sourceTree = "<group>"; };
 		782A3515244603020085C47B /* FilterSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterSettings.swift; sourceTree = "<group>"; };
+		7832E4DD24E2B927009C9605 /* Darmstadt.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Darmstadt.gpx; sourceTree = "<group>"; };
 		7838954B241A5625008248CA /* AWDLScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AWDLScannerView.swift; sourceTree = "<group>"; };
 		78510A29243B69FB00FCCF83 /* LineHStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineHStack.swift; sourceTree = "<group>"; };
 		7852D37E241BE20D00AA1B96 /* ActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityView.swift; sourceTree = "<group>"; };
@@ -273,6 +274,7 @@
 		788D9878240D435C005FC745 = {
 			isa = PBXGroup;
 			children = (
+				7832E4DD24E2B927009C9605 /* Darmstadt.gpx */,
 				78B8661B240FE43F003761D0 /* README.md */,
 				788D9883240D435C005FC745 /* BLE-Scanner */,
 				788D989A240D435E005FC745 /* BLE-ScannerTests */,
