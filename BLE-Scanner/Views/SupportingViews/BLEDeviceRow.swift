@@ -104,6 +104,7 @@ struct BLEDeviceRow: View {
                 }
             }
         }
+        .padding([.top, .bottom], 4)
     }
 }
 

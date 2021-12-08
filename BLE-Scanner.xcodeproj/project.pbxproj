@@ -831,7 +831,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = A5U65N39SD;
+				DEVELOPMENT_TEAM = H9XHQ4WHSF;
 				INFOPLIST_FILE = "BLE-ScannerUITests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -851,7 +851,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = A5U65N39SD;
+				DEVELOPMENT_TEAM = H9XHQ4WHSF;
 				INFOPLIST_FILE = "BLE-ScannerUITests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
