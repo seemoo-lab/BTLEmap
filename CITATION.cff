@@ -1,0 +1,43 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: BTLEmap
+message: 'If you use this software, please cite it as below.'
+type: software
+authors:
+  - given-names: Alexander
+    family-names: Heinrich
+    affiliation: 'SEEMOO, TU Darmstadt'
+    orcid: 'https://orcid.org/0000-0002-1150-1922'
+  - given-names: Milan
+    family-names: Stute
+    affiliation: 'SEEMOO, TU Darmstadt'
+    orcid: 'https://orcid.org/0000-0003-4921-8476'
+  - given-names: Matthias
+    family-names: Hollick
+    affiliation: 'SEEMOO, TU Darmstadt'
+    orcid: 'https://orcid.org/0000-0002-9163-5989'
+repository-code: 'https://github.com/seemoo-lab/BTLEmap'
+abstract: >-
+  The market for Bluetooth Low Energy devices is booming
+  and, at the same time, has become an attractive target for
+  adversaries. To improve BLE security at large, we present
+  BTLEmap, an auditing application for BLE environments.
+  BTLEmap is inspired by network discovery and security
+  auditing tools such as Nmap for IP-based networks. It
+  allows for device enumeration, GATT service discovery, and
+  device fingerprinting. It goes even further by integrating
+  a BLE advertisement dissector, data exporter, and a
+  user-friendly UI, including a proximity view. BTLEmap
+  currently runs on iOS and macOS using Apple's
+  CoreBluetooth API but also accepts alternative data inputs
+  such as a Raspberry Pi to overcome the restricted vendor
+  API. The open-source project is under active development
+  and will provide more advanced capabilities such as
+  long-term device tracking (in spite of MAC address
+  randomization) in the future.
+license: Apache-2.0
+commit: 9815bf39ecbab10f2b737ee2fcc46ddb142beeb2
+version: 1.0.1
+date-released: '2021-12-08'
